@@ -3792,18 +3792,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./resources/js/app.js":
-/*!*****************************!*\
-  !*** ./resources/js/app.js ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
-
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-
-__webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/alpine.js");
-
-/***/ }),
-
 /***/ "./resources/js/bootstrap.js":
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
@@ -21047,16 +21035,6 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 /***/ }),
 
-/***/ "./resources/sass/app.scss":
-/*!*********************************!*\
-  !*** ./resources/sass/app.scss ***!
-  \*********************************/
-/***/ (() => {
-
-throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugin/dist/loader.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nSassError: Undefined variable.\n    ╷\n117 │   \"white\":      $white,\n    │                 ^^^^^^\n    ╵\n  resources\\sass\\_variables.scss 117:17  @import\n  resources\\sass\\app.scss 15:9           root stylesheet\n    at processResult (F:\\Laravel\\QuadAdmin\\node_modules\\webpack\\lib\\NormalModule.js:721:19)\n    at F:\\Laravel\\QuadAdmin\\node_modules\\webpack\\lib\\NormalModule.js:827:5\n    at F:\\Laravel\\QuadAdmin\\node_modules\\loader-runner\\lib\\LoaderRunner.js:399:11\n    at F:\\Laravel\\QuadAdmin\\node_modules\\loader-runner\\lib\\LoaderRunner.js:251:18\n    at context.callback (F:\\Laravel\\QuadAdmin\\node_modules\\loader-runner\\lib\\LoaderRunner.js:124:13)\n    at F:\\Laravel\\QuadAdmin\\node_modules\\sass-loader\\dist\\index.js:54:7\n    at Function.call$2 (F:\\Laravel\\QuadAdmin\\node_modules\\sass\\sass.dart.js:94122:16)\n    at _render_closure1.call$2 (F:\\Laravel\\QuadAdmin\\node_modules\\sass\\sass.dart.js:82377:12)\n    at _RootZone.runBinary$3$3 (F:\\Laravel\\QuadAdmin\\node_modules\\sass\\sass.dart.js:27674:18)\n    at _FutureListener.handleError$1 (F:\\Laravel\\QuadAdmin\\node_modules\\sass\\sass.dart.js:26223:19)");
-
-/***/ }),
-
 /***/ "./node_modules/process/browser.js":
 /*!*****************************************!*\
   !*** ./node_modules/process/browser.js ***!
@@ -21303,12 +21281,16 @@ process.umask = function() { return 0; };
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	__webpack_require__("./resources/js/app.js");
-/******/ 	// This entry module doesn't tell about it's top-level declarations so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__("./resources/sass/app.scss");
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+/*!*****************************!*\
+  !*** ./resources/js/app.js ***!
+  \*****************************/
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
+__webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/alpine.js");
+})();
+
 /******/ })()
 ;
