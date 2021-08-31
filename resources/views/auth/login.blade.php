@@ -33,7 +33,7 @@
 	            <div class="content-left-wrapper opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
 	                <div class="text-left">
 	                	<small>Welcome back</small>
-	                    <h1>Duis aute irure dolor in reprehenderit in voluptate velit esse.</h1>
+	                    <h1>It's nice to see you again. Please login to continue to your account.</h1>
 	                </div>
 	            </div>
 	        </div>
