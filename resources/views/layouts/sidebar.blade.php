@@ -40,19 +40,19 @@
             </li>
 
             <li>
-                <a href="javascript: void(0);" class="{{request()->segment(1) == 'bulk' ? 'active' : ''}}">
+                <a href="javascript: void(0);" class="{{request()->segment(1) == 'bulk-items' ? 'active' : ''}}">
                     <i class="bi bi-stack"></i>
-                    <span>  Bulk Import/Export </span>
+                    <span>  Bulk Items </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <ul class="nav-second-level" aria-expanded="false">
-                    <li class="{{request()->segment(1) == 'categories' ? 'mm-active' : ''}}">
-                        <a href="{{route('category.all')}}" class="{{request()->segment(1) == 'categories' ? 'active' : ''}}">
+                    <li>
+                        <a href="{{route('bulk.import')}}" class="{{Route::currentRouteName() == 'bulk.import' ? 'active' : ''}}">
                             Import
                         </a>
                     </li>
-                    <li class="{{request()->segment(1) == 'brands' ? 'mm-active' : ''}}">
-                        <a href="{{route('brand.all')}}" class="{{request()->segment(1) == 'brands' ? 'active' : ''}}">
+                    <li>
+                        <a href="{{route('bulk.export')}}" class="{{Route::currentRouteName() == 'bulk.export' ? 'mm-active' : ''}}">
                             Export
                         </a>
                     </li>

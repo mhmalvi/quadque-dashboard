@@ -37,6 +37,14 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('brands')->name('brand.')->group(function () {
         Route::get('/', 'BrandsController@index')->name('all');
     });
+
+    /**
+     * Bulks
+     */
+    Route::prefix('bulk-items')->name('bulk.')->group(function () {
+        Route::get('import', 'BulksController@import')->name('import');
+        Route::get('export', 'BulksController@export')->name('export');
+    });
 });
 
 require __DIR__ . '/auth.php';
