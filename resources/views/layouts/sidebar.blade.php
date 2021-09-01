@@ -5,32 +5,24 @@
 
         <ul class="metismenu" id="side-menu">
 
-            <li class="menu-title">Navigation</li>
-
             <li>
-                <a href="javascript: void(0);">
+                <a href="{{route('dashboard')}}" class="{{Route::currentRouteName() == 'dashboard' ? 'active' : ''}}">
                     <i class="fe-airplay"></i>
-                    <span class="badge badge-success badge-pill float-right">2</span>
                     <span> Dashboard </span>
                 </a>
-                <ul class="nav-second-level" aria-expanded="false">
-                    <li><a href="index.html">Dashboard 1</a></li>
-                    <li> <a href="dashboard-2.html">Dashboard 2</a></li>
-                </ul>
             </li>
+
+            <li class="menu-title">PRODUCT</li>
 
             <li>
                 <a href="javascript: void(0);">
-                    <i class="fe-sidebar"></i>
-                    <span>  Layouts </span>
+                    <i class="bi bi-basket2-fill"></i>
+                    <span>  Products </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <ul class="nav-second-level" aria-expanded="false">
-                    <li><a href="layouts-horizontal.html">Horizontal</a></li>
-                    <li><a href="layouts-menucollapsed.html">Menu Collapsed</a></li>
-                    <li><a href="layouts-light-sidebar.html">Light Sidebar</a></li>
-                    <li><a href="layouts-small-sidebar.html">Small Sidebar</a></li>
-                    <li><a href="layouts-boxed.html">Boxed</a></li>
+                    <li><a href="layouts-horizontal.html">All Products</a></li>
+                    <li><a href="layouts-menucollapsed.html">Category</a></li>
                 </ul>
             </li>
 
