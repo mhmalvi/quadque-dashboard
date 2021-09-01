@@ -14,7 +14,7 @@
 
             <li class="menu-title">PRODUCT</li>
 
-            <li class="{{request()->segment(1) == 'products' ? 'mm-active' : ''}}">
+            <li>
                 <a href="javascript: void(0);" class="{{request()->segment(1) == 'products' ? 'active' : ''}}">
                     <i class="bi bi-basket2-fill"></i>
                     <span>  Products </span>
@@ -26,7 +26,11 @@
                             All Products
                         </a>
                     </li>
-                    <li><a href="layouts-menucollapsed.html">Category</a></li>
+                    <li class="{{request()->segment(1) == 'categories' ? 'mm-active' : ''}}">
+                        <a href="{{route('category.all')}}" class="{{request()->segment(1) == 'categories' ? 'active' : ''}}">
+                            Category
+                        </a>
+                    </li>
                 </ul>
             </li>
 

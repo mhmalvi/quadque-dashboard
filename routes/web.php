@@ -23,6 +23,20 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', 'ProductsController@index')->name('all');
         Route::get('add-new', 'ProductsController@create')->name('create');
     });
+
+    /**
+     * Category
+     */
+    Route::prefix('categories')->name('category.')->group(function () {
+        Route::get('/', 'CategoriesController@index')->name('all');
+    });
+
+    /**
+     * Brand
+     */
+    Route::prefix('brands')->name('brand.')->group(function () {
+        Route::get('/', 'BrandsController@index')->name('all');
+    });
 });
 
 require __DIR__ . '/auth.php';
