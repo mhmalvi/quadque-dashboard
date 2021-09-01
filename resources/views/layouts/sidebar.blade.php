@@ -28,7 +28,32 @@
                     </li>
                     <li class="{{request()->segment(1) == 'categories' ? 'mm-active' : ''}}">
                         <a href="{{route('category.all')}}" class="{{request()->segment(1) == 'categories' ? 'active' : ''}}">
-                            Category
+                            Categories
+                        </a>
+                    </li>
+                    <li class="{{request()->segment(1) == 'brands' ? 'mm-active' : ''}}">
+                        <a href="{{route('brand.all')}}" class="{{request()->segment(1) == 'brands' ? 'active' : ''}}">
+                            Brands
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="javascript: void(0);" class="{{request()->segment(1) == 'bulk' ? 'active' : ''}}">
+                    <i class="bi bi-stack"></i>
+                    <span>  Bulk Import/Export </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <ul class="nav-second-level" aria-expanded="false">
+                    <li class="{{request()->segment(1) == 'categories' ? 'mm-active' : ''}}">
+                        <a href="{{route('category.all')}}" class="{{request()->segment(1) == 'categories' ? 'active' : ''}}">
+                            Import
+                        </a>
+                    </li>
+                    <li class="{{request()->segment(1) == 'brands' ? 'mm-active' : ''}}">
+                        <a href="{{route('brand.all')}}" class="{{request()->segment(1) == 'brands' ? 'active' : ''}}">
+                            Export
                         </a>
                     </li>
                 </ul>
