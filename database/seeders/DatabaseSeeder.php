@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $user = User::create([
             'name' => 'admin',
-            'email' => 'admin@quadque.com',
+            'email' => 'admin@quadque.tech',
             'password' => Hash::make('admin')
         ]);
 
