@@ -15,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
     Route::view('/', 'index')->name('dashboard');
+
+    /**
+     * Product
+     */
+    Route::prefix('products')->name('product.')->group(function () {
+        Route::get('/', 'ProductsController@index')->name('all');
+        Route::get('add-new', 'ProductsController@create')->name('create');
+    });
 });
 
 require __DIR__ . '/auth.php';
