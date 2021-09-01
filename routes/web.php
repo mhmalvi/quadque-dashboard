@@ -45,6 +45,18 @@ Route::middleware(['auth'])->group(function () {
         Route::get('import', 'BulksController@import')->name('import');
         Route::get('export', 'BulksController@export')->name('export');
     });
+
+    /**
+     * Setting
+     */
+    Route::prefix('settings')->name('settings.')->group(function () {
+        Route::view('general', 'settings.general')->name('general');
+    });
+
+    /**
+     * SEO
+     */
+    Route::get('seo', 'SeoController@index')->name('seo');
 });
 
 require __DIR__ . '/auth.php';
