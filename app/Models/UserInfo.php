@@ -9,5 +9,7 @@ class UserInfo extends Model
 {
     use HasFactory;
 
+    protected $connection = 'admin';
+
     protected $guarded = [];
 }

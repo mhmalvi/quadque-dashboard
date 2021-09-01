@@ -13,7 +13,7 @@ class AddUuidColumnToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::connection('admin')->table('users', function (Blueprint $table) {
             $table->uuid('uuid')->after('id')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddUuidColumnToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::connection('admin')->table('users', function (Blueprint $table) {
             Schema::dropIfExists('uuid');
         });
     }

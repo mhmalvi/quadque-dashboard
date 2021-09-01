@@ -13,7 +13,7 @@ class AddStatusColumnToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::connection('admin')->table('users', function (Blueprint $table) {
             $table->boolean('status')->after('avatar')->default(1);
         });
     }
@@ -25,7 +25,7 @@ class AddStatusColumnToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::connection('admin')->table('users', function (Blueprint $table) {
             Schema::dropIfExists('status');
         });
     }
