@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::prefix('categories')->name('category.')->group(function () {
         Route::get('/', 'CategoriesController@index')->name('all');
+        Route::post('store', 'CategoriesController@store');
     });
 
     /**

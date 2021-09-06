@@ -21066,11 +21066,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _childs_CategoryLists_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./childs/CategoryLists.vue */ "./resources/js/components/childs/CategoryLists.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _childs_CategoryLists_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./childs/CategoryLists.vue */ "./resources/js/components/childs/CategoryLists.vue");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    CategoryLists: _childs_CategoryLists_vue__WEBPACK_IMPORTED_MODULE_0__.default
+    CategoryLists: _childs_CategoryLists_vue__WEBPACK_IMPORTED_MODULE_1__.default
   },
   data: function data() {
     return {
@@ -21098,8 +21101,38 @@ __webpack_require__.r(__webpack_exports__);
       reader.readAsDataURL(this.thumbnail);
     },
     formSubmitHandler: function formSubmitHandler() {
+      var _this2 = this;
+
       this.btnText = "Adding new category ...";
       this.isLoading = true;
+      var formData = new FormData();
+      formData.append("name", this.name);
+      formData.append("slug", this.slug);
+      formData.append("parent", this.parent);
+      formData.append("description", this.description);
+      formData.append("thumbnail", this.thumbnail);
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("categories/store", formData).then(function (res) {
+        _this2.resetForm();
+      })["catch"](function (error) {
+        _this2.btnText = "Add new category";
+        _this2.isLoading = false;
+
+        _this2.$swal.fire({
+          title: "Server Error!",
+          text: error.response.data.message,
+          icon: "warning"
+        });
+      });
+    },
+    resetForm: function resetForm() {
+      this.name = "";
+      this.slug = "";
+      this.parent = "";
+      this.description = "";
+      this.thumbnail = "";
+      this.btnText = "Add new category";
+      this.isLoading = false;
+      this.imageSrc = "https://via.placeholder.com/80";
     }
   },
   computed: {
@@ -21365,7 +21398,8 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
  */
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+window.axios.defaults.baseURL = document.head.querySelector('meta[name="api-base-url"]').content;
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

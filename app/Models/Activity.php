@@ -10,4 +10,6 @@ class Activity extends Model
     use HasFactory;
 
     protected $connection = 'admin';
+
+    protected $guarded = [];
 }

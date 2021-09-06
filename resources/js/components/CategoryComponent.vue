@@ -74,6 +74,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 import CategoryLists from "./childs/CategoryLists.vue";
 export default {
   components: { CategoryLists },
@@ -106,6 +107,40 @@ export default {
     formSubmitHandler() {
       this.btnText = "Adding new category ...";
       this.isLoading = true;
+
+      let formData = new FormData();
+      formData.append("name", this.name);
+      formData.append("slug", this.slug);
+      formData.append("parent", this.parent);
+      formData.append("description", this.description);
+      formData.append("thumbnail", this.thumbnail);
+
+      axios
+        .post("categories/store", formData)
+        .then((res) => {
+          this.resetForm();
+        })
+        .catch((error) => {
+          this.btnText = "Add new category";
+          this.isLoading = false;
+
+          this.$swal.fire({
+            title: "Server Error!",
+            text: error.response.data.message,
+            icon: "warning",
+          });
+        });
+    },
+
+    resetForm() {
+      this.name = "";
+      this.slug = "";
+      this.parent = "";
+      this.description = "";
+      this.thumbnail = "";
+      this.btnText = "Add new category";
+      this.isLoading = false;
+      this.imageSrc = "https://via.placeholder.com/80";
     },
   },
 
