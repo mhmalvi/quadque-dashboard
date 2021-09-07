@@ -3,5 +3,5 @@
 @section('title', 'Product Categories')
 
 @section('content')
-    <category-component></category-component>
+    <category-component categories="{{$categories}}"></category-component>
 @endsection
