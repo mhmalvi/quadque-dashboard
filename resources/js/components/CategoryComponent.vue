@@ -23,32 +23,45 @@
           </div>
         </div>
       </form>
-      <div class="table-responsive">
-        <table class="table mb-0">
-          <thead class="thead-light">
-            <tr>
-              <th>Category</th>
-              <th>Parent Category</th>
-              <th>Description</th>
-              <th>Created At</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(category, key) in categories" :key="key">
-              <td>
-                {{ category.title }}
 
-                <div class="pt-2">
-                  <button class="btn text-primary">Edit</button>
-                  <button class="btn text-primary">Delete</button>
-                </div>
-              </td>
-              <td>{{ category.parent }}</td>
-              <td>{{ category.description }}</td>
-              <td>{{ category.created }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="card-box">
+        <div class="table-responsive">
+          <table class="table mb-0">
+            <thead class="thead-light">
+              <tr>
+                <th>Category</th>
+                <th>Parent Category</th>
+                <th>Description</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(category, key) in categories" :key="key">
+                <td>
+                  {{ category.title }}
+
+                  <div class="pt-2">
+                    <button
+                      class="btn text-primary"
+                      @click="onEditHandler(category.slug)"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      class="btn text-primary"
+                      @click="onDeleteHandler(category.slug)"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+                <td>{{ category.parent }}</td>
+                <td>{{ category.description }}</td>
+                <td>{{ category.created }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <nav aria-label="Page navigation example">
@@ -99,7 +112,7 @@ export default {
     },
 
     newCategory() {
-      this.getData();
+      this.getData(this.getCategory);
     },
 
     getLink(link) {
@@ -109,6 +122,32 @@ export default {
     onChangeHandler(event) {
       this.items = event.target.value;
       this.getData(this.getCategory);
+    },
+
+    async onDeleteHandler(slug) {
+      await this.$swal
+        .fire({
+          title: "Are you sure to delete this category?",
+          showCancelButton: true,
+          confirmButtonText: "Delete",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            axios
+              .delete(`categories/${slug}/remove`)
+              .then((res) => {
+                this.$swal.fire("Deleted!", "", "success");
+                this.getData(this.getCategory);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          }
+        });
+    },
+
+    onEditHandler(slug) {
+      window.location.href = `categories/${slug}/edit`;
     },
   },
   created() {

@@ -31,8 +31,11 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::prefix('categories')->name('category.')->group(function () {
         Route::get('/', 'CategoriesController@index')->name('all');
+        Route::get('all', 'CategoriesController@getAllCategories');
         Route::post('all', 'CategoriesController@getCategories');
         Route::post('store', 'CategoriesController@store');
+        Route::get('{category}/edit', 'CategoriesController@edit');
+        Route::delete('{category}/remove', 'CategoriesController@destroy');
     });
 
     /**

@@ -12,6 +12,11 @@ class Category extends Model
     protected $hidden = ['id'];
     protected $guarded = [];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return date("M d, Y", strtotime($value));

@@ -25,7 +25,10 @@
       <div class="form-group">
         <label for="parent">Parent Category</label>
         <select id="parent" class="form-control" v-model="parent">
-          <option value selected>None</option>
+          <option value selected disabled>None</option>
+          <option v-for="(item, key) in list" :key="key" :value="item.slug">
+            {{ item.title }}
+          </option>
         </select>
         <small>
           Assign a parent category to create a hierarchy. The category Jazz, for
@@ -64,6 +67,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -75,9 +79,20 @@ export default {
       description: "",
       btnText: "Add new category",
       isLoading: false,
+      list: [],
     };
   },
   methods: {
+    getList() {
+      axios
+        .get("categories/all")
+        .then((res) => {
+          this.list = res.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     onImageUpload(event) {
       this.thumbnail = event.target.files[0];
 
@@ -135,6 +150,10 @@ export default {
     isValid() {
       return this.name && !this.isLoading;
     },
+  },
+
+  mounted() {
+    this.getList();
   },
 };
 </script>

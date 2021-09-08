@@ -6,6 +6,7 @@ use App\Http\Requests\CreateCategoryRequest;
 use App\Http\Resources\CategoryResourceCollection;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoriesController extends Controller
 {
@@ -19,11 +20,27 @@ class CategoriesController extends Controller
     }
 
     /**
+     * 
+     */
+    public function getAllCategories()
+    {
+        try {
+            return new CategoryResourceCollection(Category::all());
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], 503);
+        }
+    }
+
+    /**
      * Get data
      */
     public function getCategories(Request $request)
     {
-        return new CategoryResourceCollection(Category::with('parent')->paginate($request->items));
+        try {
+            return new CategoryResourceCollection(Category::with('parent')->paginate($request->items));
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], 503);
+        }
     }
 
     /**
@@ -32,7 +49,32 @@ class CategoriesController extends Controller
     public function store(CreateCategoryRequest $request)
     {
         try {
-            $category = $request->save();
+            $request->save();
+
+            return response()->json(['message' => 'success'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], 503);
+        }
+    }
+
+    /**
+     * Edit
+     */
+    public function edit(Category $category)
+    {
+        $all = Category::all();
+        return view('categories.edit', compact('category', 'all'));
+    }
+
+    /**
+     * Delete
+     */
+    public function destroy(Category $category)
+    {
+        try {
+            Storage::delete('public/categories/' . $category->icon);
+
+            $category->delete();
 
             return response()->json(['message' => 'success'], 200);
         } catch (\Throwable $th) {

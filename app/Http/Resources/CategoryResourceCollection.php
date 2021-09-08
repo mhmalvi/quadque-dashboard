@@ -19,6 +19,7 @@ class CategoryResourceCollection extends ResourceCollection
                 return [
                     'id' => $res->uuid,
                     'title' => $res->category,
+                    'slug' => $res->slug,
                     'parent' => is_null($res->parent_id) ? "--" : $res->parent->category,
                     'description' => is_null($res->description) ? "---" : $res->description,
                     'created' => $res->created_at
