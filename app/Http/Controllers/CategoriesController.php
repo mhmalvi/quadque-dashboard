@@ -21,9 +21,9 @@ class CategoriesController extends Controller
     /**
      * Get data
      */
-    public function getCategories()
+    public function getCategories(Request $request)
     {
-        return new CategoryResourceCollection(Category::with('parent')->get());
+        return new CategoryResourceCollection(Category::with('parent')->paginate($request->items));
     }
 
     /**
