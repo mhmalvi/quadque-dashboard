@@ -40,15 +40,15 @@
                 <td>
                   {{ category.title }}
 
-                  <div class="pt-2">
+                  <div class="pt-1">
                     <button
-                      class="btn text-primary"
+                      class="btn text-primary pl-0"
                       @click="onEditHandler(category.slug)"
                     >
                       Edit
                     </button>
                     <button
-                      class="btn text-primary"
+                      class="btn text-primary pl-0"
                       @click="onDeleteHandler(category.slug)"
                     >
                       Delete

@@ -1,14 +1,14 @@
 <template>
   <div class="row">
     <div class="col-md-4">
-      <create-component></create-component>
+      <create-component @change="onAddNewBrand"></create-component>
     </div>
     <div class="col-md-7 offset-md-1 p-3">
       <form>
         <div class="row">
           <div class="col-md-2">
             <div class="form-group">
-              <select class="form-control">
+              <select class="form-control" @change="onChangeHandler($event)">
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="25">25</option>
@@ -35,10 +35,47 @@
                 <th>Created At</th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+              <tr v-for="(brand, key) in brands" :key="key">
+                <td>
+                  <img
+                    :src="imgPath + brand.icon"
+                    :alt="brand.title"
+                    width="30"
+                  />
+                </td>
+                <td>
+                  {{ brand.title }}
+                  <div class="pt-1">
+                    <button class="btn text-primary pl-0">Edit</button>
+                    <button class="btn text-primary pl-0">Delete</button>
+                  </div>
+                </td>
+                <td>{{ brand.description }}</td>
+                <td>{{ brand.created }}</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
+
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li
+            class="page-item"
+            v-for="(page, key) in links"
+            :key="key"
+            :class="page.url == null ? 'disabled' : ''"
+          >
+            <a
+              class="page-link"
+              href="javascript:void(0)"
+              @click="getLink(page.url)"
+              v-html="page.label"
+            ></a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </template>
@@ -50,10 +87,42 @@ export default {
   data() {
     return {
       items: 5,
-      categories: [],
+      brands: [],
       links: [],
+      imgPath: "../../../../storage/",
+      link: "brands",
     };
   },
-  methods: {},
+  methods: {
+    getBrands(getBrands) {
+      axios
+        .post(getBrands, {
+          item: this.items,
+        })
+        .then((res) => {
+          this.brands = res.data.data;
+          this.links = res.data.meta.links;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+
+    onChangeHandler(event) {
+      this.items = event.target.value;
+      this.getBrands(this.link);
+    },
+
+    onAddNewBrand() {
+      this.getBrands(this.link);
+    },
+
+    getLink(link) {
+      this.getBrands(link);
+    },
+  },
+  created() {
+    this.getBrands(this.link);
+  },
 };
 </script>

@@ -17,4 +17,9 @@ class Brand extends Model
     {
         return 'slug';
     }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date("M d, Y", strtotime($value));
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BrandCreateRequest;
+use App\Http\Resources\BrandResourceController;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,13 @@ class BrandsController extends Controller
      */
     public function paginatedBrands(Request $request)
     {
+        try {
+            return new BrandResourceController(
+                Brand::paginate($request->item)
+            );
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     /**

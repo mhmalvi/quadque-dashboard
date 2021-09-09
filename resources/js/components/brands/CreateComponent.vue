@@ -91,8 +91,8 @@ export default {
       axios
         .post("brands/store", formData)
         .then((res) => {
-          console.log(res);
           this.resetForm();
+          this.$emit("change");
         })
         .catch((error) => {
           console.log(error);

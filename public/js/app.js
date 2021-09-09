@@ -21449,11 +21449,39 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       items: 5,
-      categories: [],
-      links: []
+      brands: [],
+      links: [],
+      imgPath: "../../../../storage/",
+      link: "brands"
     };
   },
-  methods: {}
+  methods: {
+    getBrands: function getBrands(_getBrands) {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post(_getBrands, {
+        item: this.items
+      }).then(function (res) {
+        _this.brands = res.data.data;
+        _this.links = res.data.meta.links;
+      })["catch"](function (error) {
+        console.error(error);
+      });
+    },
+    onChangeHandler: function onChangeHandler(event) {
+      this.items = event.target.value;
+      this.getBrands(this.link);
+    },
+    onAddNewBrand: function onAddNewBrand() {
+      this.getBrands(this.link);
+    },
+    getLink: function getLink(link) {
+      this.getBrands(link);
+    }
+  },
+  created: function created() {
+    this.getBrands(this.link);
+  }
 });
 
 /***/ }),
@@ -21508,9 +21536,9 @@ __webpack_require__.r(__webpack_exports__);
       formData.append("description", this.description);
       formData.append("icon", this.thumbnail);
       axios__WEBPACK_IMPORTED_MODULE_0___default().post("brands/store", formData).then(function (res) {
-        console.log(res);
-
         _this2.resetForm();
+
+        _this2.$emit("change");
       })["catch"](function (error) {
         console.log(error);
       });
@@ -21861,13 +21889,142 @@ var _hoisted_1 = {
 var _hoisted_2 = {
   "class": "col-md-4"
 };
+var _hoisted_3 = {
+  "class": "col-md-7 offset-md-1 p-3"
+};
+var _hoisted_4 = {
+  "class": "row"
+};
+var _hoisted_5 = {
+  "class": "col-md-2"
+};
+var _hoisted_6 = {
+  "class": "form-group"
+};
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-md-7 offset-md-1 p-3\"><form><div class=\"row\"><div class=\"col-md-2\"><div class=\"form-group\"><select class=\"form-control\"><option value=\"5\">5</option><option value=\"10\">10</option><option value=\"25\">25</option><option value=\"50\">50</option></select></div></div><div class=\"col-md-4 offset-md-6\"><div class=\"form-group\"><input type=\"text\" class=\"form-control\"></div></div></div></form><div class=\"card-box\"><div class=\"table-responsive\"><table class=\"table mb-0\"><thead class=\"thead-light\"><tr><th>Image</th><th>Brand</th><th>Description</th><th>Created At</th></tr></thead><tbody></tbody></table></div></div></div>", 1);
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  value: "5"
+}, "5", -1
+/* HOISTED */
+);
 
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  value: "10"
+}, "10", -1
+/* HOISTED */
+);
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  value: "25"
+}, "25", -1
+/* HOISTED */
+);
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  value: "50"
+}, "50", -1
+/* HOISTED */
+);
+
+var _hoisted_11 = [_hoisted_7, _hoisted_8, _hoisted_9, _hoisted_10];
+
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-md-4 offset-md-6"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "form-group"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  type: "text",
+  "class": "form-control"
+})])], -1
+/* HOISTED */
+);
+
+var _hoisted_13 = {
+  "class": "card-box"
+};
+var _hoisted_14 = {
+  "class": "table-responsive"
+};
+var _hoisted_15 = {
+  "class": "table mb-0"
+};
+
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
+  "class": "thead-light"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Image"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Brand"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Description"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Created At")])], -1
+/* HOISTED */
+);
+
+var _hoisted_17 = ["src", "alt"];
+
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "pt-1"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  "class": "btn text-primary pl-0"
+}, "Edit"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  "class": "btn text-primary pl-0"
+}, "Delete")], -1
+/* HOISTED */
+);
+
+var _hoisted_19 = {
+  "aria-label": "Page navigation example"
+};
+var _hoisted_20 = {
+  "class": "pagination"
+};
+var _hoisted_21 = ["onClick", "innerHTML"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_create_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("create-component");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_create_component)]), _hoisted_3]);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_create_component, {
+    onChange: $options.onAddNewBrand
+  }, null, 8
+  /* PROPS */
+  , ["onChange"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "class": "form-control",
+    onChange: _cache[0] || (_cache[0] = function ($event) {
+      return $options.onChangeHandler($event);
+    })
+  }, _hoisted_11, 32
+  /* HYDRATE_EVENTS */
+  )])]), _hoisted_12])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.brands, function (brand, key) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+      key: key
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      src: $data.imgPath + brand.icon,
+      alt: brand.title,
+      width: "30"
+    }, null, 8
+    /* PROPS */
+    , _hoisted_17)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(brand.title) + " ", 1
+    /* TEXT */
+    ), _hoisted_18]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(brand.description), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(brand.created), 1
+    /* TEXT */
+    )]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_20, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.links, function (page, key) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", page.url == null ? 'disabled' : '']),
+      key: key
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      "class": "page-link",
+      href: "javascript:void(0)",
+      onClick: function onClick($event) {
+        return $options.getLink(page.url);
+      },
+      innerHTML: page.label
+    }, null, 8
+    /* PROPS */
+    , _hoisted_21)], 2
+    /* CLASS */
+    );
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])])])]);
 }
 
 /***/ }),
@@ -22124,7 +22281,7 @@ var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_17 = {
-  "class": "pt-2"
+  "class": "pt-1"
 };
 var _hoisted_18 = ["onClick"];
 var _hoisted_19 = ["onClick"];
@@ -22155,14 +22312,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.title) + " ", 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn text-primary",
+      "class": "btn text-primary pl-0",
       onClick: function onClick($event) {
         return $options.onEditHandler(category.slug);
       }
     }, " Edit ", 8
     /* PROPS */
     , _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn text-primary",
+      "class": "btn text-primary pl-0",
       onClick: function onClick($event) {
         return $options.onDeleteHandler(category.slug);
       }

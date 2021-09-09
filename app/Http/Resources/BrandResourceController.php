@@ -14,6 +14,17 @@ class BrandResourceController extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => $this->collection->map(function ($res) {
+                return [
+                    'id' => $res->uuid,
+                    'title' => $res->brand,
+                    'slug' => $res->slug,
+                    'description' => is_null($res->description) ? "---" : $res->description,
+                    'icon' => $res->icon,
+                    'created' => $res->created_at
+                ];
+            })
+        ];
     }
 }
