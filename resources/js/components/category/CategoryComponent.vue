@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-md-4">
-      <create-category @created="newCategory"></create-category>
+      <create-component @created="newCategory"></create-component>
     </div>
     <div class="col-md-7 offset-md-1 p-3">
       <form>
@@ -86,10 +86,10 @@
 </template>
 <script>
 import axios from "axios";
-import CreateCategory from "./childs/CreateCategory.vue";
-import Paginate from "../services/Paginate.vue";
+import CreateComponent from "./CreateComponent.vue";
+import Paginate from "../../services/Paginate.vue";
 export default {
-  components: { CreateCategory, Paginate },
+  components: { CreateComponent, Paginate },
   data() {
     return {
       items: 5,
@@ -155,5 +155,3 @@ export default {
   },
 };
 </script>
-<style>
-</style>

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Category;
 use Illuminate\Support\Str;
 
-class CreateCategoryRequest extends CategoryRequest
+class CategoryCreateRequest extends CategoryRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,14 +33,14 @@ class CreateCategoryRequest extends CategoryRequest
     {
         $category = Category::create([
             'uuid' => Str::orderedUuid(),
-            'parent_id' => $this->parent,
+            'parent_id' => is_null($this->parent) ? null : Category::where('uuid', $this->parent)->first()->id,
             'category' => $this->name,
             'slug' => $this->filled('slug') ? Str::slug($this->slug) : Str::slug($this->name),
             'description' => $this->description,
             'icon' => $this->hasFile('thumbnail') ? $this->storeThumbnail() : null
         ]);
 
-        $this->userActivity("Created {$this->name} category");
+        $this->activity("Created {$this->name} category");
 
         return $category;
     }

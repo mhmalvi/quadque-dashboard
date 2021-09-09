@@ -22,6 +22,7 @@ class CategoryResourceCollection extends ResourceCollection
                     'slug' => $res->slug,
                     'parent' => is_null($res->parent_id) ? "--" : $res->parent->category,
                     'description' => is_null($res->description) ? "---" : $res->description,
+                    'icon' => is_null($res->icon) ? null : $res->icon,
                     'created' => $res->created_at
                 ];
             })

@@ -2,25 +2,17 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Activity;
+use App\Helpers\TUserActivity;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryRequest extends FormRequest
 {
-    protected function userActivity(string $activity): void
-    {
-        Activity::create([
-            'user_id' => Auth::id(),
-            'activity' => $activity,
-            'ip' => $this->ip(),
-            'agent' => $this->header('User-Agent')
-        ]);
+    use TUserActivity {
+        userActivity as activity;
     }
-
 
     protected function storeThumbnail()
     {

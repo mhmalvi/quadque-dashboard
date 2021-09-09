@@ -26,7 +26,7 @@
         <label for="parent">Parent Category</label>
         <select id="parent" class="form-control" v-model="parent">
           <option value selected disabled>None</option>
-          <option v-for="(item, key) in list" :key="key" :value="item.slug">
+          <option v-for="(item, key) in list" :key="key" :value="item.id">
             {{ item.title }}
           </option>
         </select>

@@ -1,6 +1,6 @@
 <template>
   <div class="p-3">
-    <form id="CreateCategory">
+    <form @submit.prevent="onUpdateHandler" id="CreateCategory">
       <div class="form-group">
         <label for="name">Name <small class="text-danger">*</small></label>
         <input type="text" id="name" class="form-control" v-model="name" />
@@ -25,7 +25,7 @@
           <option
             v-for="(item, key) in categories"
             :key="key"
-            :value="item.slug"
+            :value="item.uuid"
           >
             {{ item.category }}
           </option>
@@ -56,17 +56,17 @@
         <label for="thumbnail" class="thumbnail-lbl"
           >Upload/Add thumbnail</label
         >
-        <input type="file" id="thumbnail" />
-        <input type="hidden" v-model="thumbnail" />
+        <input type="file" id="thumbnail" @change="onImageUpload" />
       </div>
 
-      <button type="submit" class="btn btn-primary">
+      <button type="submit" class="btn btn-primary" :disabled="!isValid">
         {{ btnText }}
       </button>
     </form>
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   props: ["category", "list"],
   data() {
@@ -80,13 +80,46 @@ export default {
       parent: "",
       thumbnail: "",
       categories: JSON.parse(this.list),
+      isLoading: false,
     };
+  },
+
+  methods: {
+    onImageUpload(event) {
+      this.thumbnail = event.target.files[0];
+
+      let reader = new FileReader();
+
+      reader.onload = (e) => {
+        this.imageSrc = e.target.result;
+      };
+
+      reader.readAsDataURL(this.thumbnail);
+    },
+
+    onUpdateHandler() {
+      console.log(submited);
+    },
   },
 
   mounted() {
     this.name = this.datas.category;
     this.slug = this.datas.slug;
     this.description = this.datas.description;
+
+    if (this.datas.parent != null) {
+      this.parent = this.datas.parent.uuid;
+    }
+
+    if (this.datas.icon != null) {
+      this.imageSrc = `../../../public/storage/categories/${this.datas.icon}`;
+    }
+  },
+
+  computed: {
+    isValid() {
+      return this.name && !this.isLoading;
+    },
   },
 };
 </script>
