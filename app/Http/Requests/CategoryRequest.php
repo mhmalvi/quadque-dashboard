@@ -28,6 +28,6 @@ class CategoryRequest extends FormRequest
             ->fit(80)
             ->save(storage_path('app/public/categories/' . $filename));
 
-        return $filename;
+        return "categories/{$filename}";
     }
 }
