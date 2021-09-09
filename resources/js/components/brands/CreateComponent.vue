@@ -63,7 +63,6 @@ export default {
       description: "",
       btnText: "Add new brand",
       isLoading: false,
-      list: [],
     };
   },
   methods: {
@@ -82,6 +81,22 @@ export default {
     formSubmitHandler() {
       this.btnText = "Adding new brand ...";
       this.isLoading = true;
+
+      let formData = new FormData();
+      formData.append("name", this.name);
+      formData.append("slug", this.slug);
+      formData.append("description", this.description);
+      formData.append("icon", this.thumbnail);
+
+      axios
+        .post("brands/store", formData)
+        .then((res) => {
+          console.log(res);
+          this.resetForm();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
     resetForm() {

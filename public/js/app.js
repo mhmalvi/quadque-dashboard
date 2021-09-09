@@ -21481,8 +21481,7 @@ __webpack_require__.r(__webpack_exports__);
       slug: "",
       description: "",
       btnText: "Add new brand",
-      isLoading: false,
-      list: []
+      isLoading: false
     };
   },
   methods: {
@@ -21499,8 +21498,22 @@ __webpack_require__.r(__webpack_exports__);
       reader.readAsDataURL(this.thumbnail);
     },
     formSubmitHandler: function formSubmitHandler() {
+      var _this2 = this;
+
       this.btnText = "Adding new brand ...";
       this.isLoading = true;
+      var formData = new FormData();
+      formData.append("name", this.name);
+      formData.append("slug", this.slug);
+      formData.append("description", this.description);
+      formData.append("icon", this.thumbnail);
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("brands/store", formData).then(function (res) {
+        console.log(res);
+
+        _this2.resetForm();
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     resetForm: function resetForm() {
       this.name = "";

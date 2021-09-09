@@ -16,7 +16,7 @@ class BrandRequest extends FormRequest
 
     protected function storeThumbnail()
     {
-        $image = $this->file('thumbnail');
+        $image = $this->file('icon');
         $ext = $image->getClientOriginalExtension();
         $filename = Str::slug($this->name) . "." . $ext;
 
@@ -28,6 +28,6 @@ class BrandRequest extends FormRequest
             ->fit(150)
             ->save(storage_path('app/public/brands/' . $filename));
 
-        return $filename;
+        return "brands/{$filename}";
     }
 }
