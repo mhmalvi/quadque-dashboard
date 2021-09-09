@@ -33,9 +33,9 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Get data
+     * Paginated Categories
      */
-    public function getCategories(Request $request)
+    public function paginatedCategories(Request $request)
     {
         try {
             return new CategoryResourceCollection(

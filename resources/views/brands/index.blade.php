@@ -3,5 +3,5 @@
 @section('title', 'Product Brands')
 
 @section('content')
-    
+    <brands-component></brands-component>
 @endsection

@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('categories')->name('category.')->group(function () {
         Route::get('/', 'CategoriesController@index')->name('all');
         Route::get('all', 'CategoriesController@getAllCategories');
-        Route::post('all', 'CategoriesController@getCategories');
+        Route::post('all', 'CategoriesController@paginatedCategories');
         Route::post('store', 'CategoriesController@store');
         Route::get('{category}/edit', 'CategoriesController@edit');
         Route::put('{category}/update', 'CategoriesController@update');
@@ -44,6 +44,12 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::prefix('brands')->name('brand.')->group(function () {
         Route::get('/', 'BrandsController@index')->name('all');
+        Route::post('/', 'BrandsController@paginatedBrands');
+        Route::get('all', 'BrandsController@getBrands');
+        Route::post('store', 'BrandsController@store');
+        Route::get('{brand}/edit', 'BrandsController@edit');
+        Route::put('{brand}/update', 'BrandsController@updated');
+        Route::delete('{brand}/remove', 'BrandsController@destroy');
     });
 
     /**

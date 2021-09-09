@@ -87,9 +87,8 @@
 <script>
 import axios from "axios";
 import CreateComponent from "./CreateComponent.vue";
-import Paginate from "../../services/Paginate.vue";
 export default {
-  components: { CreateComponent, Paginate },
+  components: { CreateComponent },
   data() {
     return {
       items: 5,
