@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import axios from "axios";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import ProductComponent from "./components/products/ProductComponent.vue";
@@ -9,6 +10,10 @@ import UpdateComponent from "./components/category/UpdateComponent.vue";
 
 //Brand
 import BrandsComponent from "./components/brands/BrandsComponent.vue";
+
+axios.defaults.baseURL = document.head.querySelector(
+    'meta[name="api-base-url"]'
+).content;
 
 const app = createApp({});
 app.use(VueSweetalert2);

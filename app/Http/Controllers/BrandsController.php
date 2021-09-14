@@ -34,8 +34,13 @@ class BrandsController extends Controller
     /**
      * All brands
      */
-    public function getBrands()
+    public function getAllBrands()
     {
+        try {
+            return new BrandResourceController(Brand::all());
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], 503);
+        }
     }
 
     /**

@@ -24,6 +24,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('products')->name('product.')->group(function () {
         Route::get('/', 'ProductsController@index')->name('all');
         Route::get('add-new', 'ProductsController@create')->name('create');
+        Route::post('store', 'ProductsController@store');
     });
 
     /**
@@ -44,8 +45,8 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::prefix('brands')->name('brand.')->group(function () {
         Route::get('/', 'BrandsController@index')->name('all');
+        Route::get('all', 'BrandsController@getAllBrands');
         Route::post('/', 'BrandsController@paginatedBrands');
-        Route::get('all', 'BrandsController@getBrands');
         Route::post('store', 'BrandsController@store');
         Route::get('{brand}/edit', 'BrandsController@edit');
         Route::put('{brand}/update', 'BrandsController@updated');

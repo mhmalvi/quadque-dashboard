@@ -21,4 +21,12 @@ class ProductsController extends Controller
     {
         return view('products.create');
     }
+
+    /**
+     * Store
+     */
+    public function store(Request $request)
+    {
+        dd($request->all());
+    }
 }

@@ -18,6 +18,11 @@ class Brand extends Model
         return 'slug';
     }
 
+    public function setCategoryAttribute($value)
+    {
+        $this->attributes['brand'] = ucfirst($value);
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return date("M d, Y", strtotime($value));
