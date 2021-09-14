@@ -21822,7 +21822,7 @@ __webpack_require__.r(__webpack_exports__);
       reader.readAsDataURL(this.thumbnail);
     },
     onUpdateHandler: function onUpdateHandler() {
-      console.log(submited);
+      console.log("submited");
     }
   },
   mounted: function mounted() {

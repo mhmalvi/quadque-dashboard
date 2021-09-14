@@ -98,7 +98,7 @@ export default {
     },
 
     onUpdateHandler() {
-      console.log(submited);
+      console.log("submited");
     },
   },
 

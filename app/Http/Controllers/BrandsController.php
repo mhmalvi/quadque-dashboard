@@ -24,7 +24,7 @@ class BrandsController extends Controller
     {
         try {
             return new BrandResourceController(
-                Brand::paginate($request->item)
+                Brand::orderBy('created_at', 'desc')->paginate($request->item)
             );
         } catch (\Throwable $th) {
             //throw $th;
