@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TemporaryFile;
+use Illuminate\Support\Facades\Storage;
 
 class FilesUploadController extends Controller
 {
@@ -31,6 +32,22 @@ class FilesUploadController extends Controller
             }
 
             return;
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], 503);
+        }
+    }
+
+
+    public function remove($folder)
+    {
+        try {
+            $file = TemporaryFile::where('folder', $folder)->first();
+
+            Storage::deleteDirectory('public/tmp/' . $folder);
+
+            $file->delete();
+
+            return response()->json(['message' => "success"], 200);
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage()], 503);
         }

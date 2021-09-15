@@ -7,3 +7,6 @@
 
 <!-- C3 Chart css -->
 <link href="{{asset('assets/libs/c3/c3.min.css')}}" rel="stylesheet" type="text/css" />
+
+{{-- custom css --}}
+<link href="{{asset('assets/css/custom.css')}}" rel="stylesheet" type="text/css" />

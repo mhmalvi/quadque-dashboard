@@ -1,0 +1,49 @@
+.is-Loading {
+    display: none;
+    margin-right: 5px;
+    animation: isLoading 0.8s linear infinite;
+}
+
+@keyframes isLoading {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+.loading {
+    display: inline-block;
+}
+
+.img-container {
+    border: 1px dashed;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.img-container label {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.img-container label:hover {
+    color: #64c5b1;
+}
+
+.img-wrapper {
+    position: relative;
+    padding: 5px;
+}
+
+.img-remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 5px 15px;
+}

@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function () {
     Route::view('/', 'index')->name('dashboard');
 
-    Route::post("tmp-file-upload", "FileUploadController@storeFile");
+    Route::post("tmp-file-upload", "FilesUploadController@storeFile");
+    Route::delete('remove-tmp-file/{folder}', "FilesUploadController@remove");
 
     /**
      * Product

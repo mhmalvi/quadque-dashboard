@@ -193,18 +193,54 @@
           >
         </div>
         <div class="col-md-7 offset-md-1">
-          <div class="form-group">
-            <label for="thumbnail">Product Thumbnail</label>
+          <div class="form-group img-container">
+            <label for="thumbnail"
+              >Click here to Upload Product Thumbnail</label
+            >
+            <div class="row w-100" v-if="thumbnail">
+              <div class="col-md-2 col-sm-3 col-6 img-wrapper">
+                <img :src="thumbnail" class="img-fluid avatar-lg" />
+                <a
+                  href="javascript:void(0)"
+                  @click.prevent="imgDeleteHandler(index, 'thumbnail')"
+                  class="text-danger d-block img-remove"
+                >
+                  <i class="bi bi-x-circle-fill"></i>
+                </a>
+              </div>
+            </div>
             <input
               type="file"
               id="thumbnail"
-              class="form-control"
+              class="form-control d-none"
               @change="onThumbnailUpload"
             />
           </div>
-          <div class="form-group">
-            <label for="gallary">Gallary Images</label>
-            <input type="file" id="gallary" class="form-control" multiple />
+          <div class="form-group img-container">
+            <label for="gallary">Click here to Upload Gallary Images</label>
+            <div class="row w-100" v-if="imgSrc">
+              <div
+                class="col-md-2 col-sm-3 col-6 img-wrapper"
+                v-for="(img, index) in imgSrc"
+                :key="index"
+              >
+                <img :src="img" class="img-fluid avatar-lg" />
+                <a
+                  href="javascript:void(0)"
+                  @click.prevent="imgDeleteHandler(index, 'gallary')"
+                  class="text-danger d-block img-remove"
+                >
+                  <i class="bi bi-x-circle-fill"></i>
+                </a>
+              </div>
+            </div>
+            <input
+              type="file"
+              id="gallary"
+              class="form-control d-none"
+              @change="onGallaryImageUpload"
+              multiple
+            />
           </div>
         </div>
       </div>
@@ -221,8 +257,13 @@
         <label class="custom-control-label" for="draft">Save as draft</label>
       </div>
 
-      <button type="submit" class="btn btn-sm btn-primary">
-        Add new product
+      <button type="submit" class="btn btn-primary">
+        <i
+          class="fas fa-sync-alt is-Loading"
+          :class="isLoading && 'loading'"
+          aria-hidden="true"
+        ></i>
+        {{ btnTxt }}
       </button>
     </div>
   </form>
@@ -252,10 +293,16 @@ export default {
       tags: "",
       meta_des: "",
       thumbnail: "",
+      imgSrc: [],
       isDraft: "",
+      isLoading: false,
+      btnTxt: "Add new product",
     };
   },
   methods: {
+    /**
+     * fetch all categories
+     */
     fetchCategories() {
       axios
         .get("categories/all")
@@ -266,6 +313,10 @@ export default {
           console.error(error);
         });
     },
+
+    /**
+     * fetch all brands
+     */
     fetchBrands() {
       axios
         .get("brands/all")
@@ -276,10 +327,50 @@ export default {
           console.error(error);
         });
     },
+
+    /**
+     * upload thumbnail image
+     */
     onThumbnailUpload(event) {
-      this.thumbnail = event.target.files[0];
+      let file = event.target.files[0];
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        this.thumbnail = e.target.result;
+      };
+      reader.readAsDataURL(file);
     },
-    async formSubmitHnadler() {
+
+    /**
+     * upload gallary images
+     */
+    onGallaryImageUpload(event) {
+      let files = event.target.files;
+
+      for (let file of files) {
+        let reader = new FileReader();
+
+        reader.onload = (e) => {
+          this.imgSrc.push(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+
+    /**
+     * delete an image from collection
+     */
+    imgDeleteHandler(index, image) {
+      if (image == "thumbnail") {
+        this.thumbnail = "";
+      } else if (image == "gallary") {
+        this.imgSrc.splice(index, 1);
+      }
+    },
+
+    /**
+     * Form submit handler
+     */
+    formSubmitHnadler() {
       let formData = new FormData();
 
       formData.append("sku", this.sku);
@@ -299,7 +390,11 @@ export default {
       formData.append("thumbnail", this.thumbnail);
       formData.append("isDraft", this.isDraft);
 
-      await axios
+      for (let image of this.imgSrc) {
+        formData.append("images[]", image);
+      }
+
+      axios
         .post("products/store", formData)
         .then((res) => {
           console.log(res);
