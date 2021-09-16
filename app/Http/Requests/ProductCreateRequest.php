@@ -26,24 +26,26 @@ class ProductCreateRequest extends ProductRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'price' => 'required|int'
+            'price' => 'required|int',
+            'thumbanil' => 'mimes:jpg,png',
         ];
     }
 
     public function save()
     {
         $product = Product::create([
+            'uuid' => Str::orderedUuid(),
             'sku' => $this->sku,
             'product' => $this->title,
             'slug' => $this->slug ? Str::slug($this->slug) : Str::slug($this->title),
-            'description' => $this->description,
-            'category_id' => $this->category ?? $this->getCategoryId(),
-            'brand_id' => $this->brand ?? $this->getBrandId(),
+            'descriptions' => $this->description,
+            'category_id' => $this->filled('category') ? $this->getCategoryId() : null,
+            'brand_id' => $this->filled('brand') ? $this->getBrandId() : null,
             'price' => $this->price,
-            'discount' => $this->discount,
+            'discount' => $this->discount ?? 0.00,
             'discount_type' => $this->discount_type,
             'unit' => $this->sale_unit,
-            'unit_type_id' => $this->unit_type ?? $this->getUnitTypeId(),
+            'unit_type_id' => $this->filled('unit_type') ? $this->getUnitTypeId() : null,
             'thumbnail' => $this->filled('thumbnail') ? $this->storeThumbnailImages() : null,
             'alt' => Str::slug($this->title),
             'publish' => $this->isDraft ? 0 : 1

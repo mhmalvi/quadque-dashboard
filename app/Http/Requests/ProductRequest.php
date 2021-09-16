@@ -98,7 +98,7 @@ class ProductRequest extends FormRequest
 
         foreach ($files as $key => $file) {
 
-            $filename = Str::slug($this->title) . "({$key})" . $this->getOrigianlFileExtension($file);
+            $filename = Str::slug($this->title) . "_{$key}" . $this->getOrigianlFileExtension($file);
 
             ProductImage::create([
                 'product_id' => $product_id,

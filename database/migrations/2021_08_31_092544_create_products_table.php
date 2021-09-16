@@ -26,7 +26,7 @@ class CreateProductsTable extends Migration
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('set null')->onUpdate('cascade');
             $table->double('price', 8, 2)->default(0.00);
             $table->double('discount', 8, 2)->default(0.00);
-            $table->enum('discount_type', ['flat', 'percent'])->default('flat');
+            $table->enum('discount_type', ['flat', 'percent'])->nullable();
             $table->integer('unit')->default(1);
             $table->string('thumbnail')->nullable();
             $table->string('alt')->nullable();

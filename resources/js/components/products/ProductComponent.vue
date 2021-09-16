@@ -260,6 +260,7 @@
               class="form-control d-none"
               @change="onGallaryImageUpload"
               multiple
+              ref="images"
             />
           </div>
         </div>
@@ -277,22 +278,23 @@
         <label class="custom-control-label" for="draft">Save as draft</label>
       </div>
 
-      <button type="submit" class="btn btn-primary">
+      <button type="submit" class="btn btn-primary" :disabled="isLoading">
         <i
           class="fas fa-sync-alt is-Loading"
-          :class="isLoading && 'loading'"
+          v-if="isLoading"
           aria-hidden="true"
         ></i>
-        {{ btnTxt }}
+        Add new product
       </button>
     </div>
   </form>
 </template>
 <script>
+import axios from "axios";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import axios from "axios";
 import ErrorAlerts from "../../services/ErrorAlerts.vue";
+import FileValidation from "../../services/FileValidation";
 export default {
   components: { QuillEditor, ErrorAlerts },
   data() {
@@ -305,11 +307,11 @@ export default {
       slug: "",
       category: "",
       brand: "",
-      price: "",
-      discount: "",
-      discount_type: "",
+      price: 0,
+      discount: 0,
+      discount_type: "flat",
       sale_unit: 1,
-      unit_type: "",
+      unit_type: "pcs",
       descriptions: "",
       keywords: "",
       tags: "",
@@ -318,7 +320,6 @@ export default {
       imgSrc: [],
       isDraft: "",
       isLoading: false,
-      btnTxt: "Add new product",
       errors: [],
     };
   },
@@ -363,21 +364,12 @@ export default {
     },
 
     /**
-     *
-     */
-    isValidFile(filename) {
-      let allowedExtensions = ["png", "jpg", "jpeg"];
-
-      return allowedExtensions.includes(filename.split(".").pop());
-    },
-
-    /**
      * upload thumbnail image
      */
     onThumbnailUpload(event) {
       let file = event.target.files[0];
 
-      if (this.isValidFile(file.name)) {
+      if (FileValidation(file.name)) {
         let reader = new FileReader();
         reader.onload = (e) => {
           this.thumbnail = e.target.result;
@@ -395,7 +387,7 @@ export default {
       let files = event.target.files;
 
       for (let file of files) {
-        if (this.isValidFile(file.name)) {
+        if (FileValidation(file.name)) {
           let reader = new FileReader();
 
           reader.onload = (e) => {
@@ -424,7 +416,6 @@ export default {
      */
     formSubmitHnadler() {
       let formData = new FormData();
-
       formData.append("sku", this.sku);
       formData.append("title", this.title);
       formData.append("slug", this.slug);
@@ -444,15 +435,42 @@ export default {
       for (let image of this.imgSrc) {
         formData.append("images[]", image);
       }
-
       axios
-        .post("products/store", formData)
+        .post("products/store", formData, {
+          onUploadProgress: () => {
+            this.isLoading = !this.isLoading;
+          },
+        })
         .then((res) => {
-          console.log(res);
+          this.resetForm();
         })
         .catch((error) => {
+          this.isLoading = !this.isLoading;
           console.error(error);
         });
+    },
+
+    resetForm() {
+      this.sku = "";
+      this.title = "";
+      this.slug = "";
+      this.price = 0;
+      this.discount = 0;
+      this.discount_type = "flat";
+      this.sale_unit = 1;
+      this.unit_type = "pcs";
+      this.category = "";
+      this.brand = "";
+      this.descriptions = "";
+      this.keywords = "";
+      this.tags = "";
+      this.meta_des = "";
+      this.thumbnail = "";
+      this.imgSrc = [];
+      this.isDraft = "";
+      this.isLoading = false;
+      this.errors = [];
+      this.$refs.myEditor.setHTML("");
     },
   },
 
@@ -466,5 +484,17 @@ export default {
 <style>
 .ql-container {
   height: 450px !important;
+}
+.is-Loading {
+  margin-right: 5px;
+  animation: isLoading 0.8s linear infinite;
+}
+@keyframes isLoading {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
