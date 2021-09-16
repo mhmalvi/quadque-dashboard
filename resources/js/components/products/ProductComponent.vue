@@ -15,7 +15,9 @@
             <input type="text" id="sku" class="form-control" v-model="sku" />
           </div>
           <div class="form-group">
-            <label for="title">Product Title</label>
+            <label for="title"
+              >Product Title <span class="text-danger">*</span></label
+            >
             <input
               type="text"
               id="title"
@@ -73,7 +75,9 @@
         </div>
         <div class="col-md-7 offset-md-1">
           <div class="form-group">
-            <label for="r_price">Regular Price</label>
+            <label for="r_price"
+              >Regular Price <span class="text-danger">*</span></label
+            >
             <input
               type="number"
               id="r_price"
@@ -102,7 +106,9 @@
           </div>
           <div class="row form-group">
             <div class="col-md-8">
-              <label for="unit">Minimum Sale Unit</label>
+              <label for="unit"
+                >Minimum Sale Unit <span class="text-danger">*</span></label
+              >
               <input
                 type="number"
                 id="unit"
@@ -111,9 +117,18 @@
               />
             </div>
             <div class="col-md-4">
-              <label for="u_type">Unit Type</label>
+              <label for="u_type"
+                >Unit Type <span class="text-danger">*</span></label
+              >
               <select id="u_type" class="form-control" v-model="unit_type">
                 <option value="" selected disabled>Choose unit type</option>
+                <option
+                  v-for="(unit, index) in unitTypes"
+                  :key="index"
+                  :value="unit.title"
+                >
+                  {{ unit.title }}
+                </option>
               </select>
             </div>
           </div>
@@ -187,7 +202,12 @@
       <div class="row">
         <div class="col-md-4">
           <h5>Product Images</h5>
-          <small
+
+          <div v-if="errors.length > 0" class="text-danger">
+            <error-alerts :alerts="errors"></error-alerts>
+          </div>
+
+          <small v-else
             >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil
             accusantium consequuntur ullam voluptatum praesentium vero.</small
           >
@@ -272,12 +292,14 @@
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import axios from "axios";
+import ErrorAlerts from "../../services/ErrorAlerts.vue";
 export default {
-  components: { QuillEditor },
+  components: { QuillEditor, ErrorAlerts },
   data() {
     return {
       categories: [],
       brands: [],
+      unitTypes: [],
       sku: "",
       title: "",
       slug: "",
@@ -286,7 +308,7 @@ export default {
       price: "",
       discount: "",
       discount_type: "",
-      sale_unit: "",
+      sale_unit: 1,
       unit_type: "",
       descriptions: "",
       keywords: "",
@@ -297,6 +319,7 @@ export default {
       isDraft: "",
       isLoading: false,
       btnTxt: "Add new product",
+      errors: [],
     };
   },
   methods: {
@@ -328,16 +351,41 @@ export default {
         });
     },
 
+    fetchUnitTypes() {
+      axios
+        .get("unit-types/all")
+        .then((res) => {
+          this.unitTypes = res.data.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+
+    /**
+     *
+     */
+    isValidFile(filename) {
+      let allowedExtensions = ["png", "jpg", "jpeg"];
+
+      return allowedExtensions.includes(filename.split(".").pop());
+    },
+
     /**
      * upload thumbnail image
      */
     onThumbnailUpload(event) {
       let file = event.target.files[0];
-      let reader = new FileReader();
-      reader.onload = (e) => {
-        this.thumbnail = e.target.result;
-      };
-      reader.readAsDataURL(file);
+
+      if (this.isValidFile(file.name)) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          this.thumbnail = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.errors.push(`${file.name} is not a valid file type!`);
+      }
     },
 
     /**
@@ -347,12 +395,16 @@ export default {
       let files = event.target.files;
 
       for (let file of files) {
-        let reader = new FileReader();
+        if (this.isValidFile(file.name)) {
+          let reader = new FileReader();
 
-        reader.onload = (e) => {
-          this.imgSrc.push(e.target.result);
-        };
-        reader.readAsDataURL(file);
+          reader.onload = (e) => {
+            this.imgSrc.push(e.target.result);
+          };
+          reader.readAsDataURL(file);
+        } else {
+          this.errors.push(`${file.name} is not a valid file type!`);
+        }
       }
     },
 
@@ -387,9 +439,8 @@ export default {
       formData.append("keywords", this.keywords);
       formData.append("tags", this.tags);
       formData.append("meta_des", this.meta_des);
-      formData.append("thumbnail", this.thumbnail);
       formData.append("isDraft", this.isDraft);
-
+      formData.append("thumbnail", this.thumbnail);
       for (let image of this.imgSrc) {
         formData.append("images[]", image);
       }
@@ -408,6 +459,7 @@ export default {
   mounted() {
     this.fetchCategories();
     this.fetchBrands();
+    this.fetchUnitTypes();
   },
 };
 </script>

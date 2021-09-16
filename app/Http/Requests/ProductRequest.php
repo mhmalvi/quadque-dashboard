@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\ProductImage;
+use App\Models\ProductSeo;
+use App\Models\UnitType;
 use Illuminate\Foundation\Http\FormRequest;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
@@ -11,7 +15,44 @@ use Illuminate\Support\Str;
 class ProductRequest extends FormRequest
 {
     /**
-     * Get the base64 image file extension
+     * Get category id
+     */
+    protected function getCategoryId()
+    {
+        return Category::where('slug', $this->category)->first()->id;
+    }
+
+    /**
+     * Get brand id
+     */
+    protected function getBrandId()
+    {
+        return Brand::where('slug', $this->brand)->first()->id;
+    }
+
+    /**
+     * Get unit type id
+     */
+    protected function getUnitTypeId()
+    {
+        return UnitType::where('unit_type', $this->unit_type)->first()->id;
+    }
+
+    /**
+     * Saving products seos
+     */
+    protected function saveProductSeo($product_id)
+    {
+        ProductSeo::create([
+            'product_id' => $product_id,
+            'keywords' => $this->keywords,
+            'tags' => $this->tags,
+            'descriptions' => $this->meta_des
+        ]);
+    }
+
+    /**
+     * retrive file extension from base64 string
      */
     private function getOrigianlFileExtension($file)
     {
@@ -24,8 +65,11 @@ class ProductRequest extends FormRequest
         return $ext;
     }
 
-
-    public function storeThumbnailImages()
+    /**
+     * store product thumbanil
+     * base64 encoded
+     */
+    protected function storeThumbnailImages()
     {
         $file = $this->thumbnail;
         $name = $this->image_title ? Str::slug($this->image_title) : Str::slug($this->title);
@@ -48,7 +92,7 @@ class ProductRequest extends FormRequest
      * Storing base64 encoded
      *  image files
      */
-    public function storeGallaryImages($product_id)
+    protected function storeGallaryImages($product_id)
     {
         $files = $this->images;
 

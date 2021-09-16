@@ -54,6 +54,14 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('{brand}/remove', 'BrandsController@destroy');
     });
 
+
+    /**
+     * Unit Types
+     */
+    Route::prefix('unit-types')->group(function () {
+        Route::get('all', 'UnitTypesController@getUnitTypes');
+    });
+
     /**
      * Bulks
      */

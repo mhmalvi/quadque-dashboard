@@ -16,10 +16,10 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('SKU')->nullable();
+            $table->string('sku')->nullable();
             $table->text('product');
             $table->text('slug');
-            $table->longText('descriptions');
+            $table->longText('descriptions')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null')->onUpdate('cascade');
             $table->unsignedBigInteger('brand_id')->nullable();
