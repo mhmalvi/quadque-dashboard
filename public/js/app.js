@@ -23353,14 +23353,6 @@ var _hoisted_80 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_81 = ["disabled"];
-var _hoisted_82 = {
-  key: 0,
-  "class": "fas fa-sync-alt is-Loading",
-  "aria-hidden": "true"
-};
-
-var _hoisted_83 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add new product ");
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_quill_editor = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("quill-editor");
 
@@ -23592,7 +23584,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit",
     "class": "btn btn-primary",
     disabled: $data.isLoading
-  }, [$data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_82)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_83], 8
+  }, " Add new product ", 8
   /* PROPS */
   , _hoisted_81)])], 32
   /* HYDRATE_EVENTS */

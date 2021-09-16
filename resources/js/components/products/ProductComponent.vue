@@ -279,11 +279,6 @@
       </div>
 
       <button type="submit" class="btn btn-primary" :disabled="isLoading">
-        <i
-          class="fas fa-sync-alt is-Loading"
-          v-if="isLoading"
-          aria-hidden="true"
-        ></i>
         Add new product
       </button>
     </div>

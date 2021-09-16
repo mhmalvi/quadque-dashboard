@@ -29,3 +29,15 @@
     right: 0;
     margin: 5px 15px;
 }
+.is-Loading {
+    margin-right: 5px;
+    animation: isLoading 0.8s linear infinite;
+}
+@keyframes isLoading {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
