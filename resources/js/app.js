@@ -2,7 +2,10 @@ import { createApp } from "vue";
 import axios from "axios";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+
+//product
 import ProductComponent from "./components/products/ProductComponent.vue";
+import ProductList from "./components/products/ProductList.vue";
 
 //Category
 import CategoryComponent from "./components/category/CategoryComponent.vue";
@@ -22,6 +25,7 @@ app.use(VueSweetalert2);
  * mount your components here
  */
 app.component("product-component", ProductComponent);
+app.component("product-list", ProductList);
 app.component("category-component", CategoryComponent);
 app.component("update-category", UpdateComponent);
 app.component("brands-component", BrandsComponent);

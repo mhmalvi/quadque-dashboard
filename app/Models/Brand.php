@@ -27,4 +27,9 @@ class Brand extends Model
     {
         return date("M d, Y", strtotime($value));
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

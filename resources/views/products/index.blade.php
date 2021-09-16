@@ -10,5 +10,7 @@
 @endsection
 
 @section('content')
-    
+    <div class="container-fluid">
+        <product-list></product-list>
+    </div>
 @endsection
