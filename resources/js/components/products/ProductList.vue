@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-md-1">
           <div class="form-group">
-            <select class="form-control" @change="onChangeHandler($event)">
+            <select class="form-control" v-model="itemsPerPage">
               <option value="5">5</option>
               <option value="10">10</option>
               <option value="25">25</option>
@@ -12,9 +12,24 @@
             </select>
           </div>
         </div>
-        <div class="col-md-3 offset-md-8">
+        <div class="col-md-2">
           <div class="form-group">
-            <input type="text" class="form-control" />
+            <select class="form-control" v-model="category">
+              <option value="" selected disabled>Filter by category</option>
+              <option value="">All</option>
+              <option
+                v-for="item in categories"
+                :key="item.id"
+                :value="item.slug"
+              >
+                {{ item.title }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-2 offset-md-7">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="search" />
           </div>
         </div>
       </div>
@@ -99,24 +114,26 @@ export default {
     return {
       isLoading: false,
       products: [],
-      items: 5,
+      itemsPerPage: 5,
       links: [],
-      getProducts: "products/all",
+      action: "products/get",
       imgPath: "../../../../storage/thumbnails/",
+      categories: [],
+      search: "",
+      category: "",
     };
   },
   methods: {
     async getAllProducts(actionLink) {
+      this.isLoading = !this.isLoading;
       await axios
-        .post(
-          actionLink,
-          { items: this.items },
-          {
-            onUploadProgress: () => {
-              this.isLoading = !this.isLoading;
-            },
-          }
-        )
+        .get(actionLink, {
+          params: {
+            items: this.itemsPerPage,
+            search: this.search,
+            category: this.category,
+          },
+        })
         .then((res) => {
           this.products = res.data.data;
           this.links = res.data.meta.links;
@@ -129,14 +146,40 @@ export default {
     getLink(link) {
       this.getAllProducts(link);
     },
-    onChangeHandler(event) {
-      this.items = event.target.value;
-      this.getAllProducts(this.getProducts);
+    /**
+     * fetch all categories
+     */
+    fetchCategories() {
+      axios
+        .get("categories/all")
+        .then((res) => {
+          this.categories = res.data.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
+
+    /**
+     * Filter By Category
+     */
+    filterProductsByCategory(event) {},
   },
 
   mounted() {
-    this.getAllProducts(this.getProducts);
+    this.getAllProducts(this.action);
+    this.fetchCategories();
+  },
+  watch: {
+    search(newValue, oldValue) {
+      if (newValue >= 4 || oldValue >= 4) this.getAllProducts(this.action);
+    },
+    itemsPerPage() {
+      this.getAllProducts(this.action);
+    },
+    category() {
+      this.getAllProducts(this.action);
+    },
   },
 };
 </script>

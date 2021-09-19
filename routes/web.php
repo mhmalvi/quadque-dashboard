@@ -24,9 +24,9 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::prefix('products')->name('product.')->group(function () {
         Route::get('/', 'ProductsController@index')->name('all');
+        Route::get('get', 'ProductsController@getProducts');
         Route::get('add-new', 'ProductsController@create')->name('create');
         Route::post('store', 'ProductsController@store');
-        Route::post('all', 'ProductsController@getAllProducts');
     });
 
     /**

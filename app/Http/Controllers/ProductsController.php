@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductCreateRequest;
 use App\Http\Resources\ProductsCollection;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -20,11 +21,23 @@ class ProductsController extends Controller
     /**
      * Get all products
      */
-    public function getAllProducts(Request $request)
+    public function getProducts()
     {
         try {
             return new ProductsCollection(
-                Product::with(['category', 'brand'])->paginate($request->items)
+                Product::with(['category', 'brand'])
+                    ->when(request('search', false), function ($query) {
+                        $query->where(function ($q) {
+                            $q->where('product', "LIKE", "%" . request('search') . "%")
+                                ->orWhere('price', "LIKE", "%" . request('search') . "%")
+                                ->orWhere('sku', "LIKE", "%" . request('search') . "%");
+                        });
+                    })
+                    ->when(request('category', false), function ($query) {
+                        $category = Category::where('slug', request('category'))->first()->id;
+                        $query->where('category_id', $category);
+                    })
+                    ->paginate(request('items'))
             );
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage()], 503);
