@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
+use Illuminate\Support\Str;
 
 class ProductUpdateRequest extends FormRequest
 {
@@ -38,25 +39,23 @@ class ProductUpdateRequest extends FormRequest
         $brand = Brand::where('slug', $this->brand)->first();
         $category = Category::where('slug', $this->category)->first();
 
-        $data = [
-            'sku' => $this->sku,
-            'product' => $this->title,
-            'slug' => $this->slug,
-            'descriptions' => $this->descriptions,
-            'price' => $this->price,
-            'discount' => $this->discount,
-            'discount_type' => $this->discoun_type,
-        ];
+        $product->sku = $this->sku;
+        $product->product = $this->title;
+        $product->slug = $this->filled('slug') ? Str::slug($this->slug) : Str::slug($this->title);
+        $product->descriptions = $this->descriptions;
+        $product->price = $this->price;
+        $product->discount = $this->discount;
+        $product->discount_type = $this->discoun_type;
 
         if($brand)
         {
-            $data['brand_id'] = $brand->id;
+            $product->brand_id = $brand->id;
         }
         if($category)
         {
-            $data['category_id'] = $category->id;
+            $product->category_id = $category->id;
         }
 
-        $product->update($data);
+        $product->save();
     }
 }

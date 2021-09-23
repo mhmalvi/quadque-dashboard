@@ -72,7 +72,7 @@
                   <a :href="'/products/' + item.slug + '/edit'" class="text-primary pr-2"
                     >Edit</a
                   >
-                  <a href="javascript:void(0)" class="text-primary pr-2"
+                  <a href="javascript:void(0)" @click.prevent="deleteProduct(item)" class="text-primary pr-2"
                     >Delete</a
                   >
                 </div>
@@ -164,6 +164,11 @@ export default {
      * Filter By Category
      */
     filterProductsByCategory(event) {},
+
+    deleteProduct(product)
+    {
+      console.log('product', product);
+    }
   },
 
   mounted() {
