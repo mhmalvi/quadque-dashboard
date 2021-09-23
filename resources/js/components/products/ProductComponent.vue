@@ -292,6 +292,9 @@ import ErrorAlerts from "../../services/ErrorAlerts.vue";
 import FileValidation from "../../services/FileValidation";
 export default {
   components: { QuillEditor, ErrorAlerts },
+  props: [
+    'product'
+  ],
   data() {
     return {
       categories: [],
@@ -430,19 +433,63 @@ export default {
       for (let image of this.imgSrc) {
         formData.append("images[]", image);
       }
-      axios
-        .post("products/store", formData, {
-          onUploadProgress: () => {
-            this.isLoading = !this.isLoading;
-          },
-        })
-        .then((res) => {
+      let axios_object = null;
+
+      // this.product is not null, means user is at edit page
+      if(this.product)
+      {
+        let data = JSON.parse(this.product);
+        formData.append("_method", "PUT");
+
+        axios_object = axios.post("products/"+ data.slug +"/update", formData, {
+            onUploadProgress: () => {
+              this.isLoading = !this.isLoading;
+            },
+          })
+      }
+      // if this.product is null, then user must be at create page
+      else
+      {
+        axios_object = axios.post("products/store", formData, {
+            onUploadProgress: () => {
+              this.isLoading = !this.isLoading;
+            },
+          })
+      }
+        
+      axios_object.then((res) => {
+        if(this.product)
+        {
+          // for update
+          this.$swal(res.data.message);
+          this.isLoading = false;
+        }
+        else
+        {
+          // for create
           this.resetForm();
-        })
-        .catch((error) => {
-          this.isLoading = !this.isLoading;
-          console.error(error);
-        });
+        }
+      })
+      .catch((error) => {
+        this.isLoading = !this.isLoading;
+        console.error(error);
+      });
+    },
+
+    setFormData(product)
+    {
+      this.sku = product.sku;
+      this.title = product.product;
+      this.slug = product.slug;
+      this.price = product.price;
+      this.discount = product.discount;
+      this.discount_type = product.discount_type;
+      this.sale_unit = product.sale_unit;
+      this.unit_type = product.unit_type;
+      this.category = product.category.slug;
+      this.brand = product.brand.slug;
+      this.descriptions = product.descriptions;
+      this.thumbnail = product.thumbnail;
     },
 
     resetForm() {
@@ -473,6 +520,13 @@ export default {
     this.fetchCategories();
     this.fetchBrands();
     this.fetchUnitTypes();
+
+    if(this.product)
+    {
+      let data = JSON.parse(this.product);
+      console.log("setting up form data", data);
+      this.setFormData(data);
+    }
   },
 };
 </script>

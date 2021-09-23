@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductCreateRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductsCollection;
 use App\Models\Category;
 use App\Models\Product;
@@ -64,5 +65,19 @@ class ProductsController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage()], 503);
         }
+    }
+
+    public function edit(Product $product)
+    {
+        $product->load("brand", "category");
+        return view('products.edit', compact('product'));
+    }
+
+    public function update(ProductUpdateRequest $request, Product $product)
+    {
+        $request->update($product);
+        return response()->json([
+            'message' => "Updated the product successfully!",
+        ], 200);
     }
 }

@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('get', 'ProductsController@getProducts');
         Route::get('add-new', 'ProductsController@create')->name('create');
         Route::post('store', 'ProductsController@store');
+        Route::get('{product:slug}/edit', 'ProductsController@edit')->name('edit');
+        Route::put('{product:slug}/update', 'ProductsController@update');
     });
 
     /**

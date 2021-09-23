@@ -69,7 +69,7 @@
               <td>
                 {{ item.title }}
                 <div class="pt-3">
-                  <a href="javascript:void(0)" class="text-primary pr-2"
+                  <a :href="'/products/' + item.slug + '/edit'" class="text-primary pr-2"
                     >Edit</a
                   >
                   <a href="javascript:void(0)" class="text-primary pr-2"

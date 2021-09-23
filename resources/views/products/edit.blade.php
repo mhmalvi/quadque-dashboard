@@ -10,5 +10,7 @@
 @endsection
 
 @section('content')
-    
+    <div class="container">
+        <product-component product="{{ $product }}"></product-component>
+    </div>
 @endsection
