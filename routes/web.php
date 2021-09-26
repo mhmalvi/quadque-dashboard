@@ -67,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('add-new', 'AttributesController@create')->name('create');
         Route::get('get', 'AttributesController@getAttributes');
         Route::post('store', 'AttributesController@store');
+        Route::delete("{attribute}/delete", 'AttributesController@destroy');
     });
 
 

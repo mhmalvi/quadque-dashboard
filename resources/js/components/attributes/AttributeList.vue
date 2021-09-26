@@ -45,6 +45,12 @@
 	            <tr v-for="item in attributes" :key="item.id" v-else>
 	              <td>
 	              	{{ item.title }}
+	              	<div class="pt-3">
+	                  <a href="javascript:void(0)" class="text-primary pr-2"
+	                    >Edit</a>
+	                  <a href="javascript:void(0)" @click.prevent="deleteAttribute(item)" class="text-primary pr-2"
+	                    >Delete</a>
+	                </div>
 	              </td>
 	              <td>
 	              	{{ item.description }}
@@ -120,6 +126,33 @@
 			onAddNewAttribute(event)
 			{
 				this.getAttributes(this.action);
+			},
+			deleteAttribute(attribute)
+			{
+				this.$swal({
+					icon: 'warning',
+					title: "Are you sure you want to delete this?",
+					html: "<b>Attribute name:</b> " + attribute.title,
+					showCancelButton: true,
+					showCloseButton: true
+				}).then(res => {
+					if(res.isConfirmed)
+					{
+						axios.post("attributes/" + attribute.id + '/delete', {
+							_method: "DELETE"
+						}).then(res => {
+							this.$swal(res.data.message, '', 'success');
+
+							this.getAttributes(this.action);
+						})
+					}
+				}).catch(error => {
+					this.$swal({
+						icon: "error",
+						title: "Something went wrong!"
+					});
+					console.error(error);
+				});
 			}
 		},
 		watch: {

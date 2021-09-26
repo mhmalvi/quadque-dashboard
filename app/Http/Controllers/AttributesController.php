@@ -38,4 +38,11 @@ class AttributesController extends Controller
     {
         $request->save();
     }
+
+    public function destroy(Attribute $attribute)
+    {
+        $attribute->delete();
+
+        return response()->json(['message' => "Successfully deleted the attribute!"], 200);
+    }
 }
