@@ -32,7 +32,7 @@ class AttributeCreateRequest extends AttributeRequest
     {
         Attribute::create([
             'attribute' => $this->name,
-            'description' => $this->description,
+            'description' => $this->filled('description') ? $this->description : "---",
         ]);
     }
 }
