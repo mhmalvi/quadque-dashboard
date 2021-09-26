@@ -21,6 +21,7 @@ class AttributeCollection extends ResourceCollection
                     'id' => $res->id,
                     'title' => $res->attribute,
                     'description' => is_null($res->description) ? "--" : $res->description,
+                    'children' => $res->children(),
                     'created_at' => $res->created_at->format("Y-m-d H:i"),
                 ];
             })

@@ -30,7 +30,6 @@
 	            <tr>
 	              <th>Name</th>
 	              <th>Description</th>
-	              <th>Created At</th>
 	            </tr>
 	          </thead>
 	          <tbody>
@@ -50,13 +49,13 @@
 	                    >Edit</a>
 	                  <a href="javascript:void(0)" @click.prevent="deleteAttribute(item)" class="text-primary pr-2"
 	                    >Delete</a>
+                    <a href="javascript:void(0)" @click.prevent="showNewChildAttributeModal(item)">
+	                    Add new {{ item.title }}
+	                  </a>
 	                </div>
 	              </td>
 	              <td>
 	              	{{ item.description }}
-	              </td>
-	              <td>
-	              	{{ item.created_at }}
 	              </td>
 	            </tr>
 	          </tbody>
@@ -81,17 +80,36 @@
 	      </ul>
 	    </nav>
 		</div>
+
+		<Modal title="Add new child attribute" :showStatus="showNewChildModalStatus"
+			@hide="hideNewChildModal">
+			<div>
+				<form>
+					<div class="form-group">
+						<label>Name</label>
+						<input type="text" class="form-control" v-modal="childAttributeForm.name"/>
+					</div>
+
+					<div class="form-group" @click.prevent="addNewChildAttribute">
+						<button class="btn btn-primary pull-right">Add</button>
+					</div>
+				</form>
+
+			</div>
+		</Modal>
 	</div>
 </template>
 
 <script>
 	import CreateComponent from './CreateComponent.vue';
 	import axios from "axios";
+	import Modal from "../Modal.vue";
 
 	export default {
 		name: 'AttributeList',
 		components: {
-			CreateComponent
+			CreateComponent,
+			Modal
 		},
 		data(){
 			return {
@@ -100,7 +118,16 @@
 				isLoading: false,
 				itemsPerPage: 5,
 				search: '',
-				action: 'attributes/get'
+				action: 'attributes/get',
+				showNewChildModalStatus: false,
+				activeNewAttribute: {
+					id: 0,
+					name: "",
+					children: []
+				},
+				childAttributeForm: {
+					name: ''
+				}
 			}
 		},
 		mounted()
@@ -153,6 +180,30 @@
 					});
 					console.error(error);
 				});
+			},
+			showNewChildAttributeModal(attribute)
+			{
+				this.activeNewAttribute.id = attribute.id;
+				this.activeNewAttribute.name = attribute.title;
+				this.activeNewAttribute.children = attribute.children;
+				this.showNewChildModalStatus = true;
+			},
+			hideNewChildModal(event)
+			{
+				this.showNewChildModalStatus = false;
+			},
+			addNewChildAttribute()
+			{
+				axios.post('attributes/child/add-new', {
+					name: childAttributeForm.name,
+					parent_id: activeNewAttribute.id
+				})
+					.then(res => {
+						this.$swal(res.data.message, '', 'success');
+					})
+					.catch(error => {
+						console.error(error);
+					})
 			}
 		},
 		watch: {

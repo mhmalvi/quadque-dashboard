@@ -132,6 +132,11 @@
               </select>
             </div>
           </div>
+          <div class="form-group row">
+            <div class="col">
+              <product-variant></product-variant>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -290,8 +295,10 @@ import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import ErrorAlerts from "../../services/ErrorAlerts.vue";
 import FileValidation from "../../services/FileValidation";
+import ProductVariant from './ProductVariant.vue';
+
 export default {
-  components: { QuillEditor, ErrorAlerts },
+  components: { QuillEditor, ErrorAlerts, ProductVariant },
   props: [
     'product'
   ],
