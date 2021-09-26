@@ -14,6 +14,9 @@ import UpdateComponent from "./components/category/UpdateComponent.vue";
 //Brand
 import BrandsComponent from "./components/brands/BrandsComponent.vue";
 
+// Attribute
+import AttributeList from './components/attributes/AttributeList.vue';
+
 axios.defaults.baseURL = document.head.querySelector(
     'meta[name="api-base-url"]'
 ).content;
@@ -29,6 +32,7 @@ app.component("product-list", ProductList);
 app.component("category-component", CategoryComponent);
 app.component("update-category", UpdateComponent);
 app.component("brands-component", BrandsComponent);
+app.component('attribute-list', AttributeList);
 
 app.mount("#wrapper");
 

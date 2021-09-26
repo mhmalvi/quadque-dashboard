@@ -58,6 +58,17 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('{brand}/remove', 'BrandsController@destroy');
     });
 
+    /**
+     * Attributes
+     */
+    Route::prefix('attributes')->name('attribute.')->group(function()
+    {
+        Route::get('/', 'AttributesController@index')->name('all');
+        Route::get('add-new', 'AttributesController@create')->name('create');
+        Route::get('get', 'AttributesController@getAttributes');
+        Route::post('store', 'AttributesController@store');
+    });
+
 
     /**
      * Unit Types

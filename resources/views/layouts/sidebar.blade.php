@@ -38,6 +38,11 @@
                             Brands
                         </a>
                     </li>
+                    <li class="{{request()->segment(1) == 'attributes' ? 'mm-active' : ''}}">
+                        <a href="{{route('attribute.all')}}" class="{{request()->segment(1) == 'attributes' ? 'active' : ''}}">
+                            Attributes
+                        </a>
+                    </li>
                 </ul>
             </li>
 
