@@ -22224,7 +22224,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      */
     filterProductsByCategory: function filterProductsByCategory(event) {},
     deleteProduct: function deleteProduct(product) {
-      console.log('product', product);
+      var _this3 = this;
+
+      this.$swal({
+        icon: "warning",
+        title: "Are you sure you want to delete this product?",
+        html: "<b>Product name</b>: " + product.title + " <br /> <b>SKU</b>: " + product.sku,
+        showCancelButton: true,
+        showCloseButton: true
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          axios__WEBPACK_IMPORTED_MODULE_1___default().post('/products/' + product.slug + '/delete', {
+            _method: "DELETE"
+          }).then(function (res) {
+            _this3.$swal(res.data.message);
+
+            var index = _this3.products.indexOf(product);
+
+            if (index != -1) {
+              _this3.products.splice(index, 1);
+            }
+          })["catch"](function (error) {
+            _this3.$swal({
+              title: "Something went wrong!",
+              text: "Couldn't delete the product.",
+              icon: 'error'
+            });
+          });
+        }
+      });
     }
   },
   mounted: function mounted() {
