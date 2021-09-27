@@ -80,4 +80,13 @@ class ProductsController extends Controller
             'message' => "Updated the product successfully!",
         ], 200);
     }
+
+    public function delete(Product $product)
+    {
+        $product->delete();
+
+        return response()->json([
+            'message' => "Product deleted successfully!",
+        ], 200);
+    }
 }

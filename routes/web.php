@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('store', 'ProductsController@store');
         Route::get('{product:slug}/edit', 'ProductsController@edit')->name('edit');
         Route::put('{product:slug}/update', 'ProductsController@update');
+        Route::delete('{product:slug}/delete', 'ProductsController@delete');
     });
 
     /**
@@ -55,6 +56,26 @@ Route::middleware(['auth'])->group(function () {
         Route::get('{brand}/edit', 'BrandsController@edit');
         Route::put('{brand}/update', 'BrandsController@updated');
         Route::delete('{brand}/remove', 'BrandsController@destroy');
+    });
+
+    /**
+     * Attributes
+     */
+    Route::prefix('attributes')->name('attribute.')->group(function()
+    {
+        Route::get('/', 'AttributesController@index')->name('all');
+        Route::get('add-new', 'AttributesController@create')->name('create');
+        Route::get('get', 'AttributesController@getAttributes');
+        Route::post('store', 'AttributesController@store');
+        Route::delete("{attribute}/delete", 'AttributesController@destroy');
+
+        Route::prefix('children')->name('child.')->group(function()
+        {
+            Route::get('{attribute}/all', 'ChildAttributeController@all');
+            Route::post('/add-new', 'ChildAttributeController@store');
+            Route::delete('{attribute}/{child_attribute}/delete',
+                'ChildAttributeController@destroy');
+        });
     });
 
 

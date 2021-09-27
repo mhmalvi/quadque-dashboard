@@ -167,7 +167,34 @@ export default {
 
     deleteProduct(product)
     {
-      console.log('product', product);
+      this.$swal({
+        icon: "warning",
+        title: "Are you sure you want to delete this product?",
+        html: "<b>Product name</b>: " + product.title + " <br /> <b>SKU</b>: " + product.sku,
+        showCancelButton: true,
+        showCloseButton: true
+      }).then(result => {
+        if(result.isConfirmed)
+        {
+          axios.post('/products/' + product.slug + '/delete', {
+            _method: "DELETE"
+          }).then(res => {
+            this.$swal(res.data.message)
+            
+            let index = this.products.indexOf(product)
+            if(index != -1)
+            {
+              this.products.splice(index, 1);
+            }
+          }).catch(error => {
+            this.$swal({
+              title: "Something went wrong!",
+              text: "Couldn't delete the product.",
+              icon: 'error'
+            })
+          });
+        }
+      });
     }
   },
 
