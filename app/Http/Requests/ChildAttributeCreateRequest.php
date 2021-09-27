@@ -32,8 +32,9 @@ class ChildAttributeCreateRequest extends ChildAttributeRequest
     public function save()
     {
         ChildAttribute::create([
-            'name' => $this->name,
+            'attribute' => $this->name,
             'attribute_id' => $this->parent_id,
+            'info' => $this->filled('info') ? $this->info : null,
         ]);
     }
 }

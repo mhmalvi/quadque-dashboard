@@ -69,9 +69,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('store', 'AttributesController@store');
         Route::delete("{attribute}/delete", 'AttributesController@destroy');
 
-        Route::prefix('child')->name('child.')->group(function()
+        Route::prefix('children')->name('child.')->group(function()
         {
+            Route::get('{attribute}/all', 'ChildAttributeController@all');
             Route::post('/add-new', 'ChildAttributeController@store');
+            Route::delete('{attribute}/{child_attribute}/delete',
+                'ChildAttributeController@destroy');
         });
     });
 

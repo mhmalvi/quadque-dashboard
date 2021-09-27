@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class AttributeCollection extends ResourceCollection
+class ChildAttributesCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -20,11 +20,9 @@ class AttributeCollection extends ResourceCollection
                 return [
                     'id' => $res->id,
                     'title' => $res->attribute,
-                    'description' => is_null($res->description) ? "--" : $res->description,
-                    'children' => new ChildAttributesCollection(
-                        $res->children
-                    ),
-                    'created_at' => $res->created_at->format("Y-m-d H:i"),
+                    'info' => $res->info,
+                    'parent_id' => $res->attribute_id,
+                    'created_at' => $res->created_at,
                 ];
             })
         ];

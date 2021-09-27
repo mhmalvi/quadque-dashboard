@@ -1,71 +1,123 @@
 <template>
-	<div id="modal_wrapper">
-		<div class="modal-body card">
-			<div class="card-title">
-				{{ title }}
-				<button class="close" @click.prevent="hideModal">
-					<span>&times;</span>
-				</button>
-			</div>
-			<div class="card-text">
-				<slot />
-			</div>
-		</div>
+	<div>
+		<div class="modal-mask">
+	  		<div class="modal-wrapper">
+				<div class="modal-container" :style="{width: modal_width}">
+				  	<div class="modal-header d-flex">
+				  		<h5 class="justify-content-start">
+							<slot name="header">
+						  		default header
+							</slot>
+				  		</h5>
+				  		<div class="justify-content-end">
+				  			<i class="bi bi-x cursor-pointer" style="font-size: 2rem;" @click="$emit('close')"></i>
+				  		</div>
+				  	</div>  
 
-		<div class="modal-dark-overlay" @click="hideModal"></div>
+				  	<div class="modal-body">
+						<slot name="body">
+					  		default body
+						</slot>
+			  		</div>
+				  	<div class="modal-footer">
+						<slot name="footer">
+					  		<button class="modal-default-button btn btn-primary" @click="$emit('close')">
+								OK
+					  		</button>
+						</slot>
+			  		</div>
+				</div>
+	  		</div>
+		</div>
 	</div>
 </template>
 
 <script type="text/javascript">
 	export default {
-		props: ['title', 'showStatus'],
-		methods: {
-			hideModal()
-			{
-				this.$emit("hide");
-				$('#modal_wrapper').css('display', 'none');
-			},
-			showModal()
-			{
-				$('#modal_wrapper').css('display', 'block');
+		props: ['size'],
+		data(){
+			return {
+				modal_width: '500px'
 			}
 		},
-		watch:{
-			showStatus(newValue, oldValue)
+		mounted()
+		{
+			if(this.size == 'sm')
 			{
-				if(newValue) this.showModal()
+				this.modal_width = '300px';
+			}
+			else if(this.size == 'lg')
+			{
+				this.modal_width = '700px';
 			}
 		}
 	};
 </script>
 
 <style scoped>
-	.modal-dark-overlay
+	.cursor-pointer
 	{
+		cursor:  pointer;
+	}
+
+	.modal-mask {
 		position: fixed;
+		z-index: 9998;
 		top: 0;
-		bottom: 0;
 		left: 0;
-		right: 0;
-		background: #000;
-		opacity: 0.4;
 		width: 100%;
 		height: 100%;
-		z-index: 105;
-		backdrop-filter: blur;
+		background-color: rgba(0, 0, 0, 0.5);
+		display: table;
+		transition: opacity 0.3s ease;
 	}
 
-	.modal-body
-	{
-		z-index: 107;
-		position: fixed;
-		width: 50%;
-		left: 25%;
-		right: 25%;
+	.modal-wrapper {
+		display: table-cell;
+		vertical-align: middle;
 	}
 
-	#modal_wrapper
-	{
-		display: none;
+	.modal-container {
+		margin: 0px auto;
+		padding: 0px 10px;
+		background-color: #fff;
+		border-radius: 2px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+		transition: all 0.3s ease;
+		font-family: Helvetica, Arial, sans-serif;
+	}
+
+	.modal-header h5 {
+		margin-top: 0;
+		color: #42b983;
+		font-size: 22px;
+		font-weight: bold;
+	}
+
+	.modal-body {
+	  	margin: 20px 0;
+	}
+
+	.modal-default-button {
+	  	float: right;
+	}
+
+	/*
+	 * The following styles are auto-applied to elements with
+	 * transition="modal" when their visibility is toggled
+	 * by Vue.js.
+	 *
+	 * You can easily play with the modal transition by editing
+	 * these styles.
+	 */
+
+	.modal-enter-from, .modal-leave-to {
+	  	opacity: 0;
+	}
+
+	.modal-enter-active .modal-container,
+	.modal-leave-active .modal-container {
+		-webkit-transform: scale(1.1);
+		transform: scale(1.1);
 	}
 </style>

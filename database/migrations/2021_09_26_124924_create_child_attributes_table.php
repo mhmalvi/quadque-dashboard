@@ -17,9 +17,10 @@ class CreateChildAttributesTable extends Migration
             $table->id();
 
             $table->string('attribute');
+            $table->string('info')->nullable();
             $table->unsignedBigInteger('attribute_id');
             $table->foreign('attribute_id')->references('id')
-                ->on('attributes')->onDelete('set null')->onUpdate('cascade');
+                ->on('attributes')->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();
         });

@@ -81,22 +81,84 @@
 	    </nav>
 		</div>
 
-		<Modal title="Add new child attribute" :showStatus="showNewChildModalStatus"
-			@hide="hideNewChildModal">
-			<div>
-				<form>
-					<div class="form-group">
-						<label>Name</label>
-						<input type="text" class="form-control" v-modal="childAttributeForm.name"/>
+		<modal v-if="showNewChildModalStatus" @close="showNewChildModalStatus = false"
+			size="lg">
+			<template v-slot:header>
+				{{ activeAddNewModalAttribute.title }} Attribute's Children
+			</template>
+
+			<template v-slot:body>
+				<form @submit.prevent="addNewChildAttribute">
+					<div class="row">
+						<div class="col">
+							<label>Name</label>
+							<input type="text" class="form-control" v-model="childAttributeForm.name">
+						</div>
+						<div class="col" v-if="activeAddNewModalAttribute.title.toLowerCase() == 'color'">
+							<label>Color code</label>
+							<input type="text" class="form-control" v-model="childAttributeForm.info">
+						</div>
 					</div>
 
-					<div class="form-group" @click.prevent="addNewChildAttribute">
-						<button class="btn btn-primary pull-right">Add</button>
+					<div class="mt-2 form-group d-flex justify-content-end">
+						<button class="btn btn-primary"
+							:disabled="childAttributeFormSubmitting">
+							{{ (childAttributeFormSubmitting) ? 'Adding...' : 'Add' }}
+						</button>
 					</div>
 				</form>
 
-			</div>
-		</Modal>
+				<div class="mt-2">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center" v-if="childAttributeModal.isLoading">
+	              <td colspan="8">
+	                <div class="sk-double-bounce">
+	                  <div class="sk-child sk-double-bounce1"></div>
+	                  <div class="sk-child sk-double-bounce2"></div>
+	                </div>
+	              </td>
+	            </tr>
+							<tr v-for="child in childAttributeModal.data" v-else>
+								<td colspan="3" class="d-flex justify-content-between">
+									<div>
+										{{ child.title }} <span v-if="child.info != null">({{ child.info }})</span>
+									</div>
+									<div>
+										<a href="javascript:void(0)" @click="deleteChild(child)">
+											<i class="bi bi-x text-lg"></i>
+										</a>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<nav aria-label="Page navigation example">
+			      <ul class="pagination">
+			        <li
+			          class="page-item"
+			          v-for="(page, key) in childAttributeModal.links"
+			          :key="key"
+			          :class="page.url == null ? 'disabled' : ''"
+			        >
+			          <a
+			            class="page-link"
+			            href="javascript:void(0)"
+			            @click="getChildAttribute(page.url)"
+			            v-html="page.label"
+			          ></a>
+			        </li>
+			      </ul>
+			    </nav>
+				</div>
+			</template>
+		</modal>
 	</div>
 </template>
 
@@ -106,7 +168,6 @@
 	import Modal from "../Modal.vue";
 
 	export default {
-		name: 'AttributeList',
 		components: {
 			CreateComponent,
 			Modal
@@ -120,14 +181,21 @@
 				search: '',
 				action: 'attributes/get',
 				showNewChildModalStatus: false,
-				activeNewAttribute: {
+				activeAddNewModalAttribute: {
 					id: 0,
-					name: "",
-					children: []
+					name: ""
 				},
 				childAttributeForm: {
-					name: ''
-				}
+					name: '',
+					info: ''
+				},
+				childAttributeModal: {
+					data: [],
+					links: [],
+					itemsPerPage: 5,
+					isLoading: false
+				},
+				childAttributeFormSubmitting: false
 			}
 		},
 		mounted()
@@ -183,26 +251,68 @@
 			},
 			showNewChildAttributeModal(attribute)
 			{
-				this.activeNewAttribute.id = attribute.id;
-				this.activeNewAttribute.name = attribute.title;
-				this.activeNewAttribute.children = attribute.children;
+				console.log('attribute', attribute);
+				this.activeAddNewModalAttribute.id = attribute.id;
+				this.activeAddNewModalAttribute.title = attribute.title;
+
+				this.getChildAttribute('attributes/children/' + this.activeAddNewModalAttribute.id + '/all');
+
 				this.showNewChildModalStatus = true;
 			},
-			hideNewChildModal(event)
+			async getChildAttribute(actionLink)
 			{
-				this.showNewChildModalStatus = false;
+				this.childAttributeModal.isLoading = true;
+				await axios.get(actionLink)
+					.then(res => {
+						this.childAttributeModal.data = res.data.data;
+						this.childAttributeModal.links = res.data.meta.links;
+						this.childAttributeModal.isLoading = false;
+					})
+					.catch(error => {
+						this.$swal("Some went wrong while fetching the children attributes", '', 'error');
+						console.log(error);
+
+						this.showNewChildModalStatus = false;
+					})
 			},
 			addNewChildAttribute()
 			{
-				axios.post('attributes/child/add-new', {
-					name: childAttributeForm.name,
-					parent_id: activeNewAttribute.id
+				if(this.childAttributeForm.name == "")
+				{
+					return false;
+				}
+				this.childAttributeFormSubmitting = true;
+
+				axios.post('attributes/children/add-new', {
+					name: this.childAttributeForm.name,
+					info: this.childAttributeForm.info,
+					parent_id: this.activeAddNewModalAttribute.id
 				})
 					.then(res => {
-						this.$swal(res.data.message, '', 'success');
+						this.resetChildCreateForm();
+
+						this.getChildAttribute('attributes/children/' + this.activeAddNewModalAttribute.id + '/all');
 					})
 					.catch(error => {
 						console.error(error);
+					})
+			},
+			resetChildCreateForm()
+			{
+				this.childAttributeForm.name = '';
+				this.childAttributeForm.info = '';
+				this.childAttributeFormSubmitting = false;
+			},
+			deleteChild(child)
+			{
+				axios.post('attributes/children/' + child.parent_id + '/' + child.id + '/delete', {
+						_method: "DELETE"
+					}).then(res => {
+						console.log(res.data.message);
+						this.getChildAttribute('attributes/children/' + this.activeAddNewModalAttribute.id + '/all');
+					}).catch(error => {
+						console.error(error)
+						alert("Something went wrong!");
 					})
 			}
 		},
