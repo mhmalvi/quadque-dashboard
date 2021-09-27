@@ -132,14 +132,11 @@
               </select>
             </div>
           </div>
-          <div class="form-group row">
-            <div class="col">
-              <product-variant></product-variant>
-            </div>
-          </div>
         </div>
       </div>
     </div>
+
+    <product-variant></product-variant>
 
     <div class="card card-body">
       <h5>Product Details</h5>
