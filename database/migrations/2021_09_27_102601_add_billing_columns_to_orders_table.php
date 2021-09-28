@@ -24,7 +24,6 @@ class AddBillingColumnsToOrdersTable extends Migration
             $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
             $table->enum('order_status', ['pending', 'approved', 'canceled'])->default('pending');
             $table->unsignedBigInteger('shipment_id');
-            $table->foreign('shipment_id')->references('id')->on('shipments')->onDelete('set null')->onUpdate('cascade');
             $table->timestamps();
         });
     }
