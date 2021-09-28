@@ -23,7 +23,8 @@ class AddBillingColumnsToOrdersTable extends Migration
             $table->decimal('coupon_discount', 8, 2)->default(0);
             $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
             $table->enum('order_status', ['pending', 'approved', 'canceled'])->default('pending');
-            $table->text('billing_address');
+            $table->unsignedBigInteger('shipment_id');
+            $table->foreign('shipment_id')->references('id')->on('shipments')->onDelete('set null')->onUpdate('cascade');
             $table->timestamps();
         });
     }
