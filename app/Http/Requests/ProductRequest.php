@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\ProductImage;
 use App\Models\ProductSeo;
 use App\Models\UnitType;
+use App\Models\ProductVariant;
 use Illuminate\Foundation\Http\FormRequest;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
@@ -114,6 +115,44 @@ class ProductRequest extends FormRequest
             Image::make($file)
                 ->fit(600)
                 ->save(storage_path('app/public/gallary/' . $filename));
+        }
+    }
+
+    protected function saveVariants($product, $variant_data)
+    {
+        $variants = json_decode($variant_data, true);
+
+        foreach ($variants as $key => $variant)
+        {
+            if(
+                !empty($variant['price']) ||
+                !empty($variant['sku']) || 
+                !empty($variant['quantity'])
+            )
+            {
+                if($variant['sku'] == '')
+                {
+                    $variant['sku'] = Str::slug($key);
+                }
+
+                if($variant['price'] == '')
+                {
+                    $variant['price'] = $product->price;
+                }
+
+                if(empty($variant['quantity']))
+                {
+                    $variant['quantity'] = 1;
+                }
+
+                ProductVariant::create([
+                    'SKU' => $variant['sku'],
+                    'product_id' => $product->id,
+                    'variant_name' => $key,
+                    'price' => $variant['price'],
+                    'quantity' => $variant['quantity'],
+                ]);
+            }
         }
     }
 }

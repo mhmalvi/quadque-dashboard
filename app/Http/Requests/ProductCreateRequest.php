@@ -63,6 +63,11 @@ class ProductCreateRequest extends ProductRequest
             if ($this->filled('images')) {
                 $this->storeGallaryImages($product->id);
             }
+
+            if($this->filled('variant_form') && $this->variant_form != "{}")
+            {
+                $this->saveVariants($product, $this->variant_form);
+            }
         }
     }
 }

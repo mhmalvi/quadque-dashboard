@@ -136,7 +136,7 @@
       </div>
     </div>
 
-    <product-variant></product-variant>
+    <product-variant @form_update="variant_form_update"></product-variant>
 
     <div class="card card-body">
       <h5>Product Details</h5>
@@ -316,6 +316,7 @@ export default {
       unit_type: "pcs",
       descriptions: "",
       keywords: "",
+      variant_form: {},
       tags: "",
       meta_des: "",
       thumbnail: "",
@@ -437,6 +438,9 @@ export default {
       for (let image of this.imgSrc) {
         formData.append("images[]", image);
       }
+
+      formData.append('variant_form', JSON.stringify(this.variant_form));
+
       let axios_object = null;
 
       // this.product is not null, means user is at edit page
@@ -518,6 +522,12 @@ export default {
       this.errors = [];
       this.$refs.myEditor.setHTML("");
     },
+    variant_form_update(data)
+    {
+      console.log("from product component, variant form data", data);
+
+      this.variant_form = data;
+    }
   },
 
   mounted() {

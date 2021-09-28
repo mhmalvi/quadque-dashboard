@@ -37,13 +37,13 @@
 									{{ item }}
 								</td>
 								<td>
-									<input type="text" class="form-control" v-model="variant_form.prices">
+									<input type="text" class="form-control" v-model="variant_form[item].price">
 								</td>
 								<td>
-									<input type="text" class="form-control" v-model="variant_form.skus">
+									<input type="text" class="form-control" v-model="variant_form[item].sku">
 								</td>
 								<td>
-									<input type="text" class="form-control" v-model="variant_form.quantities">
+									<input type="text" class="form-control" v-model="variant_form[item].quantity">
 								</td>
 							</tr>
 						</tbody>
@@ -69,10 +69,7 @@
 				selected_children: {},
 				variants: [],
 				variant_form: {
-					names: [],
-					prices: [],
-					skus: [],
-					quantities: []
+					
 				}
 			}
 		},
@@ -142,6 +139,31 @@
 				{
 					all_keywords = first_keywords;
 				}
+
+				// remove the fields in variant form which doesnt exist in variant keywords array
+				for(let key in this.variant_form)
+				{
+					if(all_keywords.indexOf(key) == -1)
+					{
+						console.log('removing ' + key + ' from the variant form object');
+						delete this.variant_form[key];
+					}
+				}
+
+				all_keywords.forEach(keyword => {
+					if(this.variant_form[keyword] == null)
+					{
+						this.variant_form[keyword] = {
+							price: '',
+							sku: '',
+							quantity: ''
+						}
+
+						console.log('keyword inserting to form', keyword, this.variant_form);
+					}
+				})
+				console.log('variants', all_keywords);
+				console.log('variant form', this.variant_form);
 				return all_keywords;
 			}
 		},
@@ -151,11 +173,32 @@
 		},
 		watch:
 		{
+			selected_attributes(newVal, oldVal)
+			{
+				console.log("children", this.selected_children);
+				for(let child_key in this.selected_children)
+				{
+					if(newVal.indexOf(child_key) == -1)
+					{
+						delete this.selected_children[child_key];
+					}
+				}
+			},
 			selected_children: {
 				handler(newVal, oldVal)
 				{
 					let variants = this.getVariants();
 					this.variants = variants;
+					console.log('variants from watcher', variants);
+				},
+				deep: true
+			},
+			variant_form: {
+				handler(newVal, oldVal)
+				{
+					console.log('variant form updated', newVal);
+
+					this.$emit('form_update', newVal);
 				},
 				deep: true
 			}

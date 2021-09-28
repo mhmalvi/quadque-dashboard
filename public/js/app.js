@@ -22214,6 +22214,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       unit_type: "pcs",
       descriptions: "",
       keywords: "",
+      variant_form: {},
       tags: "",
       meta_des: "",
       thumbnail: "",
@@ -22363,6 +22364,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         _iterator2.f();
       }
 
+      formData.append('variant_form', JSON.stringify(this.variant_form));
       var axios_object = null; // this.product is not null, means user is at edit page
 
       if (this.product) {
@@ -22432,6 +22434,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.isLoading = false;
       this.errors = [];
       this.$refs.myEditor.setHTML("");
+    },
+    variant_form_update: function variant_form_update(data) {
+      console.log("from product component, variant form data", data);
+      this.variant_form = data;
     }
   },
   mounted: function mounted() {
@@ -22617,12 +22623,7 @@ __webpack_require__.r(__webpack_exports__);
       children_data: {},
       selected_children: {},
       variants: [],
-      variant_form: {
-        names: [],
-        prices: [],
-        skus: [],
-        quantities: []
-      }
+      variant_form: {}
     };
   },
   methods: {
@@ -22691,8 +22692,28 @@ __webpack_require__.r(__webpack_exports__);
 
       if (all_keywords.length == 0) {
         all_keywords = first_keywords;
+      } // remove the fields in variant form which doesnt exist in variant keywords array
+
+
+      for (var _key in this.variant_form) {
+        if (all_keywords.indexOf(_key) == -1) {
+          console.log('removing ' + _key + ' from the variant form object');
+          delete this.variant_form[_key];
+        }
       }
 
+      all_keywords.forEach(function (keyword) {
+        if (_this2.variant_form[keyword] == null) {
+          _this2.variant_form[keyword] = {
+            price: '',
+            sku: '',
+            quantity: ''
+          };
+          console.log('keyword inserting to form', keyword, _this2.variant_form);
+        }
+      });
+      console.log('variants', all_keywords);
+      console.log('variant form', this.variant_form);
       return all_keywords;
     }
   },
@@ -22700,10 +22721,27 @@ __webpack_require__.r(__webpack_exports__);
     this.getAttributes();
   },
   watch: {
+    selected_attributes: function selected_attributes(newVal, oldVal) {
+      console.log("children", this.selected_children);
+
+      for (var child_key in this.selected_children) {
+        if (newVal.indexOf(child_key) == -1) {
+          delete this.selected_children[child_key];
+        }
+      }
+    },
     selected_children: {
       handler: function handler(newVal, oldVal) {
         var variants = this.getVariants();
         this.variants = variants;
+        console.log('variants from watcher', variants);
+      },
+      deep: true
+    },
+    variant_form: {
+      handler: function handler(newVal, oldVal) {
+        console.log('variant form updated', newVal);
+        this.$emit('form_update', newVal);
       },
       deep: true
     }
@@ -24619,7 +24657,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* KEYED_FRAGMENT */
   ))], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.unit_type]])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_product_variant), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [_hoisted_41, _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_quill_editor, {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.unit_type]])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_product_variant, {
+    onForm_update: $options.variant_form_update
+  }, null, 8
+  /* PROPS */
+  , ["onForm_update"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [_hoisted_41, _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_quill_editor, {
     theme: "snow",
     content: $data.descriptions,
     "onUpdate:content": _cache[10] || (_cache[10] = function ($event) {
@@ -25024,6 +25066,9 @@ var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 /* HOISTED */
 );
 
+var _hoisted_10 = ["onUpdate:modelValue"];
+var _hoisted_11 = ["onUpdate:modelValue"];
+var _hoisted_12 = ["onUpdate:modelValue"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_multiselect = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("multiselect");
 
@@ -25059,28 +25104,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "text",
       "class": "form-control",
-      "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-        return $data.variant_form.prices = $event;
-      })
-    }, null, 512
-    /* NEED_PATCH */
-    ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.variant_form.prices]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "onUpdate:modelValue": function onUpdateModelValue($event) {
+        return $data.variant_form[item].price = $event;
+      }
+    }, null, 8
+    /* PROPS */
+    , _hoisted_10), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.variant_form[item].price]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "text",
       "class": "form-control",
-      "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-        return $data.variant_form.skus = $event;
-      })
-    }, null, 512
-    /* NEED_PATCH */
-    ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.variant_form.skus]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "onUpdate:modelValue": function onUpdateModelValue($event) {
+        return $data.variant_form[item].sku = $event;
+      }
+    }, null, 8
+    /* PROPS */
+    , _hoisted_11), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.variant_form[item].sku]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "text",
       "class": "form-control",
-      "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-        return $data.variant_form.quantities = $event;
-      })
-    }, null, 512
-    /* NEED_PATCH */
-    ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.variant_form.quantities]])])])]);
+      "onUpdate:modelValue": function onUpdateModelValue($event) {
+        return $data.variant_form[item].quantity = $event;
+      }
+    }, null, 8
+    /* PROPS */
+    , _hoisted_12), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.variant_form[item].quantity]])])])]);
   }), 256
   /* UNKEYED_FRAGMENT */
   ))])])])])]);
