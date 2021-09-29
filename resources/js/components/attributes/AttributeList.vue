@@ -208,8 +208,10 @@
 				this.isLoading = !this.isLoading;
 
 				await axios.get(actionLink, {
-					items: this.itemsPerPage,
-					search: this.search
+					params: {
+						items: this.itemsPerPage,
+						search: this.search
+					}
 				}).then(res => {
 					this.attributes = res.data.data;
 					this.links = res.data.meta.links;
@@ -314,14 +316,17 @@
 						console.error(error)
 						alert("Something went wrong!");
 					})
-			}
+			},
+			searchByName: _.debounce(vm => {
+				vm.getAttributes(vm.action);
+			}, 500)
 		},
 		watch: {
 			search(newValue, oldValue)
 			{
-				if(newValue >= 3 || oldValue >= 3)
+				if(newValue.length > 2 || newValue.length == 0)
 				{
-					this.getAttributes(this.action)
+					this.searchByName(this);
 				}
 			},
 			itemsPerPage()

@@ -21544,8 +21544,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.isLoading = !_this.isLoading;
                 _context.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().get(actionLink, {
-                  items: _this.itemsPerPage,
-                  search: _this.search
+                  params: {
+                    items: _this.itemsPerPage,
+                    search: _this.search
+                  }
                 }).then(function (res) {
                   _this.attributes = res.data.data;
                   _this.links = res.data.meta.links;
@@ -21667,12 +21669,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         console.error(error);
         alert("Something went wrong!");
       });
-    }
+    },
+    searchByName: _.debounce(function (vm) {
+      vm.getAttributes(vm.action);
+    }, 500)
   },
   watch: {
     search: function search(newValue, oldValue) {
-      if (newValue >= 3 || oldValue >= 3) {
-        this.getAttributes(this.action);
+      if (newValue.length > 2 || newValue.length == 0) {
+        this.searchByName(this);
       }
     },
     itemsPerPage: function itemsPerPage() {

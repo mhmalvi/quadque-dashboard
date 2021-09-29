@@ -18,7 +18,12 @@ class AttributesController extends Controller
         try
         {
             return new AttributeCollection(
-                Attribute::paginate(request('items'))
+                Attribute::when(request('search', false), function ($query)
+                {
+                    $query->where('attribute', "LIKE", '%' . request('search') . '%')
+                        ->orWhere('description', "LIKE", '%'. request('search') .'%');
+                })
+                ->paginate(request('items'))
             );
         }
         catch(\Throwable $e)
