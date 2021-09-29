@@ -18,7 +18,7 @@
           </div>
           <div class="col-md-4 offset-md-6">
             <div class="form-group">
-              <input type="text" class="form-control" />
+              <input type="text" class="form-control" v-model="search" />
             </div>
           </div>
         </div>
@@ -36,7 +36,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(brand, key) in brands" :key="key">
+              <tr class="text-center" v-if="isLoading">
+                <td colspan="8">
+                  <div class="sk-double-bounce">
+                    <div class="sk-child sk-double-bounce1"></div>
+                    <div class="sk-child sk-double-bounce2"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr v-for="(brand, key) in brands" :key="key" v-else>
                 <td>
                   <img
                     :src="imgPath + brand.icon"
@@ -87,17 +95,21 @@ export default {
   data() {
     return {
       items: 5,
+      search: "",
       brands: [],
       links: [],
       imgPath: "../../../../storage/",
       link: "brands",
+      isLoading: false,
     };
   },
   methods: {
     getBrands(getBrands) {
+      this.isLoading = true;
       axios
         .post(getBrands, {
           item: this.items,
+          search: this.search
         })
         .then((res) => {
           this.brands = res.data.data;
@@ -105,6 +117,9 @@ export default {
         })
         .catch((error) => {
           console.error(error);
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
 
@@ -147,10 +162,23 @@ export default {
           })
         }
       })
-    }
+    },
+    searchByName: _.debounce(vm => {
+      vm.getBrands(vm.link);
+    }, 500)
   },
   created() {
     this.getBrands(this.link);
   },
+  watch:
+  {
+    search(newValue)
+    {
+      if(newValue.length > 2 || newValue.length == 0)
+      {
+        this.searchByName(this);
+      }
+    }
+  }
 };
 </script>

@@ -25,7 +25,13 @@ class BrandsController extends Controller
     {
         try {
             return new BrandResourceController(
-                Brand::orderBy('created_at', 'desc')->paginate($request->item)
+                Brand::orderBy('created_at', 'desc')
+                    ->when(request('search', false), function($query)
+                    {
+                        $query->where('brand', "LIKE", '%'. request('search') . '%')
+                            ->orWhere('description', "LIKE", '%'. request('search') . '%');
+                    })
+                    ->paginate($request->item)
             );
         } catch (\Throwable $th) {
             //throw $th;
