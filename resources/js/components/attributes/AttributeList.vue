@@ -131,7 +131,7 @@
 									</div>
 									<div>
 										<a href="javascript:void(0)" @click="deleteChild(child)">
-											<i class="bi bi-x text-lg"></i>
+											<i class="bi bi-x text-lg" style="font-size: 1.2rem;"></i>
 										</a>
 									</div>
 								</td>

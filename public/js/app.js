@@ -23157,7 +23157,10 @@ var _hoisted_42 = {
 var _hoisted_43 = ["onClick"];
 
 var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "bi bi-x text-lg"
+  "class": "bi bi-x text-lg",
+  style: {
+    "font-size": "1.2rem"
+  }
 }, null, -1
 /* HOISTED */
 );
