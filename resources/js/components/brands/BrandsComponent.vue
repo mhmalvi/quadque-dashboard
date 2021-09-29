@@ -48,7 +48,7 @@
                   {{ brand.title }}
                   <div class="pt-1">
                     <button class="btn text-primary pl-0" @click="onEditHandler(brand)">Edit</button>
-                    <button class="btn text-primary pl-0">Delete</button>
+                    <button class="btn text-primary pl-0" @click="onDeleteHandler(brand)">Delete</button>
                   </div>
                 </td>
                 <td>{{ brand.description }}</td>
@@ -124,6 +124,29 @@ export default {
     onEditHandler(brand)
     {
       window.location.href = `/brands/${brand.slug}/edit`;
+    },
+
+    onDeleteHandler(brand)
+    {
+      this.$swal({
+        title: "Are you sure you want to delete the brand?",
+        html: "<b>Brand: </b> "+ brand.title,
+        showCloseButton: true,
+        confirmButtonText: "Delete"
+      }).then(result => {
+        if(result.isConfirmed)
+        {
+          axios.post('brands/' + brand.slug + '/remove', {
+            _method: "DELETE"
+          }).then(res => {
+            this.$swal(res.data.message, '', 'success');
+            this.getBrands(this.link);
+          }).catch(error => {
+            this.$swal("Something went wrong!", '', 'error');
+            console.error(error);
+          })
+        }
+      })
     }
   },
   created() {

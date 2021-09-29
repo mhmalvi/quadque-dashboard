@@ -21793,6 +21793,30 @@ __webpack_require__.r(__webpack_exports__);
     },
     onEditHandler: function onEditHandler(brand) {
       window.location.href = "/brands/".concat(brand.slug, "/edit");
+    },
+    onDeleteHandler: function onDeleteHandler(brand) {
+      var _this2 = this;
+
+      this.$swal({
+        title: "Are you sure you want to delete the brand?",
+        html: "<b>Brand: </b> " + brand.title,
+        showCloseButton: true,
+        confirmButtonText: "Delete"
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          axios__WEBPACK_IMPORTED_MODULE_0___default().post('brands/' + brand.slug + '/remove', {
+            _method: "DELETE"
+          }).then(function (res) {
+            _this2.$swal(res.data.message, '', 'success');
+
+            _this2.getBrands(_this2.link);
+          })["catch"](function (error) {
+            _this2.$swal("Something went wrong!", '', 'error');
+
+            console.error(error);
+          });
+        }
+      });
     }
   },
   created: function created() {
@@ -23483,13 +23507,7 @@ var _hoisted_18 = {
   "class": "pt-1"
 };
 var _hoisted_19 = ["onClick"];
-
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  "class": "btn text-primary pl-0"
-}, "Delete", -1
-/* HOISTED */
-);
-
+var _hoisted_20 = ["onClick"];
 var _hoisted_21 = {
   "aria-label": "Page navigation example"
 };
@@ -23529,7 +23547,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }
     }, "Edit", 8
     /* PROPS */
-    , _hoisted_19), _hoisted_20])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(brand.description), 1
+    , _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn text-primary pl-0",
+      onClick: function onClick($event) {
+        return $options.onDeleteHandler(brand);
+      }
+    }, "Delete", 8
+    /* PROPS */
+    , _hoisted_20)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(brand.description), 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(brand.created), 1
     /* TEXT */

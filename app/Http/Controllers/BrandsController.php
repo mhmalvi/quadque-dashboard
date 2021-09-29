@@ -83,5 +83,10 @@ class BrandsController extends Controller
      */
     public function destroy(Brand $brand)
     {
+        $brand->delete();
+
+        return response()->json([
+            'message' => "Successfully deleted the brand!",
+        ], 200);
     }
 }
