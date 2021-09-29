@@ -31,11 +31,13 @@ class CategoryCreateRequest extends CategoryRequest
 
     public function save()
     {
+        $parent_category_id = is_null($this->parent) ? null : Category::where('uuid', $this->parent)->first()->id;
+
         $category = Category::create([
             'uuid' => Str::orderedUuid(),
-            'parent_id' => is_null($this->parent) ? null : Category::where('uuid', $this->parent)->first()->id,
+            'parent_id' => $parent_category_id,
             'category' => $this->name,
-            'slug' => $this->filled('slug') ? Str::slug($this->slug) : Str::slug($this->name),
+            'slug' => $this->getSlug(),
             'description' => $this->description,
             'icon' => $this->hasFile('thumbnail') ? $this->storeThumbnail() : null
         ]);

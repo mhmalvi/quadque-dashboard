@@ -146,7 +146,7 @@ export default {
     },
 
     onEditHandler(slug) {
-      window.location.href = `categories/${slug}/edit`;
+      window.location.href = `/categories/${slug}/edit`;
     },
   },
   created() {

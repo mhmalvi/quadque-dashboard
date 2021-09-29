@@ -8,7 +8,7 @@
       </div>
       <div class="form-group">
         <label for="slug">Slug</label>
-        <input type="text" id="slug" class="form-control" v-model="slug" />
+        <input type="text" id="slug" class="form-control" :placeholder="slug" v-model="input_slug"/>
         <small
           >The “slug” is the URL-friendly version of the name. It is usually all
           lowercase and contains only letters, numbers, and hyphens.</small
@@ -76,6 +76,7 @@ export default {
       datas: JSON.parse(this.category),
       name: "",
       slug: "",
+      input_slug: "",
       description: "",
       parent: "",
       thumbnail: "",
@@ -98,7 +99,23 @@ export default {
     },
 
     onUpdateHandler() {
-      console.log("submited");
+      let form_data = new FormData();
+
+      form_data.append('name', this.name);
+      form_data.append('slug', this.input_slug);
+      form_data.append('parent', this.parent);
+      form_data.append('description', this.description);
+      form_data.append('thumbnail', this.thumbnail);
+
+      form_data.append('_method', "PUT");
+
+      axios.post('categories/' + this.slug + '/update', form_data)
+        .then(res => {
+          this.$swal(res.data.message, '', 'success');
+        })
+        .catch(error => {
+          this.$swal("Something went wrong!", '', 'error');
+        })
     },
   },
 

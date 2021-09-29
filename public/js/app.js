@@ -21982,7 +21982,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     onEditHandler: function onEditHandler(slug) {
-      window.location.href = "categories/".concat(slug, "/edit");
+      window.location.href = "/categories/".concat(slug, "/edit");
     }
   },
   created: function created() {
@@ -22114,6 +22114,7 @@ __webpack_require__.r(__webpack_exports__);
       datas: JSON.parse(this.category),
       name: "",
       slug: "",
+      input_slug: "",
       description: "",
       parent: "",
       thumbnail: "",
@@ -22135,7 +22136,20 @@ __webpack_require__.r(__webpack_exports__);
       reader.readAsDataURL(this.thumbnail);
     },
     onUpdateHandler: function onUpdateHandler() {
-      console.log("submited");
+      var _this2 = this;
+
+      var form_data = new FormData();
+      form_data.append('name', this.name);
+      form_data.append('slug', this.input_slug);
+      form_data.append('parent', this.parent);
+      form_data.append('description', this.description);
+      form_data.append('thumbnail', this.thumbnail);
+      form_data.append('_method', "PUT");
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('categories/' + this.slug + '/update', form_data).then(function (res) {
+        _this2.$swal(res.data.message, '', 'success');
+      })["catch"](function (error) {
+        _this2.$swal("Something went wrong!", '', 'error');
+      });
     }
   },
   mounted: function mounted() {
@@ -24035,60 +24049,62 @@ var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 /* HOISTED */
 );
 
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, "The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.", -1
+var _hoisted_7 = ["placeholder"];
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, "The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.", -1
 /* HOISTED */
 );
 
-var _hoisted_8 = {
+var _hoisted_9 = {
   "class": "form-group"
 };
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "parent"
 }, "Parent Category", -1
 /* HOISTED */
 );
 
-var _hoisted_10 = ["value"];
+var _hoisted_11 = ["value"];
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, " Assign a parent category to create a hierarchy. The category Jazz, for example, would be the parent of Bebop and Big Band. ", -1
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, " Assign a parent category to create a hierarchy. The category Jazz, for example, would be the parent of Bebop and Big Band. ", -1
 /* HOISTED */
 );
 
-var _hoisted_12 = {
+var _hoisted_13 = {
   "class": "form-group"
 };
 
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "description"
 }, "Description", -1
 /* HOISTED */
 );
 
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, "The description is not prominent by default; however, some themes may show it.", -1
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, "The description is not prominent by default; however, some themes may show it.", -1
 /* HOISTED */
 );
 
-var _hoisted_15 = {
+var _hoisted_16 = {
   "class": "form-group"
 };
 
-var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "text-bold"
 }, "Thumbnail", -1
 /* HOISTED */
 );
 
-var _hoisted_17 = ["src"];
+var _hoisted_18 = ["src"];
 
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "thumbnail",
   "class": "thumbnail-lbl"
 }, "Upload/Add thumbnail", -1
 /* HOISTED */
 );
 
-var _hoisted_19 = ["disabled"];
+var _hoisted_20 = ["disabled"];
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
@@ -24111,12 +24127,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "text",
     id: "slug",
     "class": "form-control",
+    placeholder: $data.slug,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $data.slug = $event;
+      return $data.input_slug = $event;
     })
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.slug]]), _hoisted_7]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, null, 8
+  /* PROPS */
+  , _hoisted_7), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.input_slug]]), _hoisted_8]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "parent",
     "class": "form-control",
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
@@ -24131,12 +24148,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       value: item.uuid
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.category), 9
     /* TEXT, PROPS */
-    , _hoisted_10);
+    , _hoisted_11);
   }), 128
   /* KEYED_FRAGMENT */
   ))], 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.parent]]), _hoisted_11]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.parent]]), _hoisted_12]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     id: "description",
     rows: "5",
     style: {
@@ -24148,13 +24165,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.description]]), _hoisted_14]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.description]]), _hoisted_15]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: $data.imageSrc,
     alt: "image",
     "class": "img-fluid avatar-lg"
   }, null, 8
   /* PROPS */
-  , _hoisted_17), _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  , _hoisted_18), _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "file",
     id: "thumbnail",
     onChange: _cache[5] || (_cache[5] = function () {
@@ -24168,7 +24185,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: !$options.isValid
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.btnText), 9
   /* TEXT, PROPS */
-  , _hoisted_19)], 32
+  , _hoisted_20)], 32
   /* HYDRATE_EVENTS */
   )]);
 }

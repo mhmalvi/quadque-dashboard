@@ -73,13 +73,10 @@ class CategoriesController extends Controller
     /**
      * Update
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryUpdateRequest $request, Category $category)
     {
-        dd($request->all());
         try {
-            $parent = Category::where('uuid', $request->parent)->first();
-
-            $request->update($category, $parent->id);
+            $request->update($category);
 
             return response()->json(['message' => 'success'], 200);
         } catch (\Throwable $th) {
