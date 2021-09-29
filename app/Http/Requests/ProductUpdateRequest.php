@@ -2,13 +2,12 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
 use Illuminate\Support\Str;
 
-class ProductUpdateRequest extends FormRequest
+class ProductUpdateRequest extends ProductRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -57,5 +56,10 @@ class ProductUpdateRequest extends FormRequest
         }
 
         $product->save();
+
+        if($this->filled('thumbnail'))
+        {
+            $this->storeThumbnailImages();
+        }
     }
 }
