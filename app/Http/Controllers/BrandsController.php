@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BrandCreateRequest;
+use App\Http\Requests\BrandUpdateRequest;
 use App\Http\Resources\BrandResourceController;
 use App\Models\Brand;
 use Illuminate\Http\Request;
@@ -62,13 +63,19 @@ class BrandsController extends Controller
      */
     public function edit(Brand $brand)
     {
+        return view('brands.edit', compact('brand'));
     }
 
     /**
      * Update
      */
-    public function update(Request $request, Brand $brand)
+    public function update(BrandUpdateRequest $request, Brand $brand)
     {
+        $request->update($brand);
+
+        return response()->json([
+            'message' => "Successfully updated the brand!",
+        ], 200);
     }
 
     /**

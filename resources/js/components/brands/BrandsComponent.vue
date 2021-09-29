@@ -47,7 +47,7 @@
                 <td>
                   {{ brand.title }}
                   <div class="pt-1">
-                    <button class="btn text-primary pl-0">Edit</button>
+                    <button class="btn text-primary pl-0" @click="onEditHandler(brand)">Edit</button>
                     <button class="btn text-primary pl-0">Delete</button>
                   </div>
                 </td>
@@ -120,6 +120,11 @@ export default {
     getLink(link) {
       this.getBrands(link);
     },
+
+    onEditHandler(brand)
+    {
+      window.location.href = `/brands/${brand.slug}/edit`;
+    }
   },
   created() {
     this.getBrands(this.link);
