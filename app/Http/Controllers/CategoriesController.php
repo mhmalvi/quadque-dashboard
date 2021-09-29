@@ -39,7 +39,16 @@ class CategoriesController extends Controller
     {
         try {
             return new CategoryResourceCollection(
-                Category::with('parent')->paginate($request->items)
+                Category::with('parent')
+                    ->when(request('search', false), function($query)
+                    {
+                        $query->where(function($q)
+                        {
+                            $q->where('category', "LIKE", '%'. request('search') .'%')
+                                ->orWhere('description', "LIKE", '%'. request('search') .'%');
+                        });
+                    })
+                    ->paginate($request->items)
             );
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage()], 503);

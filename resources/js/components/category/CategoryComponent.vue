@@ -18,7 +18,7 @@
           </div>
           <div class="col-md-4 offset-md-6">
             <div class="form-group">
-              <input type="text" class="form-control" />
+              <input type="text" class="form-control" v-model="search"/>
             </div>
           </div>
         </div>
@@ -36,7 +36,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(category, key) in categories" :key="key">
+              <tr class="text-center" v-if="isLoading">
+                <td colspan="8">
+                  <div class="sk-double-bounce">
+                    <div class="sk-child sk-double-bounce1"></div>
+                    <div class="sk-child sk-double-bounce2"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr v-for="(category, key) in categories" :key="key" v-else>
                 <td>
                   {{ category.title }}
 
@@ -92,21 +100,26 @@ export default {
   data() {
     return {
       items: 5,
+      search: "",
       categories: [],
       links: [],
       getCategory: "categories/all",
+      isLoading: false,
     };
   },
   methods: {
     async getData(getCategoryies) {
+      this.isLoading = true;
       await axios
-        .post(getCategoryies, { items: this.items })
+        .post(getCategoryies, { items: this.items, search: this.search })
         .then((res) => {
+          this.isLoading = false;
           this.categories = res.data.data;
           this.links = res.data.meta.links;
         })
         .catch((error) => {
           console.log(error);
+          this.isLoading = false;
         });
     },
 
@@ -144,13 +157,25 @@ export default {
           }
         });
     },
-
     onEditHandler(slug) {
       window.location.href = `/categories/${slug}/edit`;
     },
+    searchByName: _.debounce(vm => {
+      vm.getData(vm.getCategory);
+    }, 500)
   },
   created() {
     this.getData(this.getCategory);
   },
+  watch:
+  {
+    search(newValue)
+    {
+      if(newValue.length > 3 || newValue.length == 0)
+      {
+        this.searchByName(this);
+      }
+    }
+  }
 };
 </script>
