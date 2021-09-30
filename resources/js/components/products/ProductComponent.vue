@@ -493,7 +493,7 @@ export default {
       this.discount_type = product.discount_type;
       this.sale_unit = product.sale_unit;
       this.unit_type = product.unit_type;
-      this.category = product.category.slug;
+      this.category = product.category && product.category.slug;
       this.brand = product.brand.slug;
       this.descriptions = product.descriptions;
       this.thumbnail = product.thumbnail;

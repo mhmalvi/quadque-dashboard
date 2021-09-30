@@ -35,14 +35,11 @@
             </div>
           </div>
 
-          <transition name="fade">
-            <table
-              class="table table-bordered mt-2"
-              v-show="variants.length > 0"
-            >
-              <tbody v-for="(item, index) in variants" :key="index">
-                <tr>
-                  <td class="align-middle bg-light">
+          <table class="table table-bordered mt-2" v-if="variants.length > 0">
+            <tbody>
+              <transition-group name="fade">
+                <tr v-for="(item, index) in variants" :key="index">
+                  <td class="align-middle bg-light p-0 px-2">
                     {{ item }}
                   </td>
                   <td class="p-0 align-middle">
@@ -70,9 +67,9 @@
                     />
                   </td>
                 </tr>
-              </tbody>
-            </table>
-          </transition>
+              </transition-group>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -198,3 +195,9 @@ export default {
 </script>
 
 <style src="@vueform/multiselect/themes/default.css"></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0s ease-in-out;
+}
+</style>
