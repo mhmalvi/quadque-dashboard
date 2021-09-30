@@ -54,7 +54,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/', 'BrandsController@paginatedBrands');
         Route::post('store', 'BrandsController@store');
         Route::get('{brand}/edit', 'BrandsController@edit');
-        Route::put('{brand}/update', 'BrandsController@updated');
+        Route::put('{brand}/update', 'BrandsController@update');
         Route::delete('{brand}/remove', 'BrandsController@destroy');
     });
 

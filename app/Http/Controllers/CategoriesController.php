@@ -39,7 +39,16 @@ class CategoriesController extends Controller
     {
         try {
             return new CategoryResourceCollection(
-                Category::with('parent')->paginate($request->items)
+                Category::with('parent')
+                    ->when(request('search', false), function($query)
+                    {
+                        $query->where(function($q)
+                        {
+                            $q->where('category', "LIKE", '%'. request('search') .'%')
+                                ->orWhere('description', "LIKE", '%'. request('search') .'%');
+                        });
+                    })
+                    ->paginate($request->items)
             );
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage()], 503);
@@ -73,13 +82,10 @@ class CategoriesController extends Controller
     /**
      * Update
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryUpdateRequest $request, Category $category)
     {
-        dd($request->all());
         try {
-            $parent = Category::where('uuid', $request->parent)->first();
-
-            $request->update($category, $parent->id);
+            $request->update($category);
 
             return response()->json(['message' => 'success'], 200);
         } catch (\Throwable $th) {

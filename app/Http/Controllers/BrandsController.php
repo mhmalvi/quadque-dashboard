@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BrandCreateRequest;
+use App\Http\Requests\BrandUpdateRequest;
 use App\Http\Resources\BrandResourceController;
 use App\Models\Brand;
 use Illuminate\Http\Request;
@@ -24,7 +25,13 @@ class BrandsController extends Controller
     {
         try {
             return new BrandResourceController(
-                Brand::orderBy('created_at', 'desc')->paginate($request->item)
+                Brand::orderBy('created_at', 'desc')
+                    ->when(request('search', false), function($query)
+                    {
+                        $query->where('brand', "LIKE", '%'. request('search') . '%')
+                            ->orWhere('description', "LIKE", '%'. request('search') . '%');
+                    })
+                    ->paginate($request->item)
             );
         } catch (\Throwable $th) {
             //throw $th;
@@ -62,13 +69,19 @@ class BrandsController extends Controller
      */
     public function edit(Brand $brand)
     {
+        return view('brands.edit', compact('brand'));
     }
 
     /**
      * Update
      */
-    public function update(Request $request, Brand $brand)
+    public function update(BrandUpdateRequest $request, Brand $brand)
     {
+        $request->update($brand);
+
+        return response()->json([
+            'message' => "Successfully updated the brand!",
+        ], 200);
     }
 
     /**
@@ -76,5 +89,10 @@ class BrandsController extends Controller
      */
     public function destroy(Brand $brand)
     {
+        $brand->delete();
+
+        return response()->json([
+            'message' => "Successfully deleted the brand!",
+        ], 200);
     }
 }

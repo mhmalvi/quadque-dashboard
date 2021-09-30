@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
+use App\Models\Brand;
 
-class BrandUpdateRequest extends FormRequest
+class BrandUpdateRequest extends BrandRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class BrandUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,23 @@ class BrandUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|string|max:255',
         ];
+    }
+
+    public function update(Brand $brand)
+    {
+        $slug = $this->filled('slug') ? Str::slug($this->slug) : Str::slug($this->name);
+
+        $brand->brand = $this->name;
+        $brand->slug = $slug;
+        $brand->description = $this->description;
+        $brand->icon = $this->hasFile('thumbnail') ? $this->storeThumbnail() : null;
+
+        $brand->save();
+
+        $this->activity("Update {$this->name} brand");
+
+        return $brand;
     }
 }
