@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\Category;
 
 class CategoryUpdateRequest extends CategoryRequest
 {
@@ -32,11 +33,23 @@ class CategoryUpdateRequest extends CategoryRequest
     /**
      * Update
      */
-    public function update($category, $parent_id)
+    public function update($category)
     {
+        $parent = Category::where('uuid', $this->parent)->first();
+
+        if($category->parent_id == $parent->id)
+        {
+            $slug = $this->filled('slug') ? Str::slug($this->slug) : $category->slug;
+        }
+        else
+        {
+            $slug = $this->filled('slug') ? Str::slug($this->slug) : $this->getSlug();
+
+        }
+
         $category->category = $this->name;
-        $category->slug = $this->filled('slug') ? Str::slug($this->slug) : Str::slug($this->name);
-        $category->parent_id = $parent_id;
+        $category->slug = $slug;
+        $category->parent_id = is_null($parent) ? null : $parent->id;
         $category->description = $this->description;
 
         if ($this->hasFile('thumbnail')) {

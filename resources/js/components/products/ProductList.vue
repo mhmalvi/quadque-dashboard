@@ -109,6 +109,8 @@
 </template>
 <script>
 import axios from "axios";
+import _ from 'lodash';
+
 export default {
   data() {
     return {
@@ -195,7 +197,10 @@ export default {
           });
         }
       });
-    }
+    },
+    searchByName: _.debounce(vm => {
+      vm.getAllProducts(vm.action);
+    }, 500)
   },
 
   mounted() {
@@ -203,8 +208,11 @@ export default {
     this.fetchCategories();
   },
   watch: {
-    search(newValue, oldValue) {
-      if (newValue >= 4 || oldValue >= 4) this.getAllProducts(this.action);
+    search(newValue){
+      if(newValue.length > 3 || newValue.length == 0)
+      {
+        this.searchByName(this);
+      }
     },
     itemsPerPage() {
       this.getAllProducts(this.action);

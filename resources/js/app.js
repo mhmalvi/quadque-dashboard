@@ -9,10 +9,11 @@ import ProductList from "./components/products/ProductList.vue";
 
 //Category
 import CategoryComponent from "./components/category/CategoryComponent.vue";
-import UpdateComponent from "./components/category/UpdateComponent.vue";
+import UpdateCategory from "./components/category/UpdateComponent.vue";
 
 //Brand
 import BrandsComponent from "./components/brands/BrandsComponent.vue";
+import UpdateBrand from "./components/brands/UpdateComponent.vue";
 
 // Attribute
 import AttributeList from './components/attributes/AttributeList.vue';
@@ -30,8 +31,9 @@ app.use(VueSweetalert2);
 app.component("product-component", ProductComponent);
 app.component("product-list", ProductList);
 app.component("category-component", CategoryComponent);
-app.component("update-category", UpdateComponent);
+app.component("update-category", UpdateCategory);
 app.component("brands-component", BrandsComponent);
+app.component("update-brand", UpdateBrand);
 app.component('attribute-list', AttributeList);
 
 app.mount("#wrapper");

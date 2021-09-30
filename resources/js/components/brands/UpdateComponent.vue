@@ -1,6 +1,6 @@
 <template>
   <div class="p-3">
-    <form @submit.prevent="onUpdateHandler" id="CreateCategory">
+    <form @submit.prevent="onUpdateHandler" id="update_brand">
       <div class="form-group">
         <label for="name">Name <small class="text-danger">*</small></label>
         <input type="text" id="name" class="form-control" v-model="name" />
@@ -15,27 +15,6 @@
         >
       </div>
       <div class="form-group">
-        <label for="parent">Parent Category</label>
-        <select
-          id="parent"
-          class="form-control"
-          v-model="parent"
-          @change="onSelect"
-        >
-          <option
-            v-for="(item, key) in categories"
-            :key="key"
-            :value="item.uuid"
-          >
-            {{ item.category }}
-          </option>
-        </select>
-        <small>
-          Assign a parent category to create a hierarchy. The category Jazz, for
-          example, would be the parent of Bebop and Big Band.
-        </small>
-      </div>
-      <div class="form-group">
         <label for="description">Description</label>
         <textarea
           id="description"
@@ -46,15 +25,13 @@
         ></textarea>
         <small
           >The description is not prominent by default; however, some themes may
-          show it.</small
-        >
+          show it.</small>
       </div>
       <div class="form-group">
         <p class="text-bold">Thumbnail</p>
         <img :src="imageSrc" alt="image" class="img-fluid avatar-lg" />
 
-        <label for="thumbnail" class="thumbnail-lbl"
-          >Upload/Add thumbnail</label
+        <label for="thumbnail" class="thumbnail-lbl">Upload/Add thumbnail</label
         >
         <input type="file" id="thumbnail" @change="onImageUpload" />
       </div>
@@ -68,19 +45,18 @@
 <script>
 import axios from "axios";
 export default {
-  props: ["category", "list"],
+  props: ["brand"],
   data() {
     return {
       imageSrc: "https://via.placeholder.com/80",
       btnText: "Save changes",
-      datas: JSON.parse(this.category),
+      datas: JSON.parse(this.brand),
       name: "",
       slug: "",
       input_slug: "",
       description: "",
       parent: "",
       thumbnail: "",
-      categories: JSON.parse(this.list),
       isLoading: false,
     };
   },
@@ -103,13 +79,12 @@ export default {
 
       form_data.append('name', this.name);
       form_data.append('slug', this.input_slug);
-      form_data.append('parent', this.parent);
-      form_data.append('description', this.description);
+      form_data.append('description', this.description ? this.description : '');
       form_data.append('thumbnail', this.thumbnail);
 
       form_data.append('_method', "PUT");
 
-      axios.post('categories/' + this.slug + '/update', form_data)
+      axios.post('brands/' + this.slug + '/update', form_data)
         .then(res => {
           this.$swal(res.data.message, '', 'success');
         })
@@ -120,7 +95,7 @@ export default {
   },
 
   mounted() {
-    this.name = this.datas.category;
+    this.name = this.datas.brand;
     this.slug = this.datas.slug;
     this.description = this.datas.description;
 
@@ -129,7 +104,7 @@ export default {
     }
 
     if (this.datas.icon != null) {
-      this.imageSrc = `../../../public/storage/categories/${this.datas.icon}`;
+      this.imageSrc = `../../../public/storage/brands/${this.datas.icon}`;
     }
   },
 
