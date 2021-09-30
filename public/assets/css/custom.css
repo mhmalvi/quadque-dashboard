@@ -41,3 +41,16 @@
         transform: rotate(360deg);
     }
 }
+.qa-dt {
+    margin-bottom: 24px;
+    max-height: 550px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #64c5b1 #fff;
+}
+
+.qa-dt-inner {
+    min-height: 545px;
+    margin: 0;
+}
