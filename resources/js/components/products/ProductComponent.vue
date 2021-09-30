@@ -43,6 +43,7 @@
           <div class="form-group">
             <label for="category">Product Category</label>
             <select id="category" class="form-control" v-model="category">
+              <option value>Select category</option>
               <option
                 v-for="item in categories"
                 :key="item.id"
@@ -55,6 +56,7 @@
           <div class="form-group">
             <label for="brand">Product Brand</label>
             <select id="brand" class="form-control" v-model="brand">
+              <option value>Select brand</option>
               <option v-for="item in brands" :key="item.id" :value="item.slug">
                 {{ item.title }}
               </option>
@@ -64,10 +66,12 @@
       </div>
     </div>
 
+    <product-variant @form_update="variant_form_update"></product-variant>
+
     <div class="card card-body">
       <div class="row">
         <div class="col-md-4">
-          <h5>Price Informations</h5>
+          <h5>Product Price</h5>
           <small>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa
             molestiae ea tenetur suscipit repudiandae illum.
@@ -135,8 +139,6 @@
         </div>
       </div>
     </div>
-
-    <product-variant @form_update="variant_form_update"></product-variant>
 
     <div class="card card-body">
       <h5>Product Details</h5>
@@ -292,13 +294,11 @@ import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import ErrorAlerts from "../../services/ErrorAlerts.vue";
 import FileValidation from "../../services/FileValidation";
-import ProductVariant from './ProductVariant.vue';
+import ProductVariant from "./ProductVariant.vue";
 
 export default {
   components: { QuillEditor, ErrorAlerts, ProductVariant },
-  props: [
-    'product'
-  ],
+  props: ["product"],
   data() {
     return {
       categories: [],
@@ -439,53 +439,52 @@ export default {
         formData.append("images[]", image);
       }
 
-      formData.append('variant_form', JSON.stringify(this.variant_form));
+      formData.append("variant_form", JSON.stringify(this.variant_form));
 
       let axios_object = null;
 
       // this.product is not null, means user is at edit page
-      if(this.product)
-      {
+      if (this.product) {
         let data = JSON.parse(this.product);
         formData.append("_method", "PUT");
 
-        axios_object = axios.post("products/"+ data.slug +"/update", formData, {
+        axios_object = axios.post(
+          "products/" + data.slug + "/update",
+          formData,
+          {
             onUploadProgress: () => {
               this.isLoading = !this.isLoading;
             },
-          })
+          }
+        );
       }
       // if this.product is null, then user must be at create page
-      else
-      {
+      else {
         axios_object = axios.post("products/store", formData, {
-            onUploadProgress: () => {
-              this.isLoading = !this.isLoading;
-            },
-          })
+          onUploadProgress: () => {
+            this.isLoading = !this.isLoading;
+          },
+        });
       }
-        
-      axios_object.then((res) => {
-        if(this.product)
-        {
-          // for update
-          this.$swal(res.data.message);
-          this.isLoading = false;
-        }
-        else
-        {
-          // for create
-          this.resetForm();
-        }
-      })
-      .catch((error) => {
-        this.isLoading = !this.isLoading;
-        console.error(error);
-      });
+
+      axios_object
+        .then((res) => {
+          if (this.product) {
+            // for update
+            this.$swal(res.data.message);
+            this.isLoading = false;
+          } else {
+            // for create
+            this.resetForm();
+          }
+        })
+        .catch((error) => {
+          this.isLoading = !this.isLoading;
+          console.error(error);
+        });
     },
 
-    setFormData(product)
-    {
+    setFormData(product) {
       this.sku = product.sku;
       this.title = product.product;
       this.slug = product.slug;
@@ -522,12 +521,9 @@ export default {
       this.errors = [];
       this.$refs.myEditor.setHTML("");
     },
-    variant_form_update(data)
-    {
-      console.log("from product component, variant form data", data);
-
+    variant_form_update(data) {
       this.variant_form = data;
-    }
+    },
   },
 
   mounted() {
@@ -535,10 +531,8 @@ export default {
     this.fetchBrands();
     this.fetchUnitTypes();
 
-    if(this.product)
-    {
+    if (this.product) {
       let data = JSON.parse(this.product);
-      console.log("setting up form data", data);
       this.setFormData(data);
     }
   },
