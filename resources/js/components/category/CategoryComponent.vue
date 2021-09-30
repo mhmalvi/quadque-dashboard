@@ -44,6 +44,9 @@
                   </div>
                 </td>
               </tr>
+              <tr v-else-if="categories.length == 0">
+                <no-item-found name="category"/>
+              </tr>
               <tr v-for="(category, key) in categories" :key="key" v-else>
                 <td>
                   {{ category.title }}
@@ -95,8 +98,10 @@
 <script>
 import axios from "axios";
 import CreateComponent from "./CreateComponent.vue";
+import NoItemFound from '../NoItemFound.vue';
+
 export default {
-  components: { CreateComponent },
+  components: { CreateComponent, NoItemFound },
   data() {
     return {
       items: 5,

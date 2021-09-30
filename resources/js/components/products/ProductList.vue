@@ -58,6 +58,11 @@
                 </div>
               </td>
             </tr>
+            <tr v-else-if="products.length == 0">
+              <td colspan="8">
+                <no-item-found name="product"/>
+              </td>
+            </tr>
             <tr v-for="item in products" :key="item.id" v-else>
               <td>
                 <img
@@ -110,8 +115,10 @@
 <script>
 import axios from "axios";
 import _ from 'lodash';
+import NoItemFound from '../NoItemFound.vue';
 
 export default {
+  components: { NoItemFound },
   data() {
     return {
       isLoading: false,
