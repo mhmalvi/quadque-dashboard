@@ -24,46 +24,47 @@
         </div>
       </form>
 
-      <div class="card-box">
-        <div class="table-responsive">
-          <table class="table mb-0">
-            <thead class="thead-light">
-              <tr>
-                <th>Category</th>
-                <th>Parent Category</th>
-                <th>Description</th>
-                <th>Created At</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(category, key) in categories" :key="key">
-                <td>
-                  {{ category.title }}
+      <div class="qa-dt">
+        <div class="card-box qa-dt-inner">
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <thead class="thead-light">
+                <tr>
+                  <th>Category</th>
+                  <th>Parent Category</th>
+                  <th>Description</th>
+                  <th>Created At</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(category, key) in categories" :key="key">
+                  <td>
+                    {{ category.title }}
 
-                  <div class="pt-1">
-                    <button
-                      class="btn text-primary pl-0"
-                      @click="onEditHandler(category.slug)"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      class="btn text-primary pl-0"
-                      @click="onDeleteHandler(category.slug)"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
-                <td>{{ category.parent }}</td>
-                <td>{{ category.description }}</td>
-                <td>{{ category.created }}</td>
-              </tr>
-            </tbody>
-          </table>
+                    <div class="pt-1">
+                      <button
+                        class="btn text-primary pl-0"
+                        @click="onEditHandler(category.slug)"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn text-primary pl-0"
+                        @click="onDeleteHandler(category.slug)"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                  <td>{{ category.parent }}</td>
+                  <td>{{ category.description }}</td>
+                  <td>{{ category.created }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-
       <nav aria-label="Page navigation example">
         <ul class="pagination">
           <li

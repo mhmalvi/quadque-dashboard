@@ -11,25 +11,25 @@
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.2.1",
-        "@vue/compiler-sfc": "^3.2.6",
+        "@vue/compiler-sfc": "^3.2.19",
         "alpinejs": "^2.7.3",
-        "autoprefixer": "^10.1.0",
-        "axios": "^0.21",
-        "laravel-mix": "^6.0.6",
+        "autoprefixer": "^10.3.6",
+        "axios": "^0.21.4",
+        "laravel-mix": "^6.0.31",
         "lodash": "^4.17.19",
-        "postcss": "^8.2.1",
+        "postcss": "^8.3.8",
         "postcss-import": "^12.0.1",
         "resolve-url-loader": "^4.0.0",
-        "sass": "^1.38.2",
+        "sass": "^1.42.1",
         "sass-loader": "^12.1.0",
-        "tailwindcss": "^2.0.2",
-        "vue-loader": "^16.5.0"
+        "tailwindcss": "^2.2.16",
+        "vue-loader": "^16.8.1"
     },
     "dependencies": {
         "@vueform/multiselect": "^2.2.0",
         "@vueup/vue-quill": "^1.0.0-beta.7",
-        "bootstrap": "^5.1.0",
-        "vue": "^3.2.6",
+        "bootstrap": "^5.1.1",
+        "vue": "^3.2.19",
         "vue-sweetalert2": "^5.0.2"
     }
 }
