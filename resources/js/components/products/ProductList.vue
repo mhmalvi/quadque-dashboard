@@ -74,10 +74,15 @@
               <td>
                 {{ item.title }}
                 <div class="pt-3">
-                  <a :href="'/products/' + item.slug + '/edit'" class="text-primary pr-2"
+                  <a
+                    :href="'/products/' + item.slug + '/edit'"
+                    class="text-primary pr-2"
                     >Edit</a
                   >
-                  <a href="javascript:void(0)" @click.prevent="deleteProduct(item)" class="text-primary pr-2"
+                  <a
+                    href="javascript:void(0)"
+                    @click.prevent="deleteProduct(item)"
+                    class="text-primary pr-2"
                     >Delete</a
                   >
                 </div>
@@ -174,40 +179,44 @@ export default {
      */
     filterProductsByCategory(event) {},
 
-    deleteProduct(product)
-    {
+    deleteProduct(product) {
       this.$swal({
         icon: "warning",
         title: "Are you sure you want to delete this product?",
-        html: "<b>Product name</b>: " + product.title + " <br /> <b>SKU</b>: " + product.sku,
+        html:
+          "<b>Product name</b>: " +
+          product.title +
+          " <br /> <b>SKU</b>: " +
+          product.sku,
         showCancelButton: true,
-        showCloseButton: true
-      }).then(result => {
-        if(result.isConfirmed)
-        {
-          axios.post('/products/' + product.slug + '/delete', {
-            _method: "DELETE"
-          }).then(res => {
-            this.$swal(res.data.message)
-            
-            let index = this.products.indexOf(product)
-            if(index != -1)
-            {
-              this.products.splice(index, 1);
-            }
-          }).catch(error => {
-            this.$swal({
-              title: "Something went wrong!",
-              text: "Couldn't delete the product.",
-              icon: 'error'
+        showCloseButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios
+            .post("/products/" + product.slug + "/delete", {
+              _method: "DELETE",
             })
-          });
+            .then((res) => {
+              this.$swal(res.data.message);
+
+              let index = this.products.indexOf(product);
+              if (index != -1) {
+                this.products.splice(index, 1);
+              }
+            })
+            .catch((error) => {
+              this.$swal({
+                title: "Something went wrong!",
+                text: "Couldn't delete the product.",
+                icon: "error",
+              });
+            });
         }
       });
     },
-    searchByName: _.debounce(vm => {
+    searchByName: _.debounce((vm) => {
       vm.getAllProducts(vm.action);
-    }, 500)
+    }, 500),
   },
 
   mounted() {
@@ -215,9 +224,8 @@ export default {
     this.fetchCategories();
   },
   watch: {
-    search(newValue){
-      if(newValue.length > 3 || newValue.length == 0)
-      {
+    search(newValue) {
+      if (newValue.length > 2 || newValue.length == 0) {
         this.searchByName(this);
       }
     },
