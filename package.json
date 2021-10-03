@@ -30,6 +30,7 @@
         "@vueup/vue-quill": "^1.0.0-beta.7",
         "bootstrap": "^5.1.1",
         "vue": "^3.2.19",
-        "vue-sweetalert2": "^5.0.2"
+        "vue-sweetalert2": "^5.0.2",
+        "vuex": "^4.0.2"
     }
 }

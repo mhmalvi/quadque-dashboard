@@ -38,6 +38,7 @@ class CategoryCreateRequest extends CategoryRequest
             'parent_id' => $parent_category_id,
             'category' => $this->name,
             'slug' => $this->getSlug(),
+            'level' => $this->parent ? $this->level() : 2,
             'description' => $this->description,
             'icon' => $this->hasFile('thumbnail') ? $this->storeThumbnail() : null
         ]);
@@ -45,5 +46,15 @@ class CategoryCreateRequest extends CategoryRequest
         $this->activity("Created {$this->name} category");
 
         return $category;
+    }
+
+    private function level()
+    {
+        $parent = Category::where('uuid', $this->parent)->first();
+
+        if ($parent->level == 2) {
+            return 1;
+        }
+        return 0;
     }
 }
