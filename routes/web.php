@@ -94,6 +94,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('export', 'BulksController@export')->name('export');
     });
 
+    // Orders
+    Route::prefix('orders')->name('order.')->group(function()
+    {
+        // Route::get('/', )
+    });
+
     /**
      * Setting
      */

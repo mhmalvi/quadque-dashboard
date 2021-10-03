@@ -66,6 +66,21 @@
                 </ul>
             </li>
 
+            <li>
+                <a href="javascript:void(0)" class="">
+                    <i class="fe-navigation"></i>
+                    <span>Orders</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <ul class="nav-third-level" aria-expanded="false">
+                    <li>
+                        <a href="">
+                            View
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             {{-- Module Two --}}
 
             <li class="menu-title">Apps</li>
