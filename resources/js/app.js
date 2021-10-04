@@ -18,6 +18,10 @@ import UpdateBrand from "./components/brands/UpdateComponent.vue";
 // Attribute
 import AttributeList from './components/attributes/AttributeList.vue';
 
+// Orders
+import OrderList from './components/orders/OrderList.vue';
+import OrderDetails from './components/orders/OrderDetails.vue';
+
 axios.defaults.baseURL = document.head.querySelector(
     'meta[name="api-base-url"]'
 ).content;
@@ -35,6 +39,8 @@ app.component("update-category", UpdateCategory);
 app.component("brands-component", BrandsComponent);
 app.component("update-brand", UpdateBrand);
 app.component('attribute-list', AttributeList);
+app.component('order-list', OrderList);
+app.component('order-details', OrderDetails);
 
 app.mount("#wrapper");
 

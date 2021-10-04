@@ -20,6 +20,7 @@ class AddBillingColumnsToOrdersTable extends Migration
             $table->string('payment_id');
             $table->string('payer_id');
             $table->decimal('amount', 8, 2);
+            $table->longText('cart');
             $table->decimal('coupon_discount', 8, 2)->default(0);
             $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
             $table->enum('order_status', ['pending', 'approved', 'canceled'])->default('pending');
