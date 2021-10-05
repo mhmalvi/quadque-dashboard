@@ -35,4 +35,19 @@ class OrdersController extends Controller
 
         return view('orders.view_details', compact('order'));
     }
+
+    public function updateOrderStatus(Request $request, Order $order)
+    {
+        $request->validate([
+            'status' => "required",
+        ]);
+
+        $order->update([
+            'order_status' => $request->status,
+        ]);
+
+        return response()->json([
+            'message' => "Successfully updated the status!",
+        ], 200);
+    }
 }

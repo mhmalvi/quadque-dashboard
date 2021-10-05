@@ -100,6 +100,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', 'OrdersController@index')->name('index');
         Route::get('get', 'OrdersController@getAll');
         Route::get('view/{order:order_no}', 'OrdersController@view')->name('view');
+
+        Route::post('update/{order:order_no}/order_status', 'OrdersController@updateOrderStatus');
     });
 
     /**
