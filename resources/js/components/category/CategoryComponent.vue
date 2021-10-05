@@ -3,7 +3,7 @@
     <div class="col-md-4">
       <create-component @created="newCategory"></create-component>
     </div>
-    <div class="col-md-7 offset-md-1 p-3">
+    <div class="col-md-7 offset-md-1">
       <form>
         <div class="row">
           <div class="col-md-2">
@@ -25,53 +25,47 @@
       </form>
 
       <div class="qa-dt">
-        <div class="card-box qa-dt-inner">
-          <div class="table-responsive">
-            <table class="table mb-0">
-              <thead class="thead-light">
-                <tr>
-                  <th>Category</th>
-                  <th>Parent Category</th>
-                  <th>Description</th>
-                  <th>Created At</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="text-center" v-if="isLoading">
-                  <td colspan="8">
-                    <div class="sk-double-bounce">
-                      <div class="sk-child sk-double-bounce1"></div>
-                      <div class="sk-child sk-double-bounce2"></div>
-                    </div>
-                  </td>
-                </tr>
-                <tr v-else-if="categories.length == 0">
-                  <no-item-found name="category" />
-                </tr>
-                <tr v-for="(category, key) in categories" :key="key" v-else>
-                  <td>
-                    {{ category.title }}
-                    <div class="pt-1">
-                      <button
-                        class="btn text-primary pl-0"
-                        @click="onEditHandler(category.slug)"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        class="btn text-primary pl-0"
-                        @click="onDeleteHandler(category.slug)"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                  <td>{{ category.parent }}</td>
-                  <td>{{ category.description }}</td>
-                  <td>{{ category.created }}</td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="card qa-dt-inner">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead class="thead-light">
+                  <tr>
+                    <th>Category</th>
+                    <th>Parent Category</th>
+                    <th>Description</th>
+                    <th>Created At</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-if="categories.length == 0">
+                    <no-item-found name="category" />
+                  </tr>
+                  <tr v-for="(category, key) in categories" :key="key" v-else>
+                    <td>
+                      {{ category.title }}
+                      <div class="pt-1">
+                        <button
+                          class="btn text-primary pl-0"
+                          @click="onEditHandler(category.slug)"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          class="btn text-primary pl-0"
+                          @click="onDeleteHandler(category.slug)"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                    <td>{{ category.parent }}</td>
+                    <td>{{ category.description }}</td>
+                    <td>{{ category.created }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

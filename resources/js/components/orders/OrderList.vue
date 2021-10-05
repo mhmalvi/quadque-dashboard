@@ -19,47 +19,47 @@
         </div>
       </div>
     </form>
-    <div class="card-box">
-      <div class="table-responsive">
-        <table class="table mb-0">
-          <thead class="thead-light">
-            <tr>
-              <th>Order</th>
-              <th>Payment Status</th>
-              <th>Order Status</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="text-center" v-if="isLoading">
-              <td colspan="8">
-                <div class="sk-double-bounce">
-                  <div class="sk-child sk-double-bounce1"></div>
-                  <div class="sk-child sk-double-bounce2"></div>
-                </div>
-              </td>
-            </tr>
-            <tr v-else-if="orders.length == 0">
-              <td colspan="8">
-                <no-item-found name="product"/>
-              </td>
-            </tr>
-            <tr v-for="item in orders" :key="item.id" v-else>
-              <td>
-                {{ item.order_no }}
-              </td>
-              <td>
-                <b>{{ item.payment_status.toUpperCase() }}</b>
-              </td>
-              <td>
-                <b>{{ item.order_status.toUpperCase() }}</b>
-              </td>
-              <td>
-                <a :href="'orders/view/' + item.order_no" class="btn btn-sm btn-primary">View</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="qa-dt">
+      <div class="card qa-dt-inner">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <thead class="thead-light">
+                <tr>
+                  <th>Order</th>
+                  <th>Payment Status</th>
+                  <th>Order Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in orders" :key="item.id">
+                  <td>
+                    {{ item.order_no }}
+                  </td>
+                  <td>
+                    <b>{{ item.payment_status.toUpperCase() }}</b>
+                  </td>
+                  <td>
+                    <b>{{ item.order_status.toUpperCase() }}</b>
+                  </td>
+                  <td>
+                    <a
+                      :href="'orders/view/' + item.order_no"
+                      class="btn btn-sm btn-primary"
+                      >View</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    <no-item-found name="data" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
     <nav aria-label="Page navigation example">
@@ -83,8 +83,8 @@
 </template>
 <script>
 import axios from "axios";
-import _ from 'lodash';
-import NoItemFound from '../NoItemFound.vue';
+import _ from "lodash";
+import NoItemFound from "../NoItemFound.vue";
 
 export default {
   components: { NoItemFound },

@@ -3,7 +3,7 @@
 @section('title', 'Orders')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <order-list></order-list>
     </div>
 @endsection

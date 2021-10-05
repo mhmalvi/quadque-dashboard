@@ -1,8 +1,8 @@
 <template>
-	<div class="p-3">
-		<span>
-      Product attributes for your store can be managed here. You can add, edit &amp;
-      delete products attributes.
+  <div>
+    <span>
+      Product attributes for your store can be managed here. You can add, edit
+      &amp; delete products attributes.
     </span>
 
     <h6 class="pt-3 text-primary">Add new attribute</h6>
@@ -28,7 +28,7 @@
         {{ btnText }}
       </button>
     </form>
-	</div>
+  </div>
 </template>
 
 <script>

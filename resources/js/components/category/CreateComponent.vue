@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3">
+  <div>
     <span>
       Product categories for your store can be managed here. You can add, edit
       &amp; delete products categories. It is recommended that, keep you
