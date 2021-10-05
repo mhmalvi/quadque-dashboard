@@ -121,8 +121,8 @@
 </template>
 <script>
 import axios from "axios";
-import _ from "lodash";
-import NoItemFound from "../NoItemFound.vue";
+import _ from 'lodash';
+import NoItemFound from '../NoItemFound.vue';
 
 export default {
   components: { NoItemFound },

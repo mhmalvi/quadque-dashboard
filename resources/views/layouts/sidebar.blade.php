@@ -66,6 +66,13 @@
                 </ul>
             </li>
 
+            <li>
+                <a href="{{ route('order.index') }}" class="{{request()->segment(1) == 'orders' ? 'active' : ''}}">
+                    <i class="fe-navigation"></i>
+                    <span>Orders</span> <span class="badge badge-primary float-right">12</span>
+                </a>
+            </li>
+
             {{-- Module Two --}}
 
             <li class="menu-title">Apps</li>
