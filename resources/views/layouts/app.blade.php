@@ -15,49 +15,44 @@
         @include('layouts.styles')
     </head>
     <body>
+        <div id="preloader">
+		    <div data-loader="circle-side"></div>
+        </div><!-- /Preload -->
         <!-- Begin page -->
         <div id="wrapper">
-            <!-- Topbar Start -->
-            @include('layouts.header')
-            <!-- end Topbar -->
 
-            
+            <!-- Top Bar Start -->
+            @include('layouts.header')
+            <!-- Top Bar End -->
+
             <!-- ========== Left Sidebar Start ========== -->
-            <div class="left-side-menu">
-                @include('layouts.sidebar')
-            </div>
+            @include('layouts.sidebar')
             <!-- Left Sidebar End -->
 
             <!-- ============================================================== -->
-            <!-- Start Page Content here -->
+            <!-- Start right Content here -->
             <!-- ============================================================== -->
-
             <div class="content-page">
+                <!-- Start content -->
                 <div class="content">
-                    <!-- Start Content-->
                     <div class="container-fluid">
-                        <!-- start page title -->
                         @include('layouts.breadcrumb')
-                        <!-- end page title --> 
+                        <!-- end page-title -->
 
                         @yield('content')
-                        
-                    </div> <!-- end container-fluid -->
+                    </div>
+                    <!-- container-fluid -->
 
-                </div> <!-- end content -->
+                </div>
+                <!-- content -->
 
-                <!-- Footer Start -->
                 @include('layouts.footer')
-                <!-- end Footer -->
             </div>
-
             <!-- ============================================================== -->
-            <!-- End Page content -->
+            <!-- End Right content here -->
             <!-- ============================================================== -->
-
         </div>
         <!-- END wrapper -->
-
         <script src="{{ asset('js/app.js') }}"></script>
         @include('layouts.scripts')
     </body>

@@ -1,13 +1,10 @@
-<!-- App css -->
-<link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
-<link href="{{asset('assets/libs/spinkit/spinkit.css')}}" rel="stylesheet" type="text/css" >
-<link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{asset('assets/css/app.css')}}" rel="stylesheet" type="text/css"  id="app-stylesheet" />
+<!--Morris Chart CSS -->
+<link href="{{asset('assets/plugins/morris/morris.css')}}" rel="stylesheet" type="text/css">
 
-<link rel="stylesheet" href="{{asset('assets/libs/bootstrap-icons/bootstrap-icons.css')}}" type="text/css">
+<link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+<link href="{{asset('assets/css/metismenu.min.css')}}" rel="stylesheet" type="text/css">
+<link href="{{asset('assets/css/icons.css')}}" rel="stylesheet" type="text/css">
+<link href="{{asset('assets/plugins/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet" type="text/css">
+<link href="{{asset('assets/css/style.css')}}" rel="stylesheet" type="text/css">
+<link href="{{asset('assets/css/custom.css')}}" rel="stylesheet" type="text/css">
 
-<!-- C3 Chart css -->
-<link href="{{asset('assets/libs/c3/c3.min.css')}}" rel="stylesheet" type="text/css" />
-
-{{-- custom css --}}
-<link href="{{asset('assets/css/custom.css')}}" rel="stylesheet" type="text/css" />
