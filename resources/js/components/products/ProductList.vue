@@ -34,68 +34,65 @@
         </div>
       </div>
     </form>
-    <div class="card-box">
-      <div class="table-responsive">
-        <table class="table mb-0">
-          <thead class="thead-light">
-            <tr>
-              <th width="5%">Image</th>
-              <th width="35%">Product</th>
-              <th width="10%">SKU</th>
-              <th width="10%">Price</th>
-              <th width="10%">Category</th>
-              <th width="10%">Brand</th>
-              <th width="10%">Status</th>
-              <th width="10%">Created At</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="text-center" v-if="isLoading">
-              <td colspan="8">
-                <div class="sk-double-bounce">
-                  <div class="sk-child sk-double-bounce1"></div>
-                  <div class="sk-child sk-double-bounce2"></div>
-                </div>
-              </td>
-            </tr>
-            <tr v-else-if="products.length == 0">
-              <td colspan="8">
-                <no-item-found name="product"/>
-              </td>
-            </tr>
-            <tr v-for="item in products" :key="item.id" v-else>
-              <td>
-                <img
-                  :src="imgPath + item.thumbnail"
-                  :alt="item.title"
-                  width="50"
-                />
-              </td>
-              <td>
-                {{ item.title }}
-                <div class="pt-3">
-                  <a
-                    :href="'/products/' + item.slug + '/edit'"
-                    class="text-primary pr-2"
-                    >Edit</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    @click.prevent="deleteProduct(item)"
-                    class="text-primary pr-2"
-                    >Delete</a
-                  >
-                </div>
-              </td>
-              <td>{{ item.sku }}</td>
-              <td></td>
-              <td>{{ item.category }}</td>
-              <td>{{ item.brand }}</td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="qa-dt">
+      <div class="card qa-dt-inner">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <thead class="thead-light">
+                <tr>
+                  <th width="5%">Image</th>
+                  <th width="35%">Product</th>
+                  <th width="10%">SKU</th>
+                  <th width="10%">Price</th>
+                  <th width="10%">Category</th>
+                  <th width="10%">Brand</th>
+                  <th width="10%">Status</th>
+                  <th width="10%">Created At</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-if="products.length == 0">
+                  <td colspan="8">
+                    <no-item-found name="product" />
+                  </td>
+                </tr>
+                <tr v-for="item in products" :key="item.id" v-else>
+                  <td>
+                    <img
+                      :src="imgPath + item.thumbnail"
+                      :alt="item.title"
+                      width="50"
+                    />
+                  </td>
+                  <td>
+                    {{ item.title }}
+                    <div class="pt-3">
+                      <a
+                        href="javascript:void(0)"
+                        class="text-primary pr-2"
+                        @click="onEdit(item.slug)"
+                        >Edit</a
+                      >
+                      <a
+                        href="javascript:void(0)"
+                        @click.prevent="deleteProduct(item)"
+                        class="text-primary pr-2"
+                        >Delete</a
+                      >
+                    </div>
+                  </td>
+                  <td>{{ item.sku }}</td>
+                  <td></td>
+                  <td>{{ item.category }}</td>
+                  <td>{{ item.brand }}</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
     <nav aria-label="Page navigation example">
@@ -119,8 +116,8 @@
 </template>
 <script>
 import axios from "axios";
-import _ from 'lodash';
-import NoItemFound from '../NoItemFound.vue';
+import _ from "lodash";
+import NoItemFound from "../NoItemFound.vue";
 
 export default {
   components: { NoItemFound },
@@ -159,6 +156,9 @@ export default {
     },
     getLink(link) {
       this.getAllProducts(link);
+    },
+    onEdit(slug) {
+      location.href = `/products/${slug}/edit`;
     },
     /**
      * fetch all categories

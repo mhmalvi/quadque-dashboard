@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3">
+  <div>
     <span>
       Product categories for your store can be managed here. You can add, edit
       &amp; delete products categories. It is recommended that, keep you
@@ -26,7 +26,11 @@
         <label for="parent">Parent Category</label>
         <select id="parent" class="form-control" v-model="parent">
           <option value selected disabled>None</option>
-          <option v-for="(item, key) in list" :key="key" :value="item.id">
+          <option
+            v-for="(item, key) in getCategories"
+            :key="key"
+            :value="item.id"
+          >
             {{ item.title }}
           </option>
         </select>
@@ -83,16 +87,6 @@ export default {
     };
   },
   methods: {
-    getList() {
-      axios
-        .get("categories/all")
-        .then((res) => {
-          this.list = res.data.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
     onImageUpload(event) {
       this.thumbnail = event.target.files[0];
 
@@ -121,6 +115,7 @@ export default {
         .then((res) => {
           this.resetForm();
           this.$emit("created");
+          this.$store.dispatch("loadCategories");
         })
         .catch((error) => {
           this.btnText = "Add new category";
@@ -145,15 +140,16 @@ export default {
       this.imageSrc = "https://via.placeholder.com/80";
     },
   },
-
+  created() {
+    this.$store.dispatch("loadCategories");
+  },
   computed: {
     isValid() {
       return this.name && !this.isLoading;
     },
-  },
-
-  mounted() {
-    this.getList();
+    getCategories() {
+      return this.$store.getters.getCategories;
+    },
   },
 };
 </script>

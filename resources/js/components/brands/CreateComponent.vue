@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3">
+  <div>
     <span>
       Product brands for your store can be managed here. You can add, edit &amp;
       delete products brands.

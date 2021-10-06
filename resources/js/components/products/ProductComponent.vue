@@ -496,7 +496,6 @@ export default {
       this.category = product.category && product.category.slug;
       this.brand = product.brand.slug;
       this.descriptions = product.descriptions;
-      this.thumbnail = product.thumbnail;
     },
 
     resetForm() {

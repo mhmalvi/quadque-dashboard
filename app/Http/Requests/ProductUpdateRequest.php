@@ -46,20 +46,17 @@ class ProductUpdateRequest extends ProductRequest
         $product->discount = $this->discount;
         $product->discount_type = $this->discoun_type;
 
-        if($brand)
-        {
+        if ($brand) {
             $product->brand_id = $brand->id;
         }
-        if($category)
-        {
+        if ($category) {
             $product->category_id = $category->id;
         }
 
-        $product->save();
-
-        if($this->filled('thumbnail'))
-        {
+        if ($this->filled('thumbnail')) {
             $this->storeThumbnailImages();
         }
+
+        $product->save();
     }
 }

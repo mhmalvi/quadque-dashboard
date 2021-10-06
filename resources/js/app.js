@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import axios from "axios";
+import store from "./store";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
@@ -16,7 +17,7 @@ import BrandsComponent from "./components/brands/BrandsComponent.vue";
 import UpdateBrand from "./components/brands/UpdateComponent.vue";
 
 // Attribute
-import AttributeList from './components/attributes/AttributeList.vue';
+import AttributeList from "./components/attributes/AttributeList.vue";
 
 // Orders
 import OrderList from './components/orders/OrderList.vue';
@@ -27,7 +28,7 @@ axios.defaults.baseURL = document.head.querySelector(
 ).content;
 
 const app = createApp({});
-app.use(VueSweetalert2);
+app.use(store).use(VueSweetalert2);
 
 /**
  * mount your components here

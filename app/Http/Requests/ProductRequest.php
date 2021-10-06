@@ -122,26 +122,21 @@ class ProductRequest extends FormRequest
     {
         $variants = json_decode($variant_data, true);
 
-        foreach ($variants as $key => $variant)
-        {
-            if(
+        foreach ($variants as $key => $variant) {
+            if (
                 !empty($variant['price']) ||
-                !empty($variant['sku']) || 
+                !empty($variant['sku']) ||
                 !empty($variant['quantity'])
-            )
-            {
-                if($variant['sku'] == '')
-                {
+            ) {
+                if ($variant['sku'] == '') {
                     $variant['sku'] = Str::slug($key);
                 }
 
-                if($variant['price'] == '')
-                {
+                if ($variant['price'] == '') {
                     $variant['price'] = $product->price;
                 }
 
-                if(empty($variant['quantity']))
-                {
+                if (empty($variant['quantity'])) {
                     $variant['quantity'] = 1;
                 }
 

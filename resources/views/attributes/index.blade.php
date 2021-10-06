@@ -3,7 +3,5 @@
 @section('title', 'Product Attributes')
 
 @section('content')
-    <div class="container-fluid">
-        <attribute-list></attribute-list>
-    </div>
+    <attribute-list></attribute-list>
 @endsection

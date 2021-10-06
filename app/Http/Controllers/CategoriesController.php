@@ -26,7 +26,7 @@ class CategoriesController extends Controller
     public function getAllCategories()
     {
         try {
-            return new CategoryResourceCollection(Category::all());
+            return new CategoryResourceCollection(Category::where('level', '>', 0)->get());
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage()], 503);
         }
@@ -40,12 +40,10 @@ class CategoriesController extends Controller
         try {
             return new CategoryResourceCollection(
                 Category::with('parent')
-                    ->when(request('search', false), function($query)
-                    {
-                        $query->where(function($q)
-                        {
-                            $q->where('category', "LIKE", '%'. request('search') .'%')
-                                ->orWhere('description', "LIKE", '%'. request('search') .'%');
+                    ->when(request('search', false), function ($query) {
+                        $query->where(function ($q) {
+                            $q->where('category', "LIKE", '%' . request('search') . '%')
+                                ->orWhere('description', "LIKE", '%' . request('search') . '%');
                         });
                     })
                     ->paginate($request->items)
