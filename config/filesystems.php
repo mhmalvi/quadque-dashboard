@@ -38,7 +38,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
 
@@ -53,6 +53,19 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
 
+        'ftp' => [
+            'driver' => 'ftp',
+            'host' => 'ftp.nta.nsw.edu.au',
+            'url' => 'http://assets.nta.nsw.edu.au/',
+            'username' => 'quadque@assets.nta.nsw.edu.au',
+            'password' => 'quadque@2020',
+            // Optional FTP Settings...
+            // 'port' => 21,
+            // 'root' => '',
+            // 'passive' => true,
+            // 'ssl' => true,
+            // 'timeout' => 30,
+        ],
     ],
 
     /*

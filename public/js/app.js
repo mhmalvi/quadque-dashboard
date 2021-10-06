@@ -25900,6 +25900,15 @@ var _hoisted_82 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_83 = ["disabled"];
+var _hoisted_84 = {
+  key: 0,
+  "class": "spinner-border spinner-border-sm",
+  role: "status",
+  "aria-hidden": "true"
+};
+
+var _hoisted_85 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add New Product ");
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_product_variant = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("product-variant");
 
@@ -26134,10 +26143,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.isDraft]]), _hoisted_82]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "submit",
     "class": "btn btn-primary",
+    type: "submit",
     disabled: $data.isLoading
-  }, " Add new product ", 8
+  }, [$data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_84)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_85], 8
   /* PROPS */
   , _hoisted_83)])], 32
   /* HYDRATE_EVENTS */

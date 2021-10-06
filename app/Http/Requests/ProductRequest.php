@@ -82,9 +82,21 @@ class ProductRequest extends FormRequest
             Storage::makeDirectory("public/thumbnails");
         }
 
-        Image::make($file)
+        /**
+         * We will store the image first in our app storage
+         * Then transfer the file into ftp
+         * Then delete the file for app storage
+         */
+        $image = Image::make($file)
             ->fit(1000)
             ->save(storage_path('app/public/thumbnails/' . $filename));
+
+        Storage::disk('ftp')->put(
+            'thumbnails/' . $filename,
+            $image
+        );
+
+        Storage::delete("public/thumbnails/" . $filename);
 
         return $filename;
     }
@@ -112,9 +124,21 @@ class ProductRequest extends FormRequest
                 Storage::makeDirectory("public/gallary");
             }
 
-            Image::make($file)
+            /**
+             * We will store the image first in our app storage
+             * Then transfer the file into ftp
+             * Then delete the file for app storage
+             */
+            $image = Image::make($file)
                 ->fit(600)
                 ->save(storage_path('app/public/gallary/' . $filename));
+
+            Storage::disk('ftp')->put(
+                'gallary/' . $filename,
+                $image
+            );
+
+            Storage::delete("public/gallary/" . $filename);
         }
     }
 

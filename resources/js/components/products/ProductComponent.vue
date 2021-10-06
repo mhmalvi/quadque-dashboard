@@ -282,8 +282,14 @@
         <label class="custom-control-label" for="draft">Save as draft</label>
       </div>
 
-      <button type="submit" class="btn btn-primary" :disabled="isLoading">
-        Add new product
+      <button class="btn btn-primary" type="submit" :disabled="isLoading">
+        <span
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+          v-if="isLoading"
+        ></span>
+        Add New Product
       </button>
     </div>
   </form>
