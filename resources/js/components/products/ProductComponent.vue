@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    <product-variant @form_update="variant_form_update"></product-variant>
+    <!-- <product-variant @form_update="variant_form_update"></product-variant> -->
 
     <div class="card card-body">
       <div class="row">
