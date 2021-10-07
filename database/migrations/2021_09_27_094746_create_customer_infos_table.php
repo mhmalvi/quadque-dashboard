@@ -23,9 +23,13 @@ class CreateCustomerInfosTable extends Migration
 
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
-            $table->string('contact')->nullable();
-            $table->text('address')->nullable();
-            $table->string('avatar')->nullable();
+            $table->string('country')->nullable();
+            $table->string('state')->nullable();
+            $table->string('city')->nullable();
+            $table->text('street_address')->nullable();
+            $table->text('street_address_optional')->nullable();
+            $table->string('postcode')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamps();
         });
     }

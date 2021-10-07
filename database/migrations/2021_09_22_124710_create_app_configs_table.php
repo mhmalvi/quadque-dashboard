@@ -16,7 +16,8 @@ class CreateAppConfigsTable extends Migration
         Schema::create('app_configs', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->string("status")->nullable();
+            $table->longText("value");
+            $table->boolean("status")->default(0);
             $table->timestamps();
         });
     }

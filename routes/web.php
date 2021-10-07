@@ -111,6 +111,11 @@ Route::middleware(['auth'])->group(function () {
         Route::view('general', 'settings.general')->name('general');
     });
 
+    Route::prefix('site-customization')->name('site_customization.')->group(function()
+    {
+        Route::get('logo', 'SiteCustomization/LogoController@index')->name('logo.index');
+    });
+
     /**
      * SEO
      */
