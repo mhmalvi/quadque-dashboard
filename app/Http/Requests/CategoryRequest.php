@@ -29,20 +29,26 @@ class CategoryRequest extends FormRequest
         return $ext;
     }
 
+    /**
+     * Make directory if not exist
+     */
+    private function makeDirectory()
+    {
+        if (!Storage::exists("public/temp")) {
+            Storage::makeDirectory("public/temp");
+        }
+
+        if (!Storage::disk('temp')->exists("storage/categories")) {
+            Storage::disk('temp')->makeDirectory("storage/categories");
+        }
+    }
+
     protected function storeThumbnail()
     {
         $file = $this->thumbnail;
         $extension = $this->getOrigianlFileExtension($file);
         $name = Str::slug($this->name);
         $filename = "{$name}{$extension}";
-
-        if (!Storage::exists("public/temp")) {
-            Storage::makeDirectory("public/temp");
-        }
-
-        if (!Storage::disk('ftp')->exists("storage/categories")) {
-            Storage::disk('ftp')->makeDirectory("storage/categories");
-        }
 
         /**
          * We will store the image first in our app storage

@@ -67,6 +67,20 @@ class ProductRequest extends FormRequest
     }
 
     /**
+     * Make directory if not exist
+     */
+    private function makeDirectory()
+    {
+        if (!Storage::exists("public/temp")) {
+            Storage::makeDirectory("public/temp");
+        }
+
+        if (!Storage::disk('temp')->exists("storage/products")) {
+            Storage::disk('temp')->makeDirectory("storage/products");
+        }
+    }
+
+    /**
      * store product thumbanil
      * base64 encoded
      */
@@ -75,12 +89,9 @@ class ProductRequest extends FormRequest
         $file = $this->thumbnail;
         $name = $this->image_title ? Str::slug($this->image_title) : Str::slug($this->title);
         $extension = $this->getOrigianlFileExtension($file);
-
         $filename = "{$name}{$extension}";
 
-        if (!Storage::exists("public/thumbnails")) {
-            Storage::makeDirectory("public/thumbnails");
-        }
+        $this->makeDirectory();
 
         /**
          * We will store the image first in our app storage
@@ -89,14 +100,14 @@ class ProductRequest extends FormRequest
          */
         $image = Image::make($file)
             ->fit(1000)
-            ->save(storage_path('app/public/thumbnails/' . $filename));
+            ->save(storage_path('app/public/temp/' . $filename));
 
         Storage::disk('ftp')->put(
-            'thumbnails/' . $filename,
+            'storage/products/' . $filename,
             $image
         );
 
-        Storage::delete("public/thumbnails/" . $filename);
+        Storage::delete("public/temp/" . $filename);
 
         return $filename;
     }
@@ -110,7 +121,6 @@ class ProductRequest extends FormRequest
         $files = $this->images;
 
         foreach ($files as $key => $file) {
-
             $filename = Str::slug($this->title) . "_{$key}" . $this->getOrigianlFileExtension($file);
 
             ProductImage::create([
@@ -120,9 +130,7 @@ class ProductRequest extends FormRequest
                 'extension' => $this->getOrigianlFileExtension($file),
             ]);
 
-            if (!Storage::exists("public/gallary")) {
-                Storage::makeDirectory("public/gallary");
-            }
+            $this->makeDirectory();
 
             /**
              * We will store the image first in our app storage
@@ -131,14 +139,14 @@ class ProductRequest extends FormRequest
              */
             $image = Image::make($file)
                 ->fit(600)
-                ->save(storage_path('app/public/gallary/' . $filename));
+                ->save(storage_path('app/public/temp/' . $filename));
 
             Storage::disk('ftp')->put(
-                'gallary/' . $filename,
+                'storage/products/' . $filename,
                 $image
             );
 
-            Storage::delete("public/gallary/" . $filename);
+            Storage::delete("public/temp/" . $filename);
         }
     }
 
