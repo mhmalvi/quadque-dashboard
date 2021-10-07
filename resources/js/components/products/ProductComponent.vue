@@ -547,16 +547,4 @@ export default {
 .ql-container {
   height: 450px !important;
 }
-.is-Loading {
-  margin-right: 5px;
-  animation: isLoading 0.8s linear infinite;
-}
-@keyframes isLoading {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 </style>

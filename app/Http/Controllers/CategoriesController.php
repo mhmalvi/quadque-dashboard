@@ -97,7 +97,7 @@ class CategoriesController extends Controller
     public function destroy(Category $category)
     {
         try {
-            Storage::delete('public/categories/' . $category->icon);
+            Storage::disk('ftp')->delete('storage/categories/' . $category->icon);
 
             $category->delete();
 

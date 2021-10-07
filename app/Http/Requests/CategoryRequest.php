@@ -15,21 +15,52 @@ class CategoryRequest extends FormRequest
         userActivity as activity;
     }
 
+    /**
+     * retrive file extension from base64 string
+     */
+    private function getOrigianlFileExtension($file)
+    {
+        $encodedImgString = explode(',', $file, 2)[1];
+        $decodedImgString = base64_decode($encodedImgString);
+        $info = getimagesizefromstring($decodedImgString);
+
+        $ext = image_type_to_extension($info[2]);
+
+        return $ext;
+    }
+
     protected function storeThumbnail()
     {
-        $image = $this->file('thumbnail');
-        $ext = $image->getClientOriginalExtension();
-        $filename = Str::slug($this->name) . "." . $ext;
+        $file = $this->thumbnail;
+        $extension = $this->getOrigianlFileExtension($file);
+        $name = Str::slug($this->name);
+        $filename = "{$name}{$extension}";
 
-        if (!Storage::exists("public/categories")) {
-            Storage::makeDirectory("public/categories");
+        if (!Storage::exists("public/temp")) {
+            Storage::makeDirectory("public/temp");
         }
 
-        Image::make($image->getRealPath())
-            ->fit(80)
-            ->save(storage_path('app/public/categories/' . $filename));
+        if (!Storage::disk('ftp')->exists("storage/categories")) {
+            Storage::disk('ftp')->makeDirectory("storage/categories");
+        }
 
-        return "categories/{$filename}";
+        /**
+         * We will store the image first in our app storage
+         * Then transfer the file into ftp
+         * Then delete the file for app storage
+         */
+        $image = Image::make($file)
+            ->fit(100)
+            ->save(storage_path('app/public/temp/' . $filename));
+
+        Storage::disk('ftp')->put(
+            'storage/categories/' . $filename,
+            $image
+        );
+
+        Storage::delete("public/temp/" . $filename);
+
+        return $filename;
     }
 
     protected function getSlug()
@@ -39,8 +70,7 @@ class CategoryRequest extends FormRequest
         $parent = is_null($this->parent) ? null :
             Category::where('uuid', $this->parent)->first();
 
-        if($parent && !$this->filled('slug'))
-        {
+        if ($parent && !$this->filled('slug')) {
             $slug = Str::slug($parent->slug . ' ' . $slug);
         }
 

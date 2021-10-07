@@ -52,8 +52,8 @@ class CategoryUpdateRequest extends CategoryRequest
         $category->parent_id = is_null($parent) ? null : $parent->id;
         $category->description = $this->description;
 
-        if ($this->hasFile('thumbnail')) {
-            Storage::delete('public/categories/' . $category->icon);
+        if ($this->filled('thumbnail')) {
+            Storage::disk('ftp')->delete('storage/categories/' . $category->icon);
             $category->icon = $this->storeThumbnail();
         }
 

@@ -53,18 +53,39 @@
           show it.</small
         >
       </div>
-      <div class="form-group">
-        <p class="text-bold">Thumbnail</p>
-        <img :src="imageSrc" alt="image" class="img-fluid avatar-lg" />
-
-        <label for="thumbnail" class="thumbnail-lbl"
-          >Upload/Add thumbnail</label
-        >
-        <input type="file" id="thumbnail" @change="onImageUpload" />
-        <input type="hidden" v-model="thumbnail" />
+      <div class="form-group img-container">
+        <label for="thumbnail">Click here to Upload Product Thumbnail</label>
+        <div class="row w-100" v-if="thumbnail">
+          <div class="col-md-2 col-sm-3 col-6 img-wrapper">
+            <img :src="thumbnail" class="img-fluid avatar-lg" />
+            <a
+              href="javascript:void(0)"
+              @click.prevent="imgDeleteHandler(index, 'thumbnail')"
+              class="text-danger d-block img-remove"
+            >
+              <i class="bi bi-x-circle-fill"></i>
+            </a>
+          </div>
+        </div>
+        <input
+          type="file"
+          id="thumbnail"
+          class="form-control d-none"
+          @change="onThumbnailUpload"
+        />
       </div>
 
-      <button type="submit" class="btn btn-sm btn-primary" :disabled="!isValid">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        :disabled="!isValid || isLoading"
+      >
+        <span
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+          v-if="isLoading"
+        ></span>
         {{ btnText }}
       </button>
     </form>
@@ -72,6 +93,7 @@
 </template>
 <script>
 import axios from "axios";
+import FileValidation from "../../services/FileValidation";
 export default {
   data() {
     return {
@@ -87,18 +109,22 @@ export default {
     };
   },
   methods: {
-    onImageUpload(event) {
-      this.thumbnail = event.target.files[0];
+    /**
+     * upload thumbnail image
+     */
+    onThumbnailUpload(event) {
+      let file = event.target.files[0];
 
-      let reader = new FileReader();
-
-      reader.onload = (e) => {
-        this.imageSrc = e.target.result;
-      };
-
-      reader.readAsDataURL(this.thumbnail);
+      if (FileValidation(file.name)) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          this.thumbnail = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.errors.push(`${file.name} is not a valid file type!`);
+      }
     },
-
     formSubmitHandler() {
       this.btnText = "Adding new category ...";
       this.isLoading = true;

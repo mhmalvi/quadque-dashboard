@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryCreateRequest extends CategoryRequest
 {
@@ -40,7 +41,7 @@ class CategoryCreateRequest extends CategoryRequest
             'slug' => $this->getSlug(),
             'level' => $this->parent ? $this->level() : 2,
             'description' => $this->description,
-            'icon' => $this->hasFile('thumbnail') ? $this->storeThumbnail() : null
+            'icon' => $this->filled('thumbnail') ? $this->storeThumbnail() : null
         ]);
 
         $this->activity("Created {$this->name} category");
