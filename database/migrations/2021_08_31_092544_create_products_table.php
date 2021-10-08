@@ -33,6 +33,8 @@ class CreateProductsTable extends Migration
             $table->boolean('publish')->default(1);
             $table->boolean('status')->default(1);
             $table->timestamps();
+
+            $table->softDeletesTz('deleted_at', 0);
         });
     }
 

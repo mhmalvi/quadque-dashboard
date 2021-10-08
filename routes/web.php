@@ -100,6 +100,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', 'OrdersController@index')->name('index');
         Route::get('get', 'OrdersController@getAll');
         Route::get('view/{order:order_no}', 'OrdersController@view')->name('view');
+
+        Route::post('update/{order:order_no}/order_status', 'OrdersController@updateOrderStatus');
     });
 
     /**
@@ -107,6 +109,11 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::prefix('settings')->name('settings.')->group(function () {
         Route::view('general', 'settings.general')->name('general');
+    });
+
+    Route::prefix('site-customization')->name('site_customization.')->group(function()
+    {
+        Route::get('logo', 'SiteCustomization/LogoController@index')->name('logo.index');
     });
 
     /**

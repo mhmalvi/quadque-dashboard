@@ -53,6 +53,20 @@
                         <li><a href="{{route('seo')}}">SEO</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="javascript:void(0)" class="waves-effect">
+                        <i class="bi bi-tool"></i>
+                        <span>
+                            Site Customization
+                            <span class="float-right menu-arrow">
+                                <i class="mdi mdi-chevron-right"></i>
+                            </span>
+                        </span>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="{{ route('site_customization.logo.index') }}">Logo</a></li>
+                    </ul>
+                </li>
             </ul>
 
         </div>

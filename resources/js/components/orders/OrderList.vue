@@ -32,7 +32,14 @@
                   <th></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody v-if="isLoading">
+                <tr>
+                  <td colspan="3">
+                    <no-item-found name="data" />
+                  </td>
+                </tr>
+              </tbody>
+              <tbody v-else>
                 <tr v-for="item in orders" :key="item.id">
                   <td>
                     {{ item.order_no }}
@@ -49,11 +56,6 @@
                       class="btn btn-sm btn-primary"
                       >View</a
                     >
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="3">
-                    <no-item-found name="data" />
                   </td>
                 </tr>
               </tbody>

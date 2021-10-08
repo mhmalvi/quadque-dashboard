@@ -5,6 +5,13 @@
 				<div class="clearfix">
 					<div class="float-left mb-2">
 						<img src="assets/images/logo-dark.png" alt="" height="28">
+						<label>Order Status:</label>
+						<br>
+						<select class="form-control" @change="updateOrderStatus" v-model="order_status">
+							<option value="pending">Pending</option>
+							<option value="approved">Approved</option>
+							<option value="canceled">Canceled</option>
+						</select>
 					</div>
 					<div class="float-right">
 						<h3 class="m-0 d-print-none">Invoice</h3>
@@ -40,7 +47,7 @@
 						<h5>Billing Address</h5>
 
 						<address class="line-h-24">
-							Stanley Jones TODO <br>
+							{{ shipment.user.name }} <br>
 							{{ shipment.shipping_address }}<br>
 							<abbr title="Phone">P:</abbr> TODO
 						</address>
@@ -52,7 +59,7 @@
 							<h5>Shipping Address</h5>
 
 							<address class="line-h-24">
-								Stanley Jones TODO <br>
+								{{ shipment.user.name }} <br>
 								{{ shipment.shipping_address }}<br>
 								<abbr title="Phone">P:</abbr> TODO
 							</address>
@@ -116,7 +123,6 @@
 					<div class="hidden-print mt-4">
 						<div class="text-right d-print-none">
 							<a href="javascript:window.print()" class="btn btn-blue waves-effect waves-light"><i class="fa fa-print mr-1"></i> Print</a>
-							<a href="#" class="btn btn-info waves-effect waves-light">Submit</a>
 						</div>
 					</div>
 				</div>
@@ -125,7 +131,9 @@
 		<!-- end row -->
 	</template>
 
-	<script>
+<script>
+	import axios from 'axios';
+
 	export default {
 		props: ['order'],
 		data(){
@@ -133,7 +141,8 @@
 				order_info: {},
 				shipment: {},
 				cart: {},
-				total: 0
+				total: 0,
+				order_status: ''
 			}
 		},
 		created()
@@ -141,15 +150,22 @@
 			this.order_info = JSON.parse(this.order);
 			this.shipment = this.order_info.shipment;
 			this.cart = JSON.parse(this.order_info.cart);
-
-			console.log(">>>", this.cart);
+			this.order_status = this.order_info.order_status
 		},
 		methods:
 		{
-			getOrderDetails()
+			updateOrderStatus()
 			{
-
+				axios.post('orders/update/' + this.order_info.order_no + '/order_status', {
+					status: this.order_status
+				})
+					.then(res => {
+						this.$swal(res.data.message, '', 'success');
+					})
+					.catch(err => {
+						this.$swal('Something went wrong!', '', 'error');
+					})
 			}
 		}
-	}
-	</script>
+	};
+</script>

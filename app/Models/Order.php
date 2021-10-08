@@ -9,6 +9,10 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'order_status',
+    ];
+
     protected $appends = ['order_date'];
 
     public function details()
