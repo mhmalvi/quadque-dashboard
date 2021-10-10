@@ -11,6 +11,6 @@ class SeoController extends Controller
      */
     public function index()
     {
-        return view('seo.index');
+        return view('settings.seo');
     }
 }

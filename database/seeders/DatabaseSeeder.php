@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\Models\AppSeo;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,5 +27,28 @@ class DatabaseSeeder extends Seeder
         UserInfo::create([
             'user_id' => $user->id
         ]);
+
+        $seos = [
+            'meta_tile',
+            'meta_tags',
+            'meta_keys',
+            'meta_descriptions',
+            'canonical',
+            'robots',
+            'google_site_verification',
+            'ahref_site_verification',
+            'gtag_manager_id',
+            'og_title',
+            'og_site_name',
+            'og_local',
+            'og_type',
+            'og_url'
+        ];
+
+        foreach ($seos as $seo) {
+            AppSeo::create([
+                'name' => $seo
+            ]);
+        }
     }
 }

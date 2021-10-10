@@ -16,7 +16,7 @@ class CreateAppSeosTable extends Migration
         Schema::create('app_seos', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('values')->nullable();
+            $table->longText('props')->nullable();
             $table->timestamps();
         });
     }

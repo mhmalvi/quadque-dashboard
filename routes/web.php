@@ -61,25 +61,24 @@ Route::middleware(['auth'])->group(function () {
     /**
      * Attributes
      */
-    Route::prefix('attributes')->name('attribute.')->group(function()
-    {
+    Route::prefix('attributes')->name('attribute.')->group(function () {
         Route::get('/', 'AttributesController@index')->name('all');
         Route::get('add-new', 'AttributesController@create')->name('create');
         Route::get('get', 'AttributesController@getAttributes');
         Route::post('store', 'AttributesController@store');
         Route::delete("{attribute}/delete", 'AttributesController@destroy');
 
-        Route::prefix('children')->name('child.')->group(function()
-        {
+        Route::prefix('children')->name('child.')->group(function () {
             Route::get('{attribute}/all', 'ChildAttributeController@all');
             Route::post('/add-new', 'ChildAttributeController@store');
-            Route::delete('{attribute}/{child_attribute}/delete',
-                'ChildAttributeController@destroy');
+            Route::delete(
+                '{attribute}/{child_attribute}/delete',
+                'ChildAttributeController@destroy'
+            );
         });
     });
 
-    Route::prefix('featured-products')->name('featured_product.')->group(function()
-    {
+    Route::prefix('featured-products')->name('featured_product.')->group(function () {
         Route::get('/', "FeaturedProductsController@index")->name('all');
         Route::get('get', "FeaturedProductsController@getFeaturedProducts");
     });
@@ -101,8 +100,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Orders
-    Route::prefix('orders')->name('order.')->group(function()
-    {
+    Route::prefix('orders')->name('order.')->group(function () {
         Route::get('/', 'OrdersController@index')->name('index');
         Route::get('get', 'OrdersController@getAll');
         Route::get('view/{order:order_no}', 'OrdersController@view')->name('view');
@@ -115,17 +113,12 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::prefix('settings')->name('settings.')->group(function () {
         Route::view('general', 'settings.general')->name('general');
+        Route::get('seo', 'SeoController@index')->name('seo');
     });
 
-    Route::prefix('site-customization')->name('site_customization.')->group(function()
-    {
+    Route::prefix('site-customization')->name('site_customization.')->group(function () {
         Route::get('logo', 'SiteCustomization/LogoController@index')->name('logo.index');
     });
-
-    /**
-     * SEO
-     */
-    Route::get('seo', 'SeoController@index')->name('seo');
 });
 
 require __DIR__ . '/auth.php';
