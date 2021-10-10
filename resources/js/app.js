@@ -23,6 +23,9 @@ import AttributeList from "./components/attributes/AttributeList.vue";
 import OrderList from './components/orders/OrderList.vue';
 import OrderDetails from './components/orders/OrderDetails.vue';
 
+// Featured products
+import FeaturedProductsComponent from './components/featured_products/FeaturedProductsComponent.vue';
+
 axios.defaults.baseURL = document.head.querySelector(
     'meta[name="api-base-url"]'
 ).content;
@@ -42,6 +45,7 @@ app.component("update-brand", UpdateBrand);
 app.component('attribute-list', AttributeList);
 app.component('order-list', OrderList);
 app.component('order-details', OrderDetails);
+app.component('featured-products-component', FeaturedProductsComponent);
 
 app.mount("#wrapper");
 

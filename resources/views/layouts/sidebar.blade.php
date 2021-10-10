@@ -26,6 +26,7 @@
                         <li><a href="{{route('category.all')}}">Categories</a></li>
                         <li><a href="{{route('brand.all')}}">Brands</a></li>
                         <li><a href="{{route('attribute.all')}}">Attributes</a></li>
+                        <li><a href="{{route('featured_product.all')}}">Featured Products</a></li>
                     </ul>
                 </li>
 

@@ -78,6 +78,12 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
+    Route::prefix('featured-products')->name('featured_product.')->group(function()
+    {
+        Route::get('/', "FeaturedProductsController@index")->name('all');
+        Route::get('get', "FeaturedProductsController@getFeaturedProducts");
+    });
+
 
     /**
      * Unit Types

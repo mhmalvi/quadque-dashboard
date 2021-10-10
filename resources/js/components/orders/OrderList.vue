@@ -32,7 +32,7 @@
                   <th></th>
                 </tr>
               </thead>
-              <tbody v-if="isLoading">
+              <tbody v-if="orders.length == 0">
                 <tr>
                   <td colspan="3">
                     <no-item-found name="data" />
