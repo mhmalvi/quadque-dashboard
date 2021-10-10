@@ -82,6 +82,8 @@ Route::middleware(['auth'])->group(function () {
     {
         Route::get('/', "FeaturedProductsController@index")->name('all');
         Route::get('get', "FeaturedProductsController@getFeaturedProducts");
+        Route::post('store', 'FeaturedProductsController@store');
+        Route::patch('{featured_product}/update', 'FeaturedProductsController@update');
     });
 
 

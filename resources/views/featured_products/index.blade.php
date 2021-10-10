@@ -3,7 +3,7 @@
 @section('title', 'Product Attributes')
 
 @section('content')
-    <div class="container">
+    <div class="containeri-fluid">
         <featured-products-component />
     </div>
 @endsection

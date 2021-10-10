@@ -26,7 +26,16 @@ class CategoriesController extends Controller
     public function getAllCategories()
     {
         try {
-            return new CategoryResourceCollection(Category::where('level', '>', 0)->get());
+            // fetch all categories (children and parents)
+            if(request()->has('children') && request()->get('children') == 'true')
+            {
+                return new CategoryResourceCollection(Category::all());
+            }
+            // fetch only parent categories
+            else
+            {
+                return new CategoryResourceCollection(Category::where('level', '>', 0)->get());
+            }
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage()], 503);
         }
