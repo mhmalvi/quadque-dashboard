@@ -58,13 +58,14 @@ class ProductsController extends Controller
      */
     public function store(ProductCreateRequest $request)
     {
-        try {
-            $request->save();
+        $request->save();
+        // try {
+        //     $request->save();
 
-            return response()->json(['message' => 'success'], 200);
-        } catch (\Throwable $th) {
-            return response()->json(['message' => $th->getMessage()], 503);
-        }
+        //     return response()->json(['message' => 'success'], 200);
+        // } catch (\Throwable $th) {
+        //     return response()->json(['message' => $th->getMessage()], 503);
+        // }
     }
 
     public function edit(Product $product)

@@ -477,7 +477,7 @@ export default {
         .then((res) => {
           if (this.product) {
             // for update
-            this.$swal(res.data.message);
+            alert("Product successfully added!");
             this.isLoading = false;
           } else {
             // for create

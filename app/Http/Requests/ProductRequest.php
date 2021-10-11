@@ -75,8 +75,8 @@ class ProductRequest extends FormRequest
             Storage::makeDirectory("public/temp");
         }
 
-        if (!Storage::disk('temp')->exists("storage/products")) {
-            Storage::disk('temp')->makeDirectory("storage/products");
+        if (!Storage::disk('ftp')->exists("storage/products")) {
+            Storage::disk('ftp')->makeDirectory("storage/products");
         }
     }
 

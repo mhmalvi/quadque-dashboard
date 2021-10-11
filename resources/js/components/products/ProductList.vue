@@ -59,11 +59,7 @@
                 </tr>
                 <tr v-for="item in products" :key="item.id" v-else>
                   <td>
-                    <img
-                      :src="imgPath + item.thumbnail"
-                      :alt="item.title"
-                      width="50"
-                    />
+                    <img :src="item.thumbnail" :alt="item.title" width="50" />
                   </td>
                   <td>
                     {{ item.title }}
@@ -128,7 +124,7 @@ export default {
       itemsPerPage: 5,
       links: [],
       action: "products/get",
-      imgPath: "../../../../storage/thumbnails/",
+      imgPath: "",
       categories: [],
       search: "",
       category: "",

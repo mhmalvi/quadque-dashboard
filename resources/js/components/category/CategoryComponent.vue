@@ -39,7 +39,9 @@
                 </thead>
                 <tbody>
                   <tr v-if="categories.length == 0">
-                    <no-item-found name="category" />
+                    <td colspan="4">
+                      <no-item-found name="category" />
+                    </td>
                   </tr>
                   <tr v-for="(category, key) in categories" :key="key" v-else>
                     <td>

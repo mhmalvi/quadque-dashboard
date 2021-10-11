@@ -7,6 +7,7 @@ use App\Models\UserInfo;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\AppSeo;
+use App\Models\UnitType;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,6 +29,9 @@ class DatabaseSeeder extends Seeder
             'user_id' => $user->id
         ]);
 
+        /**
+         * Seo fields
+         */
         $seos = [
             'meta_tile',
             'meta_tags',
@@ -48,6 +52,16 @@ class DatabaseSeeder extends Seeder
         foreach ($seos as $seo) {
             AppSeo::create([
                 'name' => $seo
+            ]);
+        }
+
+        /**
+         * Unit Types
+         */
+        $unitTypes = ['pcs', 'kg', 'gm', 'ltr'];
+        foreach ($unitTypes as $value) {
+            UnitType::create([
+                'unit_type' => $value
             ]);
         }
     }

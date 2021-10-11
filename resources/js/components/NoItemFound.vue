@@ -1,5 +1,5 @@
 <template>
-  <div class="text-secondary" id="no_item_found">
+  <div class="text-secondary text-center" id="no_item_found">
     <i class="far fa-frown"></i>
     <p>No {{ name ? name : "data" }} found!</p>
   </div>

@@ -27,6 +27,7 @@ class ProductCreateRequest extends ProductRequest
         return [
             'title' => 'required|string|max:255',
             'price' => 'required|int',
+            'unit_type' => 'required',
             'thumbanil' => 'mimes:jpg,png',
         ];
     }
@@ -64,8 +65,7 @@ class ProductCreateRequest extends ProductRequest
                 $this->storeGallaryImages($product->id);
             }
 
-            if($this->filled('variant_form') && $this->variant_form != "{}")
-            {
+            if ($this->filled('variant_form') && $this->variant_form != "{}") {
                 $this->saveVariants($product, $this->variant_form);
             }
         }
