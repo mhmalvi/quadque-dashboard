@@ -1,9 +1,9 @@
 <template>
   <div class="row">
   	<div class="col-md-3">
-  		<add-new-featured-product-component />
+  		<add-new-featured-product-component @featuredProductAdded="onNewFeaturedProductAdded" />
   	</div>
-  	<div class="col-md-9">
+  	<div class="col-md-7 offset-md-2">
   		<form>
 	      <div class="row">
 	        <div class="col-md-2">
@@ -44,17 +44,13 @@
 	            <tbody v-else>
 	              <tr v-for="item in products" :key="item.id">
 	                <td>
-	                  {{ item.product }}
+	                  {{ item.product.product }}
 	                </td>
 	                <td>
-	                  <b>{{ item.status }}</b>
-	                </td>
-	                <td>
-	                  <a
-	                    href="#"
-	                    class="btn btn-sm btn-primary"
-	                    >View</a
-	                  >
+	                  <div class="custom-control custom-switch">
+										  <input type="checkbox" class="custom-control-input" :id="'customSwitch' + item.id" :checked="item.status == '1'" @change="toggleStatus(item)">
+										  <label class="custom-control-label" :for="'customSwitch' + item.id"></label>
+										</div>
 	                </td>
 	              </tr>
 	            </tbody>
@@ -126,14 +122,40 @@
 					this.isLoading = false
 				})
 			},
+			async onNewFeaturedProductAdded()
+			{
+				await this.getFeaturedProducts(this.action);
+			},
 			getLink(link)
 			{
 				this.getFeaturedProducts(link);
+			},
+			toggleStatus(featured_product)
+			{
+				let new_status = featured_product.status == 1 ? 0 : 1;
+
+				axios.post('featured-products/' + featured_product.id + '/update', {
+					status: new_status,
+					_method: 'PATCH'
+				}).then(res => {
+					this.$swal(res.data.message, '', 'success');
+					this.getFeaturedProducts(this.action);
+				}).catch(error => {
+					this.$swal('Something went wrong!', '', 'error');
+					console.error(error);
+				});
 			}
 		},
 		created()
 		{
 			this.getFeaturedProducts(this.action);
+		},
+		watch:
+		{
+			itemsPerPage()
+			{
+				this.getFeaturedProducts(this.action);
+			}
 		}
 	};
 </script>
