@@ -1,6 +1,8 @@
 <!-- repo-card -->
 ![quadque-dashboard](docs/assets/social-card.png)
 
+![quadque-dashboard — architecture](docs/assets/architecture.png)
+
 # Quadque Dashboard
 
 The admin management dashboard for **Quadque Technologies**. Built with Laravel 8 and Vue 3, this application provides a comprehensive back-office interface for managing platform operations, content, users, and business workflows through an intuitive dashboard experience.
